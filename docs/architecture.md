@@ -70,25 +70,30 @@ A arquitetura contempla:
 ```text
 src/
   frontend/
-    components/
-    pages/
-    layouts/
-    hooks/
-    services/
-    styles/
+    app/                    # Next.js App Router (pages/layouts)
+    components/             # Componentes UI reutilizáveis
+    hooks/                  # Custom hooks
+    services/               # Chamadas API e lógica de acesso a dados
+    stores/                 # Zustand stores (estado global)
+    styles/                 # Tailwind config e estilos globais
+    types/                  # TypeScript type definitions
   backend/
     BuildingBlocks/
-    Identity/
-    Companies/
-    CRM/
-    Conversations/
-    AI/
-    Notifications/
-    Billing/
-    Analytics/
-    Integrations/
-    Gateway/
-    SharedKernel/
+      Domain/               # Entidades, Value Objects, Aggregate Roots, Domain Events
+      Application/          # Use Cases, Command/Query Handlers, Interfaces de serviço
+      Infrastructure/       # Implementações de repositórios, EF Core, mensageria
+      API/                  # Controllers, Middlewares, Filters, DTOs
+    SharedKernel/           # Utilitários compartilhados, constants, extensions
+    Identity/               # Autenticação, autorização, Identity Service
+    Companies/              # Bounded Context: gestão de empresas
+    CRM/                    # Bounded Context: relacionamento com clientes
+    Conversations/          # Bounded Context: atendimento omnichannel
+    AI/                     # Bounded Context: serviços de IA / RAG
+    Notifications/          # Bounded Context: notificações (WhatsApp, push, email)
+    Billing/                # Bounded Context: cobranças e pagamentos
+    Analytics/              # Bounded Context: métricas e relatórios
+    Integrations/           # Bounded Context: integrações externas (WhatsApp API, etc)
+    Gateway/                # API Gateway / BFF (Backend for Frontend)
 infra/
   terraform/
   k8s/
@@ -97,6 +102,37 @@ docs/
   prd.md
   specReq.md
   architecture.md
+```
+
+### Estrutura Interna de Cada Microserviço (Clean Architecture)
+
+Cada Bounded Context segue a estrutura de camadas:
+
+```text
+Companies/                        # Exemplo de Bounded Context
+  Domain/
+    Entities/                     # Entidades de domínio (ex: Company.cs)
+    ValueObjects/                 # Value Objects (ex: Cnpj.cs, Plano.cs)
+    Events/                       # Domain Events (ex: CompanyCreatedEvent.cs)
+    Exceptions/                   # Exceções de domínio (ex: InvalidCompanyException.cs)
+    Interfaces/                   # Contratos de repositório (ex: ICompanyRepository.cs)
+  Application/
+    Commands/                     # Command Handlers (ex: CreateCompanyCommand.cs)
+    Queries/                      # Query Handlers (ex: GetCompanyByIdQuery.cs)
+    DTOs/                         # Data Transfer Objects (ex: CompanyDto.cs)
+    Interfaces/                   # Contratos de serviço (ex: ICompanyService.cs)
+    Validators/                   # Validações (ex: CreateCompanyValidator.cs)
+    Mappings/                     # Mapeamentos (ex: CompanyProfile.cs - AutoMapper)
+  Infrastructure/
+    Persistence/                  # EF Core DbContext, Configurations, Migrations
+    Repositories/                 # Implementações de repositórios
+    Messaging/                    # Producers/Consumers de mensageria
+    ExternalServices/             # Clients de APIs externas
+  API/
+    Controllers/                  # Controllers REST
+    Middleware/                    # Middlewares (auth, logging, rate limiting)
+    Filters/                      # Action Filters
+    Extensions/                   # Extensões de DI e configuração
 ```
 
 ---
@@ -521,20 +557,148 @@ Pode:
 * Código documentado e revisado via PR
 * Adoção de DDD, Clean Architecture e CQRS no backend
 
-### Padrão CQRS (Command Query Responsibility Segregation)
+### Clean Architecture (Arquitetura Limpa)
 
-* **Escopo no MVP:** CQRS simplificado com separação de_Commands_ (escrita) e_Queries_ (leitura) no nível de service layer, sem event store separado.
-* **Commands:** representam intenções de mudança de estado (ex: `CreateAppointmentCommand`, `ConfirmPaymentCommand`). Validados por Command Handlers que executam regras de negócio.
-* **Queries:** representam consultas otimizadas para leitura (ex: `GetClientAppointmentsQuery`, `GetDashboardMetricsQuery`). Podem usar projeções materializadas para performance.
-* **Eventos de Domínio:** publicados após sucesso de um Command para disparar efeitos colaterais (notificações, analytics, sincronização).
-* **Evolução Futura:** migração para CQRS completo com Event Store e projeções assíncronas quando o volume de dados justificar.
+O backend do Severina AI segue os princípios da Clean Architecture de Robert C. Martin, organizado em camadas concêntricas com a regra de dependência: **dependências apontam sempre para dentro**.
+
+#### Camadas
+
+| Camada | Responsabilidade | Dependências |
+| :--- | :--- | :--- |
+| **Domain** | Entidades, Value Objects, Aggregate Roots, Domain Events, interfaces de repositório. Contém a regra de negócio pura. | Nenhuma (camada mais interna) |
+| **Application** | Use Cases, Command/Query Handlers, orquestração de fluxos, DTOs, validações. Coordena as operações. | Domain |
+| **Infrastructure** | Implementações concretas: EF Core, repositórios, mensageria, clientes HTTP, banco vetorial. | Domain, Application |
+| **API** | Controllers, middlewares, filters, extensões de DI. Ponto de entrada HTTP. | Application, Infrastructure |
+
+#### Regra de Dependência
+
+```text
+API → Application → Domain
+         ↓
+    Infrastructure → Domain
+```
+
+* Domain **nunca** depende de camadas externas
+* Application depende apenas de Domain (via interfaces)
+* Infrastructure implementa interfaces definidas em Domain
+* API depende de Application (via injeção de dependência)
+
+#### Diretrizes por Camada
+
+**Domain:**
+* Entidades representam conceitos de negócio com comportamento (não são anemic models)
+* Value Objects são imutáveis e sem identidade própria (ex: `Cnpj`, `Dinheiro`, `Periodo`)
+* Domain Events notificam mudanças de estado (ex: `CompanyCreated`, `InvoicePaid`)
+* Exceções de domínio expressam violações de regra (ex: `SchedulingConflictException`)
+* **Proibido:** referências a bibliotecas de infraestrutura (EF Core, HttpClient, etc)
+
+**Application:**
+* Command Handlers encapsulam operações de escrita (ex: `CreateCompanyHandler`)
+* Query Handlers encapsulam operações de leitura (ex: `GetCompanyByIdHandler`)
+* Use Cases orquestram múltiplos commands/queries quando necessário
+* DTOs são a única forma de dados que sai da camada Application
+* Validações de entrada usando FluentValidation ou Data Annotations
+* **Proibido:** lógica de negócio direta, acesso a banco, chamadas HTTP diretas
+
+**Infrastructure:**
+* Repositories implementam interfaces de Domain usando EF Core
+* Mapeamentos Entity ↔ Domain via AutoMapper ou configuração Fluent API
+* Mensageria implementada via RabbitMQ producer/consumer
+* Serviços externos encapsulados em clientes com tratamento de erro
+* **Proibido:** lógica de negócio complexa (pertence ao Domain)
+
+**API:**
+* Controllers recebem DTOs e delegam para Command/Query Handlers
+* Middlewares tratam cross-cutting concerns (auth, logging, rate limiting)
+* DI container registra todas as dependências no startup
+* **Proibido:** lógica de negócio, acesso direto ao banco, regras de validação
 
 ### Padrão DDD (Domain-Driven Design)
 
-* **Bounded Contexts:** cada microserviço (Companies, CRM, Conversations, Billing, Analytics, Notifications) é um Bounded Context independente.
-* **Entidades e Value Objects:** modelados conforme o domínio de cada contexto.
-* **Aggregate Roots:** pontos de consistência transacional (ex: `Client` é Aggregate Root para seus compromissos e contatos).
-* **Repositórios:** abstraem acesso a dados, implementados por camada de infraestrutura.
+* **Bounded Contexts:** cada microserviço (Companies, CRM, Conversations, Billing, Analytics, Notifications, AI) é um Bounded Context independente com seu próprio modelo de domínio.
+* **Entidades:** objetos com identidade única e ciclo de vida (ex: `Company`, `Client`, `Appointment`).
+* **Value Objects:** objetos imutáveis definidos por seus atributos (ex: `Cnpj`, `Email`, `Dinheiro`, `Periodo`).
+* **Aggregate Roots:** pontos de consistência transacional; acessos a entidades internas do agregado só ocorrem pela raiz (ex: `Client` é Aggregate Root para `Contact` e `Opportunity`).
+* **Domain Events:** publicados após sucesso de uma operação para disparar efeitos colaterais assíncronos.
+* **Repositórios:** interfaces definidas em Domain, implementadas em Infrastructure. Um repository por Aggregate Root.
+* **Services de Domínio:** lógica que não pertence a nenhuma entidade específica (ex: `SchedulingService` para verificação de conflitos).
+
+### Padrão CQRS (Command Query Responsibility Segregation)
+
+* **Escopo no MVP:** CQRS simplificado com separação de Commands (escrita) e Queries (leitura) no nível de service layer, sem event store separado.
+* **Commands:** representam intenções de mudança de estado (ex: `CreateAppointmentCommand`, `ConfirmPaymentCommand`). Validados por Command Handlers que executam regras de negócio.
+* **Queries:** representam consultas otimizadas para leitura (ex: `GetClientAppointmentsQuery`, `GetDashboardMetricsQuery`). Podem usar projeções materializadas para performance.
+* **Eventos de Domínio:** publicados após sucesso de um Command para disparar efeitos colaterais (notificações, analytics, sincronização).
+* **Mediator Pattern:** uso do MediatR como mediator para desacoplar Controllers de Handlers, promovendo baixo acoplamento e alta coesão.
+* **Evolução Futura:** migração para CQRS completo com Event Store e projeções assíncronas quando o volume de dados justificar.
+
+### Design Patterns Adotados
+
+A tabela a seguir lista os padrões de projeto utilizados no sistema e onde se aplicam:
+
+| Padrão | Tipo | Onde se aplica | Exemplo no domínio |
+| :--- | :--- | :--- | :--- |
+| **Repository** | Acesso a dados | Interfaces em Domain, implementação em Infrastructure | `ICompanyRepository` → `CompanyRepository` |
+| **Unit of Work** | Transações | Gerenciamento de transações via EF Core `SaveChanges` | Garantir atomicidade ao criar cliente + compromisso |
+| **CQRS** | Separação leitura/escrita | Command e Query Handlers | `CreateInvoiceCommand` vs `GetDashboardQuery` |
+| **Mediator** | Desacoplamento | Comunicação entre camadas via MediatR | Controller → MediatR → Handler → Domain |
+| **Strategy** | Comportamento variável | Provedores de IA, canais de notificação | `ILLMProvider` → `OpenAIProvider`, `AzureProvider` |
+| **Observer** | Notificação em cadeia | Domain Events e event handlers | `InvoicePaidEvent` → notificar WhatsApp + atualizar analytics |
+| **Saga/Orchestration** | Fluxos distribuídos | Processos que envolvem múltiplos serviços | Criação de compromisso → envio de confirmação → atualização de agenda |
+| **Factory** | Criação de objetos | Criação de entidades com regras complexas | `Appointment.Create(client, slot, service)` |
+| **Builder** | Construção gradual | Construção de objetos com muitos parâmetros | `ReportBuilder` para relatórios de analytics |
+| **Specification** | Regras de negócio compostas | Consultas complexas com múltiplas condições | Filtrar clientes ativos com compromissos pendentes |
+| **Circuit Breaker** | Resiliência | Chamadas a serviços externos (WhatsApp, LLM) | Bloquear chamadas por X tempo após N falhas consecutivas |
+| **Retry com Backoff** | Resiliência | Retentativas de operações falhas | Retry exponencial em chamadas à API do WhatsApp |
+| **Cache-Aside** | Performance | Cache de dados frequentemente consultados | Cache de dados da empresa em Redis com TTL |
+| **Decorator** | Funcionalidades transversais | Validação, logging, auditoria sem modificar o handler | `[Authorize]`, `[ValidateModel]`, `[Audit]` |
+| **Strategy (Frontend)** | Comportamento variável | Renderização condicional de componentes | `ChannelRenderer` para diferentes canais de atendimento |
+
+### Princípios Clean Code
+
+O código-fonte deve seguir os princípios **SOLID** e boas práticas de Clean Code:
+
+#### SOLID
+
+| Princípio | Aplicação |
+| :--- | :--- |
+| **S**ingle Responsibility | Cada classe/método tem uma única responsabilidade. Handlers处理 um único comando/query. |
+| **O**pen/Closed | Entidades abertas para extensão, fechadas para modificação. Novas regras via Domain Events, não alteração de código existente. |
+| **L**iskov Substitution | Subtipos devem ser substituíveis por seus tipos base. Implementações de repositório seguem o contrato da interface. |
+| **I**nterface Segregation | Interfaces pequenas e específicas. `IReadRepository<T>` e `IWriteRepository<T>` em vez de `IRepository<T>` monolítica. |
+| **D**ependency Inversion | Módulos de alto nível não dependem de módulos de baixo nível. Ambos dependem de abstrações (interfaces em Domain). |
+
+#### Boas Práticas
+
+* **DRY** (Don't Repeat Yourself): extrair lógica comum para métodos, extensões ou base classes.
+* **KISS** (Keep It Simple, Stupid): preferir soluções simples e diretas. Evitar over-engineering no MVP.
+* **YAGNI** (You Aren't Gonna Need It): não implementar funcionalidades "para o futuro" sem demanda atual.
+* **Boy Scout Rule:** deixar o código melhor do que encontrou. Refatorar code smells durante desenvolvimento.
+* **Naming expressivo:** nomes de classes, métodos e variáveis devem revelar intenção (ex: `ScheduleAppointment` em vez de `ProcessData`).
+* **Métodos curtos:** máximo de 20-30 linhas por método. Extrair métodos auxiliares quando necessário.
+* **Parâmetros limitados:** máximo de 3-4 parâmetros por método. Usar objetos (DTOs, Value Objects) quando houver mais.
+* **Ausência de código morto:** remover código comentado, variáveis não utilizadas e branches inalcançáveis.
+* **Imutabilidade:** preferir objetos imutáveis quando possível (Value Objects, Records em C#).
+* **Expressividade:** código deve ler como prosa. Usar nomes descritivos em vez de comentários.
+
+#### Frontend (React/Next.js)
+
+* Componentes React com responsabilidade única (Smart vs Dumb components)
+* Custom Hooks para lógica reativa compartilhada
+* Server Components do Next.js para renderização no servidor quando possível
+* Client Components apenas quando interatividade é necessária
+* Zustand para estado global; React Query para estado de servidor
+* Props drilling limitado a 2-3 níveis; usar Context ou stores quando necessário
+* Componentes presentacionais desacoplados de lógica de negócio
+
+### Restrições Arquiteturais
+
+* Não misturar regras de negócio entre serviços
+* Não acessar banco diretamente fora do backend de domínio
+* Não criar dependências cíclicas entre microserviços
+* Não colocar lógica de negócio em Controllers ou Components
+* Não expor entidades de domínio diretamente como resposta de API (usar DTOs)
+* Não usar `public` setters em entidades de domínio (usar métodos de comportamento)
 
 ### Variáveis de Ambiente
 
@@ -554,6 +718,7 @@ Antes de qualquer alteração:
 * Avaliar impacto de segurança
 * Avaliar impacto de observabilidade
 * Avaliar impacto em testes
+* Verificar padrões de design existentes e reutilizar quando aplicável
 
 Ao finalizar:
 
@@ -561,12 +726,7 @@ Ao finalizar:
 * Executar testes
 * Atualizar documentação
 * Informar artefatos modificados
-
-### Restrições Arquiteturais
-
-* Não misturar regras de negócio entre serviços
-* Não acessar banco diretamente fora do backend de domínio
-* Não criar dependências cíclicas entre microserviços
+* Confirmar que o código segue SOLID, Clean Architecture e Clean Code
 
 ---
 
