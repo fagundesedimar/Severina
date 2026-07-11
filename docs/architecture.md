@@ -181,6 +181,11 @@ Estratégia de versionamento:
 
 * Usuário anônimo: 50 requisições por minuto
 * Usuário autenticado: 200 requisições por minuto
+* Por tenant (empresa): 1000 requisições por minuto
+* Endpoints de IA: 30 requisições por minuto por empresa (controle de custo)
+* Endpoints de autenticação: 10 tentativas por minuto por IP
+* Estratégia de implementação: middleware no API Gateway com armazenamento em Redis
+* Resposta HTTP `429 Too Many Requests` com header `Retry-After`
 
 ### Transações e Persistência
 
@@ -191,6 +196,83 @@ Estratégia de versionamento:
 * Escala horizontal de microserviços
 * Réplicas de leitura no PostgreSQL
 * Cache Redis para consultas frequentes e sessões
+
+---
+
+## Mensageria e Eventos
+
+### Broker de Mensagens
+
+* Tecnologia: RabbitMQ
+* Protocolo: AMQP 0-9-1
+* Formato de mensagem: JSON (padrão), Protobuf (para mensagens internas de alto throughput)
+
+### Padrões de Comunicação Assíncrona
+
+* **Event Publishing:** serviços publicam eventos após mudança de estado (ex: `InvoiceCreated`, `AppointmentConfirmed`)
+* **Command Queue:** comandos assíncronos para processamento de longa duração (ex: envio de WhatsApp, geração de relatórios)
+* **Fanout:** notificações que devem ser entregues a múltiplos consumidores (ex: dashboard em tempo real)
+
+### Filas Definidas
+
+| Fila | Consumidor | Uso |
+| :--- | :--- | :--- |
+| `notifications.whatsapp` | Worker de Notificações | Envio de mensagens WhatsApp (lembretes, follow-up, cobrança) |
+| `notifications.push` | Worker de Notificações | Notificações push para o frontend |
+| `billing.process` | Worker Financeiro | Processamento assíncrono de cobranças e reconciliação |
+| `analytics.events` | Worker de Analytics | Coleta e agregação de eventos para dashboards |
+| `ai.process` | Worker de IA | Processamento de consultas RAG e geração de respostas |
+
+### Retry e Dead Letter Queue
+
+* **Retry:** tentativa automática com backoff exponencial (3 tentativas, intervalo inicial de 5s)
+* **DLQ:** mensagens que falharam após todas as tentativas são encaminhadas para fila morta para inspeção manual
+* **TTL:** mensagens com tempo de vida superior a 24h são descartadas automaticamente
+
+---
+
+## Arquitetura de IA (RAG)
+
+### Visão Geral
+
+O serviço de IA do Severina AI utiliza um padrão **RAG (Retrieval-Augmented Generation)** para gerar respostas contextualizadas aos clientes, combinando recuperação semântica de documentos com modelos de linguagem.
+
+### Componentes
+
+* **Embedding Service:** converte textos em vetores numéricos para busca semântica
+* **Vector Store:** banco vetorial baseado em pgvector, armazenado no mesmo PostgreSQL do sistema
+* **LLM Provider:** provedor de modelo de linguagem para geração de respostas (multi-provider com fallback)
+* **RAG Pipeline:** orquestra recuperação de contexto, montagem de prompt e geração de resposta
+
+### Fluxo de Processamento
+
+```text
+Mensagem do cliente → Embedding da query → Busca vetorial (pgvector) → Montagem de contexto → Geração via LLM → Resposta
+```
+
+### Estratégia de Embedding
+
+* Modelo padrão de embedding para buscas semânticas
+* Vetores armazenados com indexação HNSW para performance em busca por similaridade
+* Atualização de embeddings quando documentos de contexto são modificados
+
+### Gerenciamento de Contexto por Empresa
+
+* Cada empresa possui seu próprio namespace de embeddings (`company_id`)
+* Documentos de contexto (FAQ, políticas, catálogo de serviços) são indexados por empresa
+* Isolamento garantido: busca vetorial restrita ao `company_id` do tenant
+
+### Fallback e Resiliência
+
+* Se o LLM principal estiver indisponível, fallback automático para provedor secundário
+* Se todos os provedores falharem, resposta padrão com indicação de contato manual
+* Rate limiting por empresa para controlar custo de chamadas à IA
+
+### Segurança
+
+* Prompt injection detectado e sanitizado no pipeline
+* Dados de contexto não expostos entre tenants
+* Logs de interações com IA auditáveis para conformidade
 
 ---
 
@@ -439,6 +521,21 @@ Pode:
 * Código documentado e revisado via PR
 * Adoção de DDD, Clean Architecture e CQRS no backend
 
+### Padrão CQRS (Command Query Responsibility Segregation)
+
+* **Escopo no MVP:** CQRS simplificado com separação de_Commands_ (escrita) e_Queries_ (leitura) no nível de service layer, sem event store separado.
+* **Commands:** representam intenções de mudança de estado (ex: `CreateAppointmentCommand`, `ConfirmPaymentCommand`). Validados por Command Handlers que executam regras de negócio.
+* **Queries:** representam consultas otimizadas para leitura (ex: `GetClientAppointmentsQuery`, `GetDashboardMetricsQuery`). Podem usar projeções materializadas para performance.
+* **Eventos de Domínio:** publicados após sucesso de um Command para disparar efeitos colaterais (notificações, analytics, sincronização).
+* **Evolução Futura:** migração para CQRS completo com Event Store e projeções assíncronas quando o volume de dados justificar.
+
+### Padrão DDD (Domain-Driven Design)
+
+* **Bounded Contexts:** cada microserviço (Companies, CRM, Conversations, Billing, Analytics, Notifications) é um Bounded Context independente.
+* **Entidades e Value Objects:** modelados conforme o domínio de cada contexto.
+* **Aggregate Roots:** pontos de consistência transacional (ex: `Client` é Aggregate Root para seus compromissos e contatos).
+* **Repositórios:** abstraem acesso a dados, implementados por camada de infraestrutura.
+
 ### Variáveis de Ambiente
 
 * Estratégia de configuração: variáveis de ambiente para segredos, URLs e flags de recurso
@@ -497,6 +594,51 @@ Ambiente de produção:
 
 * Estratégia IaC: Terraform para provisionamento de nuvem
 
+### Diagrama de Implantação (MVP)
+
+```text
+┌─────────────────────────────────────────────────────┐
+│                    Cloud (Azure/AWS)                  │
+│                                                       │
+│  ┌──────────────┐   ┌──────────────────────────┐     │
+│  │  CDN / WAF   │   │    API Gateway / LB      │     │
+│  └──────┬───────┘   └──────────┬───────────────┘     │
+│         │                      │                      │
+│         ▼                      ▼                      │
+│  ┌──────────────┐   ┌──────────────────────────┐     │
+│  │   Frontend   │   │   Backend (ASP.NET Core) │     │
+│  │  (Next.js)   │   │   ┌────────┐ ┌────────┐ │     │
+│  │  Container   │   │   │Companies│ │  CRM   │ │     │
+│  └──────────────┘   │   └────────┘ └────────┘ │     │
+│                      │   ┌────────┐ ┌────────┐ │     │
+│                      │   │Billing │ │  AI    │ │     │
+│                      │   └────────┘ └────────┘ │     │
+│                      │   ┌────────┐ ┌────────┐ │     │
+│                      │   │Conserv.│ │Analytics│ │     │
+│                      │   └────────┘ └────────┘ │     │
+│                      └──────────┬───────────────┘     │
+│                                 │                      │
+│              ┌──────────────────┼──────────┐          │
+│              ▼                  ▼          ▼          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────┐   │
+│  │  PostgreSQL   │  │   RabbitMQ   │  │  Redis   │   │
+│  │  (Principal)  │  │  (Mensageria)│  │ (Cache)  │   │
+│  └──────────────┘  └──────────────┘  └──────────┘   │
+│                                                       │
+│  ┌──────────────────────────────────────────────┐    │
+│  │        Workers / Background Services          │    │
+│  │  (Notificações, Analytics, IA, Billing)       │    │
+│  └──────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────┘
+```
+
+### Kubernetes (Evolução)
+
+* Orquestração com Kubernetes para auto-scaling horizontal de microserviços
+* Namespaces isolados por ambiente (dev, staging, production)
+* Helm Charts para deploy padronizado
+* Ingress Controller para roteamento de tráfego externo
+
 ---
 
 ## Observabilidade
@@ -538,6 +680,35 @@ Campos mínimos:
 ### Métricas
 
 * Estratégia de métricas: coletar latência, erros, throughput e saturação
+
+---
+
+## Backup e Recuperação
+
+### Política de Backup
+
+* **Banco de dados (PostgreSQL):** backup diário completo com retenção de 30 dias; backup incrementale a cada 6 horas
+* **Banco vetorial (pgvector):** incluso no backup do PostgreSQL
+* **Configurações e segredos:** versionados em repositório seguro com backup em vault dedicado
+* **Logs e auditoria:** retenção mínima de 90 dias em armazenamento frio
+
+### RPO e RTO
+
+| Critério | MVP | Produção Madura |
+| :--- | :--- | :--- |
+| **RPO** (Recovery Point Objective) | 24 horas | 6 horas |
+| **RTO** (Recovery Time Objective) | 4 horas | 1 hora |
+
+### Estratégia de Recuperação
+
+* **Restore Point:** restauração a partir de snapshot de backup diário
+* **Ponto a ponto:** restauração granular a partir de WAL (Write-Ahead Log) do PostgreSQL
+* **Testes de restore:** executados mensalmente em ambiente de staging para validar integridade dos backups
+
+### Disaster Recovery
+
+* **MVP:** backup em região secundária da mesma nuvem, restauração manual
+* **Evolução:** replicação ativa-passiva cross-region com failover automático
 
 ---
 

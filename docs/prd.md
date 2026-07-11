@@ -4,29 +4,17 @@
 
 ### Problema
 
-* O problema é a sobrecarga de tarefas administrativas e operacionais em pequenas empresas, como atendimento, gestão de agenda, cobrança e follow-up.
-* Esse problema afeta pequenos empresários e profissionais autônomos, causando atendimento inconsistente, perda de receitas e baixa produtividade.
+* O problema é a sobrecarga de tarefas administrativas e operacionais em pequenas empresas, com atendimento, agenda, cobrança e follow-up fragmentados.
+* Esse problema afeta pequenos empresários e profissionais autônomos, causando atendimento inconsistente, perda de receita e baixa produtividade.
 * A insuficiência de automação e a divisão entre canais de comunicação geram atrasos, erros em agendamentos e dificuldade em manter o fluxo de caixa.
-
-**Template:**
-
-> O problema é a sobrecarga de tarefas administrativas e operacionais em pequenas empresas, com atendimento, agenda, cobrança e follow-up fragmentados.
->
-> Esse problema afeta pequenos empresários e profissionais autônomos, causando atendimento inconsistente, perda de receita e baixa produtividade.
 
 ### Solução
 
 * A solução proposta é a Severina AI, uma secretária virtual baseada em IA que automatiza atendimento omnichannel, agendamentos, cobranças, follow-up e geração de insights.
 * O produto resolve o problema ao centralizar canais, automatizar fluxos administrativos e fornecer um assistente virtual integrado para pequenas empresas.
 * Os principais módulos ou fluxos são Atendimento, CRM, Agenda, Financeiro, Analytics e Integração com WhatsApp.
-
-**Template:**
-
-> A Severina AI resolve esse problema por meio de uma secretária virtual baseada em IA que automatiza atendimento omnichannel, agendamentos inteligentes, cobrança automática e geração de insights.
->
-> Para pequenos empresários de serviços: reduz o tempo gasto em tarefas administrativas e melhora o controle de agenda e pagamentos.
->
-> Para autônomos e microempresas: garante respostas rápidas aos clientes, follow-up automático e menos dependência de processos manuais.
+* Para pequenos empresários de serviços: reduz o tempo gasto em tarefas administrativas e melhora o controle de agenda e pagamentos.
+* Para autônomos e microempresas: garante respostas rápidas aos clientes, follow-up automático e menos dependência de processos manuais.
 
 ### Diferenciais
 
@@ -100,23 +88,23 @@
 
 ### Requisitos Funcionais
 
-#### RF-01 Atendimento Omnichannel
+#### RF-001 Atendimento Omnichannel
 
 * Objetivo: permitir que a Severina AI receba e responda clientes por WhatsApp, web e outros canais em um único fluxo.
 
-#### RF-02 Agendamento Inteligente
+#### RF-002 Agendamento Inteligente
 
 * Objetivo: automatizar a criação e o gerenciamento de compromissos, evitando conflitos de horários e reduzindo faltas.
 
-#### RF-03 Cobrança Automática
+#### RF-003 Cobrança Automática
 
 * Objetivo: gerar e enviar cobranças aos clientes, com follow-up e lembretes automáticos para aumentar a taxa de pagamento.
 
-#### RF-04 Dashboard de Insights
+#### RF-004 Dashboard de Insights
 
 * Objetivo: apresentar métricas e insights de desempenho comercial, financeiro e de atendimento.
 
-#### RF-05 CRM de Clientes
+#### RF-005 CRM de Clientes
 
 * Objetivo: centralizar informações de clientes, histórico de conversas e oportunidades em uma base única.
 
@@ -138,7 +126,7 @@
 
 ### RNF-04 Escalabilidade
 
-* Suportar crescimento para até 1 milhão de empresas em arquitetura SaaS multi-tenant.
+* Suportar crescimento para até 1 mil empresa ativa simultaneamente no MVP, com escalabilidade horizontal para 1 milhão de empresas em versões futuras, em arquitetura SaaS multi-tenant.
 
 ### RNF-05 Portabilidade
 
@@ -146,7 +134,13 @@
 
 ### RNF-06 Testabilidade
 
-* Facilitar testes automatizados de integração e componentes com pipelines CI/CD.
+* Facilitar testes automatizados de unidade, integração e ponta a ponta com pipelines CI/CD.
+* Cobertura mínima de 80% de linhas no backend e 70% no frontend.
+* Toda alteração de regra de negócio deve cobrir Happy Path, Sad Path e Edge Cases.
+
+### RNF-07 Compliance
+
+* Atender integralmente à LGPD com políticas de consentimento, direito ao esquecimento e trilhas de auditoria.
 
 ---
 
@@ -169,12 +163,36 @@
 ### Métricas de Produto
 
 * Taxa de adoção da plataforma entre pequenas empresas
-* Nível de satisfação com atendimento automatizado
+
+  * Valor atual: 0% (pré-lançamento)
+  * Meta: 100 empresas ativas no MVP
+  * Prazo: 6 meses após lançamento
+
+* Nível de satisfação com atendimento automatizado (NPS)
+
+  * Valor atual: N/A
+  * Meta: NPS >= 50
+  * Prazo: 3 meses após lançamento
 
 ### Métricas de Operação
 
 * Disponibilidade do sistema
+
+  * Valor atual: N/A
+  * Meta: 99,9% de uptime
+  * Prazo: Contínuo
+
 * Tempo de resposta médio da API
+
+  * Valor atual: N/A
+  * Meta: < 200ms para 95% das requisições
+  * Prazo: Contínuo
+
+* Taxa de erro da API (5xx)
+
+  * Valor atual: N/A
+  * Meta: < 0,1%
+  * Prazo: Contínuo
 
 ---
 
@@ -202,6 +220,8 @@
 ## Escopo
 
 ### MVP
+
+**Prazo estimado:** 3 meses de desenvolvimento
 
 #### Incluído
 
@@ -240,12 +260,20 @@
 ### Critérios Técnicos
 
 * O sistema deve atender a disponibilidade de 99,9%.
-* A API deve responder em menos de 500ms na maioria das requisições.
+* A API deve responder em menos de 200ms para 95% das requisições de leitura.
+* Cobertura mínima de testes: 80% linhas backend, 70% linhas frontend.
 
 ### Critérios de Qualidade
 
 * A interface deve ser intuitiva para usuários com pouca experiência em TI.
 * As integrações devem funcionar de forma confiável para mensagens e agendamentos.
+
+### Critérios de Teste
+
+* Todos os requisitos funcionais devem ter testes automatizados de unidade e integração.
+* Fluxos críticos (atendimento, agendamento, cobrança) devem ter testes E2E.
+* Testes de regressão devem ser executados em cada pipeline CI/CD.
+* Cobertura mínima de 80% (backend) e 70% (frontend) em linhas de código.
 
 ---
 
@@ -267,13 +295,21 @@
   * Impacto: ALTO
   * Mitigação: utilizar provedores estáveis e implementar fallback para canais alternativos.
 
----
+### Riscos Operacionais
 
-## Fora de Escopo
+* Indisponibilidade do provedor de IA (LLM)
 
-* Controles contábeis avançados para grandes empresas
-* Integração nativa com ERPs corporativos
-* Suporte multilíngue completo no MVP
+  * Probabilidade: BAIXA
+  * Impacto: ALTO
+  * Mitigação: manter fallback com respostas padrão e suporte a múltiplos provedores de IA.
+
+### Riscos de Conformidade
+
+* Descumprimento da LGPD
+
+  * Probabilidade: BAIXA
+  * Impacto: MUITO ALTO
+  * Mitigação: implementar consentimento granular, criptografia de dados sensíveis e trilhas de auditoria desde o MVP.
 
 ---
 

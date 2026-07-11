@@ -56,6 +56,9 @@ graph TD
     API -->|Leitura / Escrita| DB[(PostgreSQL)]
     API -->|Mensageria / Eventos| Queue[RabbitMQ]
     Queue -->|Processamento Assíncrono| Worker[Worker / Serviço de Fundo]
+    API -->|Vetores / Embeddings| VectorDB[(pgvector)]
+    Worker -->|Enriquecimento IA| AI[Serviço de IA / RAG]
+    AI -->|Consultas Vetoriais| VectorDB
 ```
 
 ### 2.1 Stack Tecnológica Recomendada
@@ -71,45 +74,54 @@ graph TD
 
 ### [RF-001] Cadastro de Empresa
 *   **Descrição:** Permitir o registro de empresas no sistema com dados básicos para iniciar a operação.
-*   **Atores:** Administrador, Empresa
+*   **Atores:** Administrador da Empresa
 *   **Critérios de Aceitação:**
     -   [ ] Empresa é criada com nome, CNPJ/CPF, plano e dados de contato.
     -   [ ] Empresa recebe credenciais iniciais para acesso.
 
 ### [RF-002] Cadastro de Clientes
 *   **Descrição:** Permitir cadastrar, editar e desativar clientes vinculados à empresa.
-*   **Atores:** Administrador, Usuário Operacional
+*   **Atores:** Administrador da Empresa, Usuário Operacional
 *   **Critérios de Aceitação:**
     -   [ ] Cliente pode ser associado a agendamentos e cobranças.
     -   [ ] Cliente pode ser desativado sem ser excluído se tiver histórico vinculado.
 
 ### [RF-003] Integração WhatsApp
 *   **Descrição:** Conectar a plataforma ao WhatsApp para envio e recebimento de mensagens.
-*   **Atores:** Administrador, Atendente, Cliente
+*   **Atores:** Administrador da Empresa, Usuário Operacional, Cliente
 *   **Critérios de Aceitação:**
     -   [ ] Mensagens recebidas são registradas como conversas.
     -   [ ] Respostas automáticas podem ser enviadas.
+    -   [ ] Webhooks de status de entrega são processados.
 
 ### [RF-004] Agendamento Inteligente
 *   **Descrição:** Criar e gerenciar compromissos com validação de disponibilidade.
-*   **Atores:** Atendente, Cliente
+*   **Atores:** Usuário Operacional, Cliente
 *   **Critérios de Aceitação:**
     -   [ ] Conflitos de horário são evitados.
-    -   [ ] Lembretes são enviados automaticamente.
+    -   [ ] Lembretes são enviados automaticamente via WhatsApp e/ou notificação push.
 
 ### [RF-005] Cobrança Automática
 *   **Descrição:** Gerar cobranças automaticamente a partir de serviços ou compromissos concluídos.
-*   **Atores:** Administrador, Financeiro
+*   **Atores:** Administrador da Empresa, Usuário Financeiro
 *   **Critérios de Aceitação:**
     -   [ ] Cobrança é gerada com valor total correto.
     -   [ ] Status de pagamento é atualizado após registro manual ou automático.
 
 ### [RF-006] Dashboard de Insights
 *   **Descrição:** Exibir indicadores de desempenho de atendimento, agenda e financeiro.
-*   **Atores:** Administrador, Gestor
+*   **Atores:** Administrador da Empresa, Gestor
 *   **Critérios de Aceitação:**
     -   [ ] Indicadores atualizam conforme filtro por período.
     -   [ ] Dados exibidos são restritos à empresa logada.
+
+### [RF-007] CRM de Clientes
+*   **Descrição:** Centralizar informações de clientes, histórico de interações, conversas e oportunidades em uma base única.
+*   **Atores:** Administrador da Empresa, Usuário Operacional
+*   **Critérios de Aceitação:**
+    -   [ ] Histórico de conversas e atendimentos é exibido na timeline do cliente.
+    -   [ ] Oportunidades podem ser criadas e acompanhadas por status.
+    -   [ ] Busca por clientes suporta filtros por nome, telefone e status.
 
 ---
 
@@ -120,9 +132,11 @@ graph TD
 | **RNF-001** | Desempenho | Latência de requisições de leitura. | 95% das requisições respondidas em < 200ms. |
 | **RNF-002** | Segurança | Criptografia de dados sensíveis. | Dados sensíveis encriptados em repouso e em trânsito. |
 | **RNF-003** | Disponibilidade | SLA operacional de infraestrutura. | SLA mínimo de 99.9% de uptime anual. |
-| **RNF-004** | Escalabilidade | Volume de requisições concorrentes. | Suportar até 1 mil empresas ativas simultaneamente no MVP com auto-scaling ativo. |
+| **RNF-004** | Escalabilidade | Volume de requisições concorrentes. | Suportar até 1 mil empresa ativa simultaneamente no MVP com auto-scaling ativo. |
 | **RNF-005** | Observabilidade | Telemetria e logs estruturados. | Implementação de OpenTelemetry e dashboards de monitoramento. |
-| **RNF-006** | Compliance | Conformidade com LGPD. | Política de dados e auditoria em logs de acesso. |
+| **RNF-006** | Compliance | Conformidade com LGPD. | Política de dados, consentimento granular e auditoria em logs de acesso. |
+| **RNF-007** | Testabilidade | Testes automatizados e pipelines CI/CD. | Cobertura mínima de 80% linhas backend e 70% frontend. Testes de unidade, integração e E2E. |
+| **RNF-008** | Usabilidade | Acessibilidade e responsividade do frontend. | Conformidade com WCAG 2.1 nível AA. Layout responsivo para desktop e mobile. |
 
 ---
 
@@ -139,12 +153,16 @@ erDiagram
     COBRANCA ||--o{ PAGAMENTO : registra
     CLIENTE ||--o{ CONVERSA : participa
     EMPRESA ||--o{ AGENTE : configura
+    USUARIO ||--o{ COMPROMISSO : gerencia
+    CLIENTE ||--o{ OPORTUNIDADE : possui
     EMPRESA {
         int id PK
         string nome
         string cnpj_cpf
         string plano
         string status
+        datetime created_at
+        datetime updated_at
     }
     CLIENTE {
         int id PK
@@ -154,13 +172,31 @@ erDiagram
         string telefone
         string endereco
         string status
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+    }
+    USUARIO {
+        int id PK
+        int empresa_id FK
+        string nome
+        string email
+        string senha_hash
+        string papel
+        string status
+        datetime created_at
+        datetime updated_at
+        datetime last_login_at
     }
     COMPROMISSO {
         int id PK
         int cliente_id FK
+        int usuario_id FK
         datetime data_hora
         string servico
         string status
+        datetime created_at
+        datetime updated_at
     }
     COBRANCA {
         int id PK
@@ -169,6 +205,8 @@ erDiagram
         decimal valor_total
         string status
         date vencimento
+        datetime created_at
+        datetime updated_at
     }
     PAGAMENTO {
         int id PK
@@ -177,18 +215,34 @@ erDiagram
         string metodo
         date data_pagamento
         string status
+        datetime created_at
     }
     CONVERSA {
         int id PK
         int cliente_id FK
         string canal
         string status
+        datetime created_at
+        datetime updated_at
     }
     AGENTE {
         int id PK
         int empresa_id FK
         string tipo
+        string config_json
         string status
+        datetime created_at
+        datetime updated_at
+    }
+    OPORTUNIDADE {
+        int id PK
+        int cliente_id FK
+        string titulo
+        string status
+        decimal valor_estimado
+        date data_previsao
+        datetime created_at
+        datetime updated_at
     }
 ```
 
@@ -210,11 +264,80 @@ erDiagram
     -   `400 Bad Request`: Payload inválido.
     -   `401 Unauthorized`: Credenciais incorretas.
 
+### Endpoint: `POST /api/v1/auth/refresh`
+*   **Descrição:** Renova o accessToken usando um refreshToken válido.
+*   **Payload de Exemplo (JSON):**
+    ```json
+    {
+      "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
+    }
+    ```
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna novo accessToken.
+    -   `401 Unauthorized`: Refresh token inválido ou expirado.
+
+### Endpoint: `GET /api/v1/companies`
+*   **Descrição:** Retorna dados da empresa autenticada.
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna dados da empresa.
+    -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `PUT /api/v1/companies`
+*   **Descrição:** Atualiza dados da empresa autenticada.
+*   **Respostas Esperadas:**
+    -   `200 OK`: Empresa atualizada com sucesso.
+    -   `400 Bad Request`: Dados inválidos.
+    -   `403 Forbidden`: Usuário sem permissão.
+
+### Endpoint: `GET /api/v1/clients`
+*   **Descrição:** Lista clientes da empresa autenticada com paginação e filtros.
+*   **Query Parameters:** `page`, `pageSize`, `search`, `status`
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna lista paginada de clientes.
+    -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `POST /api/v1/clients`
+*   **Descrição:** Cria novo cliente vinculado à empresa autenticada.
+*   **Payload de Exemplo (JSON):**
+    ```json
+    {
+      "nome": "Maria Silva",
+      "email": "maria@email.com",
+      "telefone": "+5511999998888",
+      "endereco": "Rua Exemplo, 123"
+    }
+    ```
+*   **Respostas Esperadas:**
+    -   `201 Created`: Cliente criado com sucesso.
+    -   `400 Bad Request`: Dados inválidos.
+
+### Endpoint: `GET /api/v1/clients/{id}`
+*   **Descrição:** Retorna detalhes de um cliente específico com histórico de interações.
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna dados do cliente.
+    -   `404 Not Found`: Cliente não encontrado.
+
 ### Endpoint: `GET /api/v1/appointments`
-*   **Descrição:** Lista compromissos da empresa autenticada.
+*   **Descrição:** Lista compromissos da empresa autenticada com paginação.
+*   **Query Parameters:** `page`, `pageSize`, `startDate`, `endDate`, `status`
 *   **Respostas Esperadas:**
     -   `200 OK`: Retorna lista de compromissos.
     -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `POST /api/v1/appointments`
+*   **Descrição:** Cria novo compromisso com validação de disponibilidade.
+*   **Payload de Exemplo (JSON):**
+    ```json
+    {
+      "clientId": 123,
+      "dateTime": "2026-08-10T14:00:00Z",
+      "service": "Manutenção preventiva",
+      "durationMinutes": 60
+    }
+    ```
+*   **Respostas Esperadas:**
+    -   `201 Created`: Compromisso criado com sucesso.
+    -   `400 Bad Request`: Dados inválidos ou conflito de horário.
 
 ### Endpoint: `POST /api/v1/invoices`
 *   **Descrição:** Cria nova cobrança para um cliente.
@@ -222,6 +345,7 @@ erDiagram
     ```json
     {
       "clientId": 123,
+      "appointmentId": 456,
       "amount": 450.00,
       "dueDate": "2026-08-10",
       "description": "Serviço de manutenção"
@@ -231,6 +355,26 @@ erDiagram
     -   `201 Created`: Cobrança criada com sucesso.
     -   `400 Bad Request`: Dados inválidos.
     -   `403 Forbidden`: Usuário sem permissão.
+
+### Endpoint: `GET /api/v1/invoices`
+*   **Descrição:** Lista cobranças da empresa autenticada com paginação e filtros.
+*   **Query Parameters:** `page`, `pageSize`, `status`, `startDate`, `endDate`
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna lista paginada de cobranças.
+    -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `GET /api/v1/analytics/reports`
+*   **Descrição:** Retorna indicadores de desempenho filtrados por período.
+*   **Query Parameters:** `period` (daily, weekly, monthly), `startDate`, `endDate`
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna relatório com métricas de atendimento, agenda e financeiro.
+    -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `POST /api/v1/webhooks/whatsapp`
+*   **Descrição:** Recebe eventos de webhook do WhatsApp (mensagens, status de entrega).
+*   **Respostas Esperadas:**
+    -   `200 OK`: Evento processado com sucesso.
+    -   `400 Bad Request`: Payload inválido.
 
 ---
 
@@ -242,3 +386,37 @@ erDiagram
 *   **Restrição 1:** O sistema deve ser compatível com a LGPD.
 *   **Restrição 2:** O MVP deve ser implementado sem suporte multilíngue completo.
 *   **Restrição 3:** Não serão suportadas integrações ERP no escopo inicial.
+
+---
+
+## 8. Estratégia de Testes
+
+### 8.1 Níveis de Teste
+
+| Nível | Ferramenta | Escopo |
+| :--- | :--- | :--- |
+| **Unidade** | xUnit (backend), Jest (frontend) | Funções isoladas, validações de domínio, hooks e utilitários |
+| **Integração** | xUnit + TestContainers | Endpoints de API, acesso a banco, mensageria |
+| **E2E** | Playwright | Fluxos completos de usuário (cadastro, agendamento, cobrança) |
+| **Linter / Estático** | ESLint, dotnet format | Convenções de código, detecção de code smells |
+
+### 8.2 Cobertura Mínima
+
+| Camada | Linhas | Branches |
+| :--- | :--- | :--- |
+| Backend (C#) | 80% | 70% |
+| Frontend (TypeScript) | 70% | 60% |
+
+### 8.3 Critérios de Aceitação de Teste
+
+Toda alteração de regra de negócio deve cobrir:
+
+*   **Happy Path:** fluxo principal esperado funcionando corretamente.
+*   **Sad Path:** tratamento de erros, validações e exceções.
+*   **Edge Cases:** limites de valores, concorrência e dados inválidos.
+
+### 8.4 Pipeline CI/CD
+
+*   Execução automática de testes de unidade e integração em cada pull request.
+*   Verificação de cobertura de código com bloqueio de merge se abaixo do mínimo.
+*   Testes E2E executados em ambiente de staging antes de deploy em produção.
