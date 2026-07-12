@@ -43,6 +43,8 @@ O sistema Severina AI tem como propósito atuar como uma secretária virtual par
 *   **CRM:** sistema de gerenciamento de relacionamento com clientes.
 *   **Follow-up:** acompanhamento automático de clientes após interações ou serviços.
 *   **Multi-tenant:** arquitetura que permite múltiplas empresas utilizarem a mesma plataforma com isolamento lógico de dados.
+*   **Dark Mode:** modo de exibição com superfícies escuras e texto claro, projetado para reduzir fadiga visual em ambientes de baixa luminosidade.
+*   **Preferências de Tema:** configuração do usuário que define o modo de exibição (claro, escuro ou sistema). Persistida em localStorage e sincronizada via API.
 
 ---
 
@@ -123,6 +125,18 @@ graph TD
     -   [ ] Oportunidades podem ser criadas e acompanhadas por status.
     -   [ ] Busca por clientes suporta filtros por nome, telefone e status.
 
+### [RF-008] Preferências de Tema (Dark Mode)
+*   **Descrição:** Permitir que o usuário alterne entre modo claro, escuro e sistema, com preferência persistida por conta.
+*   **Atores:** Todos os usuários autenticados
+*   **Critérios de Aceitação:**
+    -   [ ] Toggle de tema está disponível no topbar, próxima ao avatar do usuário.
+    -   [ ] Três opções: Claro, Escuro, Sistema (padrão).
+    -   [ ] Preferência é persistida em `localStorage` (`severina-theme`) e sincronizada via API.
+    -   [ ] Na primeira visita, o tema padrão é `system` (respeita `prefers-color-scheme`).
+    -   [ ] Troca de tema é instantânea sem recarregamento da página.
+    -   [ ] Acessibilidade garantida: `aria-label="Alternar tema"`, `role="switch"`, `aria-checked`.
+    -   [ ] Contraste de cores mantém razão mínima de 4.5:1 em ambos os modos.
+
 ---
 
 ## 4. Requisitos Não Funcionais (RNF)
@@ -137,6 +151,7 @@ graph TD
 | **RNF-006** | Compliance | Conformidade com LGPD. | Política de dados, consentimento granular e auditoria em logs de acesso. |
 | **RNF-007** | Testabilidade | Testes automatizados e pipelines CI/CD. | Cobertura mínima de 80% linhas backend e 70% frontend. Testes de unidade, integração e E2E. |
 | **RNF-008** | Usabilidade | Acessibilidade e responsividade do frontend. | Conformidade com WCAG 2.1 nível AA. Layout responsivo para desktop e mobile. |
+| **RNF-009** | Usabilidade | Modo claro/escuro com preferência por usuário. | Toggle de tema no topbar. Preferência persistida via localStorage + API. Padrão: system. Contraste AA em ambos os modos. Troca instantânea sem reload. |
 
 ---
 
@@ -184,6 +199,7 @@ erDiagram
         string senha_hash
         string papel
         string status
+        json preferences
         datetime created_at
         datetime updated_at
         datetime last_login_at
@@ -368,6 +384,25 @@ erDiagram
 *   **Query Parameters:** `period` (daily, weekly, monthly), `startDate`, `endDate`
 *   **Respostas Esperadas:**
     -   `200 OK`: Retorna relatório com métricas de atendimento, agenda e financeiro.
+    -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `GET /api/v1/users/preferences`
+*   **Descrição:** Retorna as preferências do usuário autenticado (tema, notificações, etc.).
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna objeto com preferências do usuário.
+    -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `PUT /api/v1/users/preferences`
+*   **Descrição:** Atualiza as preferências do usuário autenticado.
+*   **Payload de Exemplo (JSON):**
+    ```json
+    {
+      "theme": "dark"
+    }
+    ```
+*   **Respostas Esperadas:**
+    -   `200 OK`: Preferências atualizadas com sucesso.
+    -   `400 Bad Request`: Dados inválidos (theme deve ser "light", "dark" ou "system").
     -   `401 Unauthorized`: Token inválido ou ausente.
 
 ### Endpoint: `POST /api/v1/webhooks/whatsapp`

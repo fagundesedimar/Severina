@@ -144,6 +144,7 @@ Criar uma plataforma de secretária virtual baseada em inteligência artificial 
 
 ### Objetivos Técnicos
 - Criar plataforma responsiva (Desktop, Tablet, Smartphone)
+- Suportar modo claro e escuro com preferência persistida por usuário
 - Implementar integração nativa com WhatsApp para atendimento e mensagens
 - Garantir disponibilidade de 99,9% com latência abaixo de 200ms
 - Assegurar conformidade com LGPD e boas práticas de segurança
@@ -193,6 +194,7 @@ A Severina AI será uma plataforma web responsiva com assistente virtual baseada
 - Autenticação JWT com refresh token e MFA opcional
 - RBAC com papéis: Administrador da Empresa, Usuário Operacional, Usuário Financeiro
 - Multi-tenant lógico com isolamento por `company_id`
+- Preferências de tema (claro, escuro, sistema) com persistência por usuário
 
 **Integrações e APIs:**
 - Webhooks para WhatsApp (mensagens e status de entrega)
@@ -269,6 +271,7 @@ O projeto será considerado bem-sucedido quando:
 - Dashboard inicial de indicadores
 - CRM de clientes com timeline de interações
 - Gestão de usuários e permissões (RBAC)
+- Modo claro/escuro com preferência persistida por usuário
 - Multi-tenant lógico com `company_id`
 - Integração com WhatsApp (envio e recebimento)
 - APIs REST versionadas com documentação OpenAPI

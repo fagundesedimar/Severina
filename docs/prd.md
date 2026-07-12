@@ -108,6 +108,14 @@
 
 * Objetivo: centralizar informações de clientes, histórico de conversas e oportunidades em uma base única.
 
+#### RF-006 Preferências de Tema
+
+* Objetivo: permitir que o usuário alterne entre modo claro, escuro e sistema, com preferência persistida por conta.
+* A toggle de tema deve estar posicionada no topbar, próxima ao avatar do usuário logado.
+* A preferência deve ser sincronizada entre dispositivos via API e armazenada localmente (localStorage).
+* O padrão deve ser `system` (respeita a configuração do SO do usuário).
+* A acessibilidade deve ser garantida: `aria-label`, `role="switch"`, `aria-checked`.
+
 ---
 
 ## Requisitos Não Funcionais
@@ -141,6 +149,14 @@
 ### RNF-07 Compliance
 
 * Atender integralmente à LGPD com políticas de consentimento, direito ao esquecimento e trilhas de auditoria.
+
+### RNF-08 Usabilidade e Acessibilidade
+
+* Suportar modo claro e escuro com toggle acessível (WCAG 2.1 AA).
+* A preferência de tema deve ser persistida por usuário e sincronizada entre dispositivos.
+* A interface deve respeitar `prefers-color-scheme` do sistema operacional como fallback.
+* A troca de tema deve ser instantânea sem recarregamento da página.
+* Contraste de cores deve manter razão mínima de 4.5:1 em ambos os modos (claro e escuro).
 
 ---
 
@@ -229,6 +245,7 @@
 * Agendamento inteligente
 * Cobrança automática
 * Dashboard inicial de indicadores
+* Modo claro/escuro com preferência por usuário
 
 #### Não Incluído
 
@@ -327,3 +344,4 @@
 * **SaaS**: Software as a Service
 * **LGPD**: Lei Geral de Proteção de Dados
 * **CRM**: Customer Relationship Management
+* **WCAG**: Web Content Accessibility Guidelines

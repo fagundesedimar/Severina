@@ -71,11 +71,11 @@ A arquitetura contempla:
 src/
   frontend/
     app/                    # Next.js App Router (pages/layouts)
-    components/             # Componentes UI reutilizáveis
-    hooks/                  # Custom hooks
-    services/               # Chamadas API e lógica de acesso a dados
-    stores/                 # Zustand stores (estado global)
-    styles/                 # Tailwind config e estilos globais
+    components/             # Componentes UI reutilizáveis (incluindo ThemeToggle)
+    hooks/                  # Custom hooks (incluindo useTheme)
+    services/               # Chamadas API e lógica de acesso a dados (incluindo preferences API)
+    stores/                 # Zustand stores (estado global, incluindo useThemeStore)
+    styles/                 # Tailwind config, CSS custom properties (temas light/dark), estilos globais
     types/                  # TypeScript type definitions
   backend/
     BuildingBlocks/
@@ -344,6 +344,9 @@ Mensagem do cliente → Embedding da query → Busca vetorial (pgvector) → Mon
 * Interfaces simples e intuitivas
 * Navegação orientada a tarefas
 * Componentes reutilizáveis e consistentes
+* Suporte a modo claro e escuro com toggle acessível
+* Preferência de tema persistida por usuário (localStorage + API)
+* Tokens de cor via CSS custom properties para troca dinâmica de tema
 
 ### Experiência de Autenticação
 
@@ -687,9 +690,10 @@ O código-fonte deve seguir os princípios **SOLID** e boas práticas de Clean C
 * Custom Hooks para lógica reativa compartilhada
 * Server Components do Next.js para renderização no servidor quando possível
 * Client Components apenas quando interatividade é necessária
-* Zustand para estado global; React Query para estado de servidor
+* Zustand para estado global (incluindo store de tema: `useThemeStore`); React Query para estado de servidor
 * Props drilling limitado a 2-3 níveis; usar Context ou stores quando necessário
 * Componentes presentacionais desacoplados de lógica de negócio
+* Tema (claro/escuro/sistema) gerenciado via Zustand store com persistência em localStorage e sincronização com API de preferências do usuário
 
 ### Restrições Arquiteturais
 

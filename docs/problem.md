@@ -56,6 +56,7 @@ Pequenos empresários e profissionais autônomos que precisam de apoio na opera�
 * Reduzir a carga de trabalho manual na gestão de atendimento, agenda e cobranças.
 * Ter um assistente virtual confiável que centralize processos e informações.
 * Obter insights simples para tomar decisões melhores sobre clientes e finanças.
+* Controle sobre a aparência da interface (modo claro/escuro) para conforto visual em diferentes ambientes de uso.
 
 ### Restrições
 

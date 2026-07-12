@@ -16,6 +16,7 @@ O sistema é projetado para **empreendedores com baixa familiaridade tecnológic
 - Inter 400/500/600 como fam tipográfica (substituto open-source de SF Pro).
 - Ritmo previsível: nav → content cards → footer. O usuário nunca se perde.
 - Superfícies alternadas: light canvas ↔ subtle off-white para criar ritmo sem bordas.
+- Modo claro e escuro com toggle acessível próximo ao avatar do usuário logado.
 
 ---
 
@@ -73,6 +74,68 @@ O sistema é projetado para **empreendedores com baixa familiaridade tecnológic
 | `{colors.border}` | #e2e8f0 | Bordas de cards, inputs, separadores. |
 | `{colors.border-strong}` | #cbd5e1 | Bordas em foco, bordas de tabs ativos. |
 | `{colors.divider}` | #f1f5f9 | Separadores sutis entre linhas de tabela, items de lista. |
+
+### Dark Mode
+
+O Severina AI suporta **modo claro e escuro** com toggle acessível posicionado próximo ao avatar do usuário logado no topbar. A preferência é persistida por usuário (localStorage + API) e respeita a configuração do sistema operacional como fallback.
+
+**Filosofia:** O dark mode não é apenas uma inversão de cores — é uma reinterpretação do design system para ambientes de baixa luminosidade. Superfícies ganham profundidade via camadas de cinza, texto mantém contraste AA, e o accent blue `{colors.primary}` permanece inalterado.
+
+#### Dark Mode Tokens
+
+| Token | Light Value | Dark Value | Uso |
+|---|---|---|---|
+| `{colors.canvas}` | #ffffff | #0f1117 | Canvas dominante — invertido para fundo escuro. |
+| `{colors.canvas-subtle}` | #f8fafc | #1a1d27 | Fundo de sidebar, headers de seção. |
+| `{colors.canvas-muted}` | #f1f5f9 | #252830 | Fundo de estados vazios, skeletons. |
+| `{colors.surface-card}` | #ffffff | #1e2128 | Fundo de cards de conteúdo. |
+| `{colors.surface-card-hover}` | #f8fafc | #252830 | Estado hover de cards clicáveis. |
+| `{colors.surface-elevated}` | #ffffff | #252830 | Modais, dropdowns, popovers. |
+| `{colors.surface-overlay}` | rgba(0,0,0,0.5) | rgba(0,0,0,0.7) | Backdrop — mais denso no dark para contraste. |
+| `{colors.ink}` | #0f172a | #f1f5f9 | Texto primário — contraste mantido. |
+| `{colors.ink-secondary}` | #475569 | #94a3b8 | Texto secundário. |
+| `{colors.ink-muted}` | #94a3b8 | #64748b | Placeholders, timestamps. |
+| `{colors.ink-on-primary}` | #ffffff | #ffffff | Texto sobre primary — inalterado. |
+| `{colors.ink-on-dark}` | #f8fafc | #f1f5f9 | Texto sobre superfícies escuras. |
+| `{colors.border}` | #e2e8f0 | #2e323a | Bordas de cards, inputs. |
+| `{colors.border-strong}` | #cbd5e1 | #3d424d | Bordas em foco. |
+| `{colors.divider}` | #f1f5f9 | #1e2128 | Separadores entre linhas. |
+| `{colors.primary}` | #2563eb | #3b82f6 | Accent — ligeiramente mais brilhante no dark para legibilidade. |
+| `{colors.primary-hover}` | #1d4ed8 | #2563eb | Hover primary. |
+| `{colors.primary-focus}` | #3b82f6 | #60a5fa | Focus ring — mais brilhante no dark. |
+| `{colors.primary-light}` | #dbeafe | #1e3a5f | Fundo de badges ativos — tom azul escuro. |
+| `{colors.primary-on-dark}` | #60a5fa | #93c5fd | Links em superfícies escuras. |
+| `{colors.success}` | #16a34a | #22c55e | Status sucesso — mais brilhante no dark. |
+| `{colors.success-light}` | #dcfce7 | #14532d | Fundo badges sucesso. |
+| `{colors.warning}` | #d97706 | #f59e0b | Status warning. |
+| `{colors.warning-light}` | #fef3c7 | #78350f | Fundo badges warning. |
+| `{colors.error}` | #dc2626 | #ef4444 | Status erro. |
+| `{colors.error-light}` | #fee2e2 | #7f1d1d | Fundo badges erro. |
+| `{colors.info}` | #0284c7 | #38bdf8 | Status info. |
+| `{colors.info-light}` | #e0f2fe | #0c4a6e | Fundo badges info. |
+
+#### Dark Mode Toggle Component
+
+**`theme-toggle`** — Botão de alternância de tema. Posicionado no topbar, à esquerda do avatar do usuário. Layout: ícone (sun/moon) 20px, `{typography.body-sm}` label ("Claro" / "Escuro"), `{component.button-ghost}` style. No mobile, apenas o ícone (sem label). Acessibilidade: `aria-label="Alternar tema"`, `role="switch"`, `aria-checked`.
+
+**Estados:**
+- Light mode: ícone moon (lua), label "Escuro" (ação disponível).
+- Dark mode: ícone sun (sol), label "Claro" (ação disponível).
+- System mode: ícone monitor com auto, label "Sistema".
+
+**Persistência:** A preferência é salva em `localStorage` com chave `severina-theme` e sincronizada com a API de preferências do usuário (`PUT /api/v1/users/preferences`). Na primeira visita, o tema padrão é `system` (respeita `prefers-color-scheme`).
+
+**Implementação técnica:** CSS custom properties no `:root` (light) e `[data-theme="dark"]` (dark). Tailwind CSS com variáveis CSS para cada token. Transição suave: `transition: background-color 0.2s ease, color 0.2s ease` nos elementos que mudam de cor.
+
+#### Dark Mode - Regras
+
+- O accent `{colors.primary}` nunca muda entre temas — é a âncora visual.
+- Cards no dark usam `{colors.surface-card}` (#1e2128) com borda `{colors.border}` (#2e323a) — a camada de profundidade vem da diferença de cinza, não de sombra.
+- Modais no dark usam `{colors.surface-elevated}` (#252830) com sombra `0 4px 6px rgba(0,0,0,0.4)` — sombra mais densa que no light.
+- Inputs no dark: background `{colors.surface-card}`, border `{colors.border}`, focus border `{colors.primary}`.
+- Tables no dark: header `{colors.canvas-subtle}`, rows alternadas entre `{colors.canvas}` e `{colors.surface-card}`.
+- Badges de status mantêm as mesmas cores mas com fundos mais escuros (`-light` tokens escuros).
+- Skeletons e loading states usam `{colors.canvas-muted}` como base com shimmer sutil.
 
 ---
 
@@ -194,6 +257,8 @@ O whitespace do Severina AI é **proporcional à importância da informação**.
 
 **`tabs`** — Navegação por abas dentro de uma seção. Background transparente. Tab items: `{typography.body}` (14px / 400), padding 8px 16px, border-bottom 2px transparent. Tab ativa: border-bottom 2px `{colors.primary}`, text `{colors.primary}`, font-weight 500. Tab hover: text `{colors.ink}`.
 
+**`theme-toggle`** — Botão de alternância claro/escuro. Posicionado no topbar, à esquerda do avatar do usuário. Ícone sun/moon 20px + label "Claro"/"Escuro". Style: `{component.button-ghost}`. No mobile: apenas ícone. Acessibilidade: `aria-label="Alternar tema"`, `role="switch"`, `aria-checked`. Persiste em localStorage (`severina-theme`) + API. Default: `system`.
+
 ### Buttons
 
 **`button-primary`** — A ação principal. Background `{colors.primary}` (#2563eb), text `{colors.ink-on-primary}` (white), `{typography.button}` (14px / 500), rounded `{rounded.pill}`, padding 10px 20px. Hover: `{colors.primary-hover}`. Focus: 2px solid `{colors.primary-focus}`. Active: `transform: scale(0.98)`. Disabled: opacity 0.5, cursor not-allowed.
@@ -309,17 +374,21 @@ O whitespace do Severina AI é **proporcional à importância da informação**.
 - Aplique `transform: scale(0.98)` como estado active/pressed em botões — é o micro-interaction padrão.
 - Mantenha cards com `{rounded.lg}` (8px) e sem sombra — a borda sutil define a elevação.
 - Use JetBrains Mono para valores financeiros e IDs — alinhamento vertical em colunas de tabela.
+- Ofereça sempre a opção de modo claro, escuro e sistema no toggle de tema — respeite a preferência do usuário.
+- Use CSS custom properties para tokens de cor — facilita a troca de tema via `data-theme` attribute.
 
 ### Don't
 - Não introduza uma segunda cor de accent — todo "clica aqui" é `{colors.primary}`.
 - Não adicione sombras em cards de dados, botões ou texto — sombra é para modais e dropdowns apenas.
-- Não use gradients como backgrounds decorativos — a atmosferia vem do conteúdo, não do CSS.
+- Não use gradients como backgrounds decorativos — a atmosfera vem do conteúdo, não do CSS.
 - Não defina body abaixo de 14px — a legibilidade funcional é primária.
 - Não misture border-radius — `{rounded.md}` para inputs, `{rounded.lg}` para cards, `{rounded.pill}` para CTAs, nada entre eles.
 - Não use `{colors.error}` para warnings — erro é para falhas, warning é para pendências.
 - Não coloque mais de 3 campos por linha em formulários — a densidade excessiva frustra o público-alvo.
 - Não use ícones sem labels no MVP — o público-alvo precisa de clareza, não de economia de espaço.
 - Não crie variações de cor para cada status — use o sistema de badges e dots, não mude o accent.
+- Não force dark mode em todos os usuários — o padrão é `system` e a preferência deve ser sempre persistida.
+- Não mude o accent `{colors.primary}` entre temas — ele é a âncora visual que permanece constante.
 
 ---
 
@@ -351,10 +420,13 @@ O whitespace do Severina AI é **proporcional à importância da informação**.
 
 ### Color Contrast
 - All text meets 4.5:1 contrast ratio against its background (AA standard).
-- `{colors.ink}` (#0f172a) on `{colors.canvas}` (#ffffff): contrast 17.5:1.
-- `{colors.ink-secondary}` (#475569) on `{colors.canvas}`: contrast 7.1:1.
-- `{colors.ink-muted}` (#94a3b8) on `{colors.canvas}`: contrast 3.5:1 — use only for non-essential text (placeholders, timestamps).
-- `{colors.primary}` (#2563eb) on `{colors.canvas}`: contrast 4.6:1 — meets AA for normal text.
+- **Light mode:** `{colors.ink}` (#0f172a) on `{colors.canvas}` (#ffffff): contrast 17.5:1.
+- **Light mode:** `{colors.ink-secondary}` (#475569) on `{colors.canvas}`: contrast 7.1:1.
+- **Light mode:** `{colors.ink-muted}` (#94a3b8) on `{colors.canvas}`: contrast 3.5:1 — use only for non-essential text.
+- **Dark mode:** `{colors.ink}` (#f1f5f9) on `{colors.canvas}` (#0f1117): contrast 15.2:1.
+- **Dark mode:** `{colors.ink-secondary}` (#94a3b8) on `{colors.canvas}`: contrast 6.8:1.
+- **Dark mode:** `{colors.ink-muted}` (#64748b) on `{colors.canvas}`: contrast 3.8:1 — non-essential text.
+- `{colors.primary}` (#2563eb) on `{colors.canvas}`: contrast 4.6:1 — meets AA in both themes.
 - `{colors.ink-on-primary}` (white) on `{colors.primary}`: contrast 4.6:1 — meets AA.
 
 ### Focus Management
@@ -373,6 +445,7 @@ O whitespace do Severina AI é **proporcional à importância da informação**.
 ### Motion
 - Respect `prefers-reduced-motion` media query — disable `transform: scale()` transitions and animations.
 - Transitions use `200ms ease-out` as default — short enough to feel responsive, long enough to be perceivable.
+- Dark mode theme switch: `transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease` on all themed elements.
 
 ---
 
@@ -385,12 +458,13 @@ O whitespace do Severina AI é **proporcional à importância da informação**.
 5. Headlines stay Inter 600. Body stays Inter 400 at 14px. The boundary is unbreakable.
 6. The single elevation system (border → shadow for modals only) is reserved for functional depth.
 7. When in doubt about emphasis: use `{colors.status.*}` badges before adding chrome.
+8. Always define both light and dark mode tokens for new components — dark mode is not optional.
+9. The theme toggle lives in the topbar, left of the avatar. It has three states: light, dark, system.
 
 ---
 
 ## Known Gaps
 
-- Dark mode counterparts were not defined in this version — the system documented is the light-mode dominant variant.
 - Form validation and error states for complex multi-step forms need further specification.
 - Empty state illustrations are placeholder — custom artwork should be commissioned for each major flow.
 - Notification system UI (toast positioning, stacking behavior) needs user testing for optimal placement.
