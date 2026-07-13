@@ -128,10 +128,12 @@ dotnet format --verify-no-changes --project src/backend
 ### Sempre faça (autônomo)
 
 - Rodar lint, testes e build para validar alterações
-- Ler arquivos de documentação em `docs/`
-- Criar/editar componentes, services, hooks, stores, types
-- Criar migrations e entidades de domínio
+- Ler e escrever arquivos de código, documentação e configuração quando fizer parte do pedido do usuário
+- Ler arquivos de documentação em `docs/` e entender o contexto antes de agir
+- Criar/editar componentes, services, hooks, stores, types e documentos de produto quando estiver claro no escopo
+- Criar migrations e entidades de domínio necessárias para a solicitação
 - Executar comandos dotnet, npm, git (status, diff, log)
+- Usar o terminal para operações de arquivo, inspeção e manipulação necessárias para concluir a tarefa
 
 ### Pergunte primeiro
 
@@ -140,11 +142,11 @@ dotnet format --verify-no-changes --project src/backend
 - Modificar autenticação, autorização ou regras de segurança
 - Instalar novas dependências não previstas na stack
 - Fazer push, commit, criar PR ou alterar branch
+- Editar documentação técnica sensível (`spec_tech.md`, `spec_req.md`, `prd.md`) sem uma solicitação explícita e clara do usuário
 
 ### Nunca faça
 
 - Expor chaves de API, segredos ou `.env` em código ou commits
-- Alterar `spec_tech.md`, `spec_req.md` ou `prd.md` sem pedido explícito
 - Pular testes ou reduzir cobertura para "agilizar"
 - Criar lógica de negócio no frontend (pertence ao backend)
 - Usar `console.log()` em código de produção (usar logs estruturados)
