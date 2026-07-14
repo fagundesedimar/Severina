@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="pt-BR" class="light" style=""><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{try{
+        try {
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        "colors": {
+                            "on-secondary-fixed-variant": "#3a485b",
+                            "on-background": "#131b2e",
+                            "surface-container-low": "#f2f3ff",
+                            "on-primary": "#ffffff",
+                            "primary-fixed-dim": "#b4c5ff",
+                            "surface-container": "#eaedff",
+                            "on-secondary-container": "#57657a",
+                            "primary-container": "#2563eb",
+                            "on-primary-container": "#eeefff",
+                            "on-tertiary": "#ffffff",
+                            "error": "#ba1a1a",
+                            "tertiary-fixed-dim": "#c4c7c9",
+                            "surface-container-highest": "#dae2fd",
+                            "on-tertiary-fixed": "#191c1e",
+                            "surface-variant": "#dae2fd",
+                            "surface-tint": "#0053db",
+                            "on-secondary": "#ffffff",
+                            "primary": "#004ac6",
+                            "background": "#faf8ff",
+                            "secondary": "#515f74",
+                            "surface-container-lowest": "#ffffff",
+                            "on-tertiary-fixed-variant": "#444749",
+                            "primary-fixed": "#dbe1ff",
+                            "on-surface": "#131b2e",
+                            "outline-variant": "#c3c6d7",
+                            "surface-bright": "#faf8ff",
+                            "tertiary-fixed": "#e0e3e5",
+                            "tertiary-container": "#6b6e70",
+                            "inverse-on-surface": "#eef0ff",
+                            "on-surface-variant": "#434655",
+                            "tertiary": "#525657",
+                            "outline": "#737686",
+                            "inverse-surface": "#283044",
+                            "surface-dim": "#d2d9f4",
+                            "on-tertiary-container": "#eff1f3",
+                            "on-secondary-fixed": "#0d1c2e",
+                            "on-primary-fixed": "#00174b",
+                            "inverse-primary": "#b4c5ff",
+                            "on-error": "#ffffff",
+                            "secondary-fixed-dim": "#b9c7df",
+                            "surface-container-high": "#e2e7ff",
+                            "on-error-container": "#93000a",
+                            "on-primary-fixed-variant": "#003ea8",
+                            "surface": "#faf8ff",
+                            "secondary-fixed": "#d5e3fc",
+                            "secondary-container": "#d5e3fc",
+                            "error-container": "#ffdad6"
+                        },
+                        "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                        },
+                        "spacing": {
+                            "margin-mobile": "16px",
+                            "lg": "16px",
+                            "xs": "4px",
+                            "xl": "24px",
+                            "section": "48px",
+                            "margin-desktop": "24px",
+                            "gutter": "16px",
+                            "xxl": "32px",
+                            "xxs": "2px",
+                            "sm": "8px",
+                            "md": "12px"
+                        },
+                        "fontFamily": {
+                            "label-sm": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "mono": ["JetBrains Mono"],
+                            "body-sm": ["Inter"],
+                            "overline": ["Inter"],
+                            "body-md": ["Inter"],
+                            "label-md": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "caption-bold": ["Inter"],
+                            "caption": ["Inter"],
+                            "headline-sm": ["Inter"],
+                            "headline-xs": ["Inter"]
+                        },
+                        "fontSize": {
+                            "label-sm": ["12px", {"lineHeight": "12px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                            "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                            "body-lg": ["16px", {"lineHeight": "26px", "letterSpacing": "0", "fontWeight": "400"}],
+                            "mono": ["13px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                            "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                            "overline": ["11px", {"lineHeight": "17px", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                            "body-md": ["14px", {"lineHeight": "21px", "letterSpacing": "0", "fontWeight": "400"}],
+                            "label-md": ["14px", {"lineHeight": "14px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                            "headline-md": ["24px", {"lineHeight": "31px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                            "caption-bold": ["12px", {"lineHeight": "17px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                            "caption": ["12px", {"lineHeight": "17px", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                            "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "600"}],
+                            "headline-xs": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "600"}]
+                        }
+                    },
+                },
+            }
+        } catch (_e) {}
+    }catch(_e){}}catch(_e){}</script><meta charset="utf-8"></head><body class="min-h-screen pb-20 md:pb-0 md:pl-64 bg-background dark:bg-on-background text-on-background dark:text-surface-container-lowest">
+<!-- TopAppBar Execution -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline flex justify-between items-center px-margin-mobile h-14 md:hidden"><div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-outline-variant overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK9LDCk76cBRSOvvLsOTy_1MctSAWQ7rDpn6lqcTqgL9oITlxt1Rdwfee9EEwZXAXzgbLl_q7OUsdxK5ZDTq7za9JFH9jVYonHVIh9bKqGVMVbPYdH3UrEW78igCCj2sOMHti9fC4F5sPp80HvBZwtAmkwlWS2mtSa-Wh3smQ1aPDTVyT6Lu6oCWsWqq3oR7GtEWEkJDeUG5cZSza5oGV1QPI1VhmFuyjLWJl0GDWCS_Mvy_7PvIJY" alt="User Profile">
+</div>
+<div class="flex items-center">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Severina AI</h1>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed hover:bg-surface-container-low dark:hover:bg-on-surface-variant/20 transition-colors p-2 rounded-full active:scale-95" id="theme-toggle-mobile">light_mode</button>
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed hover:bg-surface-container-low dark:hover:bg-on-surface-variant/20 transition-colors p-2 rounded-full active:scale-95">notifications</button>
+</div></header>
+<!-- Sidebar (Desktop Navigation) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex-col z-50">
+<div class="p-xl border-b border-outline-variant dark:border-outline flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Severina AI</span>
+<button id="theme-toggle-desktop" class="material-symbols-outlined text-primary dark:text-primary-fixed hover:bg-surface-container-low dark:hover:bg-on-surface-variant/20 transition-colors p-2 rounded-full active:scale-95">light_mode</button>
+</div>
+<nav class="flex-1 p-md space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-surface-container-low dark:bg-primary-container/20 text-primary dark:text-primary-fixed font-semibold" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Início</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-lowest dark:hover:bg-on-surface-variant/10 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Clientes</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-lowest dark:hover:bg-on-surface-variant/10 transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Agenda</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-lowest dark:hover:bg-on-surface-variant/10 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Financeiro</span>
+</a>
+<div class="pt-xl opacity-50 px-md">
+<span class="font-overline text-overline uppercase dark:text-tertiary-fixed">Sistema</span>
+</div>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-lowest dark:hover:bg-on-surface-variant/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Configurações</span>
+</a>
+</nav>
+<div class="p-md mt-auto">
+<div class="flex items-center gap-sm p-sm rounded-xl bg-surface-container-low dark:bg-surface-container-highest/10 border border-outline-variant dark:border-outline">
+<div class="w-10 h-10 rounded-full bg-primary-fixed-dim">
+<img class="w-full h-full rounded-full object-cover" data-alt="A focused high-resolution portrait of a smiling female entrepreneur in a clean, minimalist studio. Soft daylight from a side window creates elegant highlights. The palette is dominated by airy whites and professional blues." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuotpBPhBQEV7Zw5xX5_YxqOsNsKuDdrCwrKfkubQnrYSL00s_Po82Od6xQdV80paP7o8hxlnLHLtcumMKjPbEwEIwmM_VfFl6IlCUbuyCXHnGQ-8ztOGbtZT8YGe3lUDNhz4UdAgZU_Uzy5SSKIvZIf_XT-msqi5IzDlUafxG6JfX9X0f9zMVq2X9YW__YGaqpvVs69DpKmTCIpe5-lqOykzrRgtkG6Eo-JL1RFMwyCffUPjvTGje">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface dark:text-surface-container-lowest font-semibold">Maria Severina</span>
+<span class="font-caption text-caption text-on-surface-variant dark:text-tertiary-fixed-dim">Administradora</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="pt-20 md:pt-margin-desktop px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
+<!-- Welcome Section -->
+<header class="mb-xxl">
+<h1 class="font-headline-lg text-headline-lg text-on-background dark:text-surface-container-lowest mb-xxs">Visão Geral do Negócio</h1>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-tertiary-fixed-dim">Sua assistente de IA processou 24 novas consultas hoje.</p>
+</header>
+<!-- Stats Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-section">
+<!-- Metric 1: Appointments -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline p-xl rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-5 dark:opacity-10 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[120px] text-primary dark:text-primary-fixed">calendar_month</span>
+</div>
+<span class="font-overline text-overline text-secondary dark:text-secondary-fixed uppercase tracking-widest block mb-sm">AGENDAMENTOS</span>
+<div class="flex items-baseline gap-xs mb-md">
+<span class="font-headline-lg text-headline-lg text-on-background dark:text-surface-container-lowest">42</span>
+<span class="font-caption-bold text-caption-bold text-primary dark:text-primary-fixed flex items-center"><span class="material-symbols-outlined text-sm">trending_up</span> 12%</span>
+</div>
+<div class="w-full h-1 bg-surface-container dark:bg-on-surface-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary dark:bg-primary-fixed w-3/4 rounded-full"></div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant dark:text-tertiary-fixed-dim mt-sm">75% da meta mensal atingida</p>
+</div>
+<!-- Metric 2: Revenue -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline p-xl rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-5 dark:opacity-10 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[120px] text-primary dark:text-primary-fixed">payments</span>
+</div>
+<span class="font-overline text-overline text-secondary dark:text-secondary-fixed uppercase tracking-widest block mb-sm">RECEITA DIÁRIA</span>
+<div class="flex items-baseline gap-xs mb-md">
+<span class="font-headline-lg text-headline-lg text-on-background dark:text-surface-container-lowest">$1.280</span>
+<span class="font-caption-bold text-caption-bold text-primary dark:text-primary-fixed flex items-center"><span class="material-symbols-outlined text-sm">trending_up</span> 5%</span>
+</div>
+<div class="w-full h-1 bg-surface-container dark:bg-on-surface-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary dark:bg-primary-fixed w-1/2 rounded-full"></div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant dark:text-tertiary-fixed-dim mt-sm">Pagamentos processados automaticamente</p>
+</div>
+<!-- Metric 3: Response Rate -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline p-xl rounded-xl relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-5 dark:opacity-10 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[120px] text-primary dark:text-primary-fixed">bolt</span>
+</div>
+<span class="font-overline text-overline text-secondary dark:text-secondary-fixed uppercase tracking-widest block mb-sm">TAXA DE RESPOSTA</span>
+<div class="flex items-baseline gap-xs mb-md">
+<span class="font-headline-lg text-headline-lg text-on-background dark:text-surface-container-lowest">99,8%</span>
+<span class="font-caption-bold text-caption-bold text-on-surface-variant dark:text-tertiary-fixed-dim flex items-center">Estável</span>
+</div>
+<div class="w-full h-1 bg-surface-container dark:bg-on-surface-variant/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary dark:bg-primary-fixed w-full rounded-full"></div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant dark:text-tertiary-fixed-dim mt-sm">Resposta média: 1,2 segundos</p>
+</div>
+</div>
+<!-- Two Column Layout: Conversations & Appointments -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-section mb-section">
+<!-- Recent Conversations -->
+<section>
+<div class="flex items-center justify-between mb-xl">
+<h2 class="font-headline-sm text-headline-sm flex items-center gap-sm dark:text-surface-container-lowest">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">chat</span>
+                    Conversas Recentes
+                </h2>
+<button class="text-primary dark:text-primary-fixed font-label-md text-label-md hover:underline">Ver Tudo</button>
+</div>
+<div class="space-y-md">
+<!-- Conversation Item 1 -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline p-md rounded-xl hover:bg-surface-container-low dark:hover:bg-on-surface-variant/10 transition-colors cursor-pointer group">
+<div class="flex gap-md">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-secondary-container dark:bg-secondary-fixed-dim flex items-center justify-center text-primary dark:text-on-secondary-fixed font-bold">JD</div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-inverse-surface rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-xxs">
+<span class="font-label-md text-label-md font-semibold text-on-surface dark:text-surface-container-lowest">John Doe</span>
+<span class="font-caption text-caption text-outline dark:text-tertiary-fixed">2m atrás</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-tertiary-fixed-dim truncate">"Gostaria de remarcar meu horário de cabelo para terça às 3..."</p>
+<div class="flex items-center gap-xs mt-sm">
+<span class="px-xs py-[1px] bg-secondary-container dark:bg-secondary-fixed text-on-secondary-container dark:text-on-secondary-fixed text-[10px] rounded uppercase font-bold tracking-tight">WhatsApp</span>
+<span class="px-xs py-[1px] bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary text-[10px] rounded uppercase font-bold tracking-tight">IA PROCESSOU</span>
+</div>
+</div>
+<button class="self-center opacity-0 group-hover:opacity-100 transition-opacity p-sm text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Conversation Item 2 -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline p-md rounded-xl hover:bg-surface-container-low dark:hover:bg-on-surface-variant/10 transition-colors cursor-pointer group">
+<div class="flex gap-md">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-white font-bold">AS</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-xxs">
+<span class="font-label-md text-label-md font-semibold text-on-surface dark:text-surface-container-lowest">Alice Smith</span>
+<span class="font-caption text-caption text-outline dark:text-tertiary-fixed">15m atrás</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-tertiary-fixed-dim truncate">"Você tem disponibilidade para uma consulta rápida na próxima..."</p>
+<div class="flex items-center gap-xs mt-sm">
+<span class="px-xs py-[1px] bg-surface-container-highest dark:bg-on-surface-variant/20 text-on-surface-variant dark:text-tertiary-fixed-dim text-[10px] rounded uppercase font-bold tracking-tight">Webchat</span>
+<span class="px-xs py-[1px] border border-primary dark:border-primary-fixed text-primary dark:text-primary-fixed text-[10px] rounded uppercase font-bold tracking-tight">AÇÃO NECESSÁRIA</span>
+</div>
+</div>
+<button class="self-center opacity-0 group-hover:opacity-100 transition-opacity p-sm text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!---->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline p-md rounded-xl hover:bg-surface-container-low dark:hover:bg-on-surface-variant/10 transition-colors cursor-pointer group">
+<div class="flex gap-md">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed-dim flex items-center justify-center text-on-secondary-fixed font-bold">MK</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-xxs">
+<span class="font-label-md text-label-md font-semibold text-on-surface dark:text-surface-container-lowest">Mike Knight</span>
+<span class="font-caption text-caption text-outline dark:text-tertiary-fixed">1h atrás</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant dark:text-tertiary-fixed-dim truncate">"Link de pagamento recebido, obrigado pela ajuda!"</p>
+<div class="flex items-center gap-xs mt-sm">
+<span class="px-xs py-[1px] bg-secondary-container dark:bg-secondary-fixed text-on-secondary-container dark:text-on-secondary-fixed text-[10px] rounded uppercase font-bold tracking-tight">WhatsApp</span>
+</div>
+</div>
+<button class="self-center opacity-0 group-hover:opacity-100 transition-opacity p-sm text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Appointments -->
+<section>
+<div class="flex items-center justify-between mb-xl">
+<h2 class="font-headline-sm text-headline-sm flex items-center gap-sm dark:text-surface-container-lowest">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">event_upcoming</span>
+                    Próximos Compromissos
+                </h2>
+<button class="text-primary dark:text-primary-fixed font-label-md text-label-md hover:underline">Agenda Completa</button>
+</div>
+<div class="bg-surface-container-lowest dark:bg-inverse-surface border border-outline-variant dark:border-outline rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low dark:bg-on-surface-variant/10 border-b border-outline-variant dark:border-outline">
+<tr>
+<th class="px-xl py-md font-overline text-overline text-on-surface-variant dark:text-tertiary-fixed uppercase tracking-widest">CLIENTE</th>
+<th class="px-xl py-md font-overline text-overline text-on-surface-variant dark:text-tertiary-fixed uppercase tracking-widest">SERVIÇO</th>
+<th class="px-xl py-md font-overline text-overline text-on-surface-variant dark:text-tertiary-fixed uppercase tracking-widest">HORA</th>
+<th class="px-xl py-md font-overline text-overline text-on-surface-variant dark:text-tertiary-fixed uppercase tracking-widest">STATUS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 dark:divide-outline/30">
+<tr class="hover:bg-surface-container-lowest/50 dark:hover:bg-white/5 transition-colors">
+<td class="px-xl py-md">
+<span class="font-label-md text-label-md text-on-surface dark:text-surface-container-lowest font-medium">Sarah Jenkins</span>
+</td>
+<td class="px-xl py-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant dark:text-tertiary-fixed-dim">Consulta Completa</span>
+</td>
+<td class="px-xl py-md">
+<span class="font-body-sm text-body-sm text-on-surface dark:text-tertiary-fixed">14:30</span>
+</td>
+<td class="px-xl py-md">
+<span class="px-sm py-xs rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-tighter">Confirmado</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest/50 dark:hover:bg-white/5 transition-colors">
+<td class="px-xl py-md">
+<span class="font-label-md text-label-md text-on-surface dark:text-surface-container-lowest font-medium">Robert Wilson</span>
+</td>
+<td class="px-xl py-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant dark:text-tertiary-fixed-dim">Renovação de Pacote</span>
+</td>
+<td class="px-xl py-md">
+<span class="font-body-sm text-body-sm text-on-surface dark:text-tertiary-fixed">16:00</span>
+</td>
+<td class="px-xl py-md">
+<span class="px-sm py-xs rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-[10px] font-bold uppercase tracking-tighter">Pendente IA</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest/50 dark:hover:bg-white/5 transition-colors">
+<td class="px-xl py-md">
+<span class="font-label-md text-label-md text-on-surface dark:text-surface-container-lowest font-medium">Elena Rigby</span>
+</td>
+<td class="px-xl py-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant dark:text-tertiary-fixed-dim">Workshop Intro</span>
+</td>
+<td class="px-xl py-md">
+<span class="font-body-sm text-body-sm text-on-surface dark:text-tertiary-fixed">17:15</span>
+</td>
+<td class="px-xl py-md">
+<span class="px-sm py-xs rounded-full bg-surface-container-highest dark:bg-on-surface-variant/20 text-on-surface-variant dark:text-tertiary-fixed-dim text-[10px] font-bold uppercase tracking-tighter">Lista de Espera</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- AI Assistant Status Floating Card -->
+<div class="fixed bottom-24 right-6 md:bottom-8 md:right-8 z-40">
+<div class="bg-primary dark:bg-primary-fixed text-on-primary dark:text-on-primary-fixed p-md rounded-2xl shadow-xl flex items-center gap-md active:scale-95 transition-transform cursor-pointer">
+<div class="relative">
+<span class="material-symbols-outlined text-[28px]">smart_toy</span>
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-ping"></span>
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-primary dark:border-primary-fixed"></span>
+</div>
+<div class="hidden md:block">
+<p class="font-label-sm text-label-sm font-bold opacity-80">Severina IA Ativa</p>
+<p class="font-body-sm text-body-sm">Gerenciando 4 chats ativos</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Execution-->
+<nav class="md:hidden fixed bottom-0 w-full z-50 pb-safe bg-surface dark:bg-inverse-surface border-t border-outline-variant dark:border-outline flex justify-around items-center h-16 px-4">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-semibold active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-lowest transition-colors active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Clientes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-lowest transition-colors active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-label-sm">Agenda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-lowest transition-colors active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Financeiro</span>
+</a>
+</nav>
+<script class="">
+    // Theme Toggling Logic
+    const htmlElement = document.documentElement;
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+
+    function updateThemeIcons() {
+        const isDark = htmlElement.classList.contains('dark');
+        const icon = isDark ? 'dark_mode' : 'light_mode';
+        if (themeToggleMobile) themeToggleMobile.textContent = icon;
+        if (themeToggleDesktop) themeToggleDesktop.textContent = icon;
+    }
+
+    function toggleTheme() {
+        if (htmlElement.classList.contains('dark')) {
+            htmlElement.classList.remove('dark');
+            htmlElement.classList.add('light');
+            localStorage.setItem('theme', 'light');
+        } else {
+            htmlElement.classList.remove('light');
+            htmlElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+        updateThemeIcons();
+    }
+
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+    if (themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
+
+    // Initial icon update
+    updateThemeIcons();
+</script></body></html>
