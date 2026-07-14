@@ -1,0 +1,100 @@
+schema: spec-driven
+
+context: |
+  Produto: Severina AI — secretária virtual baseada em IA para pequenas empresas de serviços.
+  Idioma: Português brasileiro (docs, specs e UI em PT-BR).
+
+  Stack Tecnológica:
+  - Frontend: React, Next.js (App Router), TypeScript, Tailwind CSS, Shadcn/ui, Zustand, React Query
+  - Backend: C#, .NET 8, ASP.NET Core, Entity Framework Core
+  - Banco: PostgreSQL 15+, Redis, pgvector (embeddings)
+  - Mensageria: RabbitMQ (AMQP)
+  - IA/RAG: Embedding Service, pgvector, LLM multi-provider com fallback
+  - Infra: Docker, Kubernetes, Terraform, cloud pública (Azure/AWS)
+  - Auth: Identity Service customizado JWT/OIDC
+  - Observabilidade: OpenTelemetry, Prometheus, Grafana
+
+  Arquitetura:
+  - Microservices orientados a eventos com Clean Architecture
+  - DDD (Bounded Contexts: Companies, CRM, Conversations, AI, Notifications, Billing, Analytics, Integrations)
+  - CQRS simplificado (Commands/Queries via MediatR) no MVP
+  - Multi-tenant lógico com company_id em cada registro
+  - API versionada: /v1/{recurso}
+
+  Frontend:
+  - App Router com Server Components e Client Components
+  - Zustand para estado global (incluindo store de tema useThemeStore)
+  - React Query para estado de servidor
+  - Modo claro/escuro/sistema via CSS custom properties + data-theme attribute
+  - Design system com tokens (colors, typography, spacing, rounded, components)
+  - Fonte: Inter (principal) + JetBrains Mono (valores financeiros/IDs)
+  - Accent único: azul #2563eb em ambos os temas
+  - Responsividade: mobile ≤640px, tablet 641-1024px, desktop 1025-1440px
+  - Acessibilidade WCAG 2.1 AA obrigatória
+
+  Backend:
+  - Clean Architecture (Domain → Application → Infrastructure → API)
+  - Domain: entidades com comportamento (não anemic models), Value Objects imutáveis, Domain Events
+  - Application: Command/Query Handlers, DTOs, FluentValidation
+  - Infrastructure: EF Core, repositorios, mensageria, clientes HTTP
+  - API: Controllers, middlewares (auth, logging, rate limiting)
+  - Padrões: Repository, Unit of Work, CQRS, Mediator, Strategy, Observer, Circuit Breaker
+
+  Convenções de Código:
+  - Nomes em PascalCase (classes, métodos) e camelCase (variáveis)
+  - Métodos curtos (máx 20-30 linhas)
+  - Máx 3-4 parâmetros por método
+  - Sem console.log — logs estruturados via OpenTelemetry
+  - Sem lógica de negócio no frontend
+  - Sem entidades expostas diretamente como API response (usar DTOs)
+
+  Segurança:
+  - JWT com refresh token e MFA opcional
+  - RBAC com papéis: Administrador da Empresa, Usuário Operacional
+  - TLS 1.2+ obrigatório
+  - Headers: Content-Security-Policy, X-Content-Type-Options, X-Frame-Options
+  - Validação e sanitização anti-injection no backend
+  - Verificação de company_id em todas as requisições (anti-IDOR)
+  - LGPD: consentimento granular, criptografia de dados sensíveis, trilhas de auditoria
+
+  Dependências Externas:
+  - WhatsApp Business API para atendimento e mensagens
+  - RabbitMQ para orquestração de eventos
+  - Provedores LLM multi-provider com fallback
+
+rules:
+  proposal:
+    - Identificar o Bounded Context impactado (Companies, CRM, Conversations, AI, Notifications, Billing, Analytics, Integrations)
+    - Avaliar impacto em multi-tenant (company_id isolation)
+    - Avaliar impacto de segurança (LGPD, RBAC, IDOR)
+    - Avaliar impacto em observabilidade (logs, métricas, tracing)
+    - Incluir plano de rollback
+    - Identificar riscos técnicos e de negócio
+
+  specs:
+    - Usar formato Given/When/Then para cenários
+    - Todo requisito funcional deve ter Happy Path, Sad Path e Edge Cases
+    - Referenciar padrões existentes antes de inventar novos
+    - Incluir critérios de aceitação mensuráveis
+    - Especificar comportamento em ambos os temas (claro/escuro) quando aplicável
+    - Documentar requisitos de acessibilidade (WCAG 2.1 AA) para UI
+    - Documentar impacto de tenancy (company_id) para endpoints
+
+  design:
+    - Documentar decisões de arquitetura com justificativa
+    - Especificar camadas afetadas (Domain, Application, Infrastructure, API)
+    - Documentar padrões de design utilizados e onde se aplicam
+    - Incluir diagramas de fluxo quando aplicável
+    - Especificar impacto em cache (Redis) e mensageria (RabbitMQ)
+    - Documentar impacto em performance (< 200ms para 95% das requisições de leitura)
+
+  tasks:
+    - Incluir verificação de lint (ESLint frontend, dotnet format backend) como task
+    - Incluir execução de testes (xUnit backend, Jest frontend) como task
+    - Incluir verificação de cobertura mínima (80% backend, 70% frontend)
+    - Incluir testes E2E (Playwright) para fluxos críticos
+    - Incluir verificação de acessibilidade para componentes UI
+    - Incluir atualização de documentação quando aplicável
+    - Incluir verificação de segurança (headers, validação, anti-IDOR)
+    - Incluir migrações de banco de dados quando aplicável
+    - Seguir ordem: Domain → Application → Infrastructure → API → Frontend
