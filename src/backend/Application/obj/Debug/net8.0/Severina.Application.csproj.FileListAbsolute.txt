@@ -1,0 +1,16 @@
+C:\Projetos\Severina\src\backend\Application\bin\Debug\net8.0\Severina.Application.deps.json
+C:\Projetos\Severina\src\backend\Application\bin\Debug\net8.0\Severina.Application.dll
+C:\Projetos\Severina\src\backend\Application\bin\Debug\net8.0\Severina.Application.pdb
+C:\Projetos\Severina\src\backend\Application\bin\Debug\net8.0\Severina.Domain.dll
+C:\Projetos\Severina\src\backend\Application\bin\Debug\net8.0\Severina.Domain.pdb
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.csproj.AssemblyReference.cache
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.AssemblyInfoInputs.cache
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.AssemblyInfo.cs
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.csproj.CoreCompileInputs.cache
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.sourcelink.json
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.csproj.CopyComplete
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.dll
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\refint\Severina.Application.dll
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\Severina.Application.pdb
+C:\Projetos\Severina\src\backend\Application\obj\Debug\net8.0\ref\Severina.Application.dll

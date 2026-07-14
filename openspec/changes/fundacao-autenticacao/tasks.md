@@ -1,29 +1,29 @@
 ## 1. Setup do Projeto Backend
 
-- [ ] 1.1 Criar solução ASP.NET Core 8 com estrutura Clean Architecture (Domain, Application, Infrastructure, API)
-- [ ] 1.2 Configurar Entity Framework Core com PostgreSQL
-- [ ] 1.3 Criar entidade Company no Domain (id, nome, cnpj_cpf, plano, status)
-- [ ] 1.4 Criar entidade User no Domain (id, company_id, nome, email, senha_hash, papel, status)
-- [ ] 1.5 Criar migrations iniciais (Company, User)
-- [ ] 1.6 Configurar JWT Bearer no API
+- [x] 1.1 Criar solução ASP.NET Core 8 com estrutura Clean Architecture (Domain, Application, Infrastructure, API)
+- [x] 1.2 Configurar Entity Framework Core com PostgreSQL
+- [x] 1.3 Criar entidade Company no Domain (id, nome, cnpj_cpf, plano, status)
+- [x] 1.4 Criar entidade User no Domain (id, company_id, nome, email, senha_hash, papel, status)
+- [x] 1.5 Criar migrations iniciais (Company, User)
+- [x] 1.6 Configurar JWT Bearer no API
 
 ## 2. Setup do Projeto Frontend
 
-- [ ] 2.1 Criar projeto Next.js com TypeScript, Tailwind CSS, ESLint
-- [ ] 2.2 Configurar App Router com estrutura de pastas (app, components, hooks, stores, services)
-- [ ] 2.3 Instalar dependências (zustand, react-query, @heroicons/react)
-- [ ] 2.4 Configurar design system com tokens do Stitch (colors, typography, spacing)
-- [ ] 2.5 Criar CSS custom properties para light/dark themes
+- [x] 2.1 Criar projeto Next.js com TypeScript, Tailwind CSS, ESLint
+- [x] 2.2 Configurar App Router com estrutura de pastas (app, components, hooks, stores, services)
+- [x] 2.3 Instalar dependências (zustand, react-query, @heroicons/react)
+- [x] 2.4 Configurar design system com tokens do Stitch (colors, typography, spacing)
+- [x] 2.5 Criar CSS custom properties para light/dark themes
 
 ## 3. Backend - Autenticação
 
-- [ ] 3.1 Criar endpoint POST /api/v1/auth/login
-- [ ] 3.2 Implementar validação de credenciais (email + senha_hash via BCrypt)
-- [ ] 3.3 Gerar JWT access token (15min) com claims (sub, email, company_id, papel)
-- [ ] 3.4 Gerar refresh token (7 dias) e salvar em HTTP-only cookie
-- [ ] 3.5 Criar endpoint POST /api/v1/auth/refresh
-- [ ] 3.6 Criar endpoint POST /api/v1/auth/logout (invalida refresh token)
-- [ ] 3.7 Implementar middleware de autenticação JWT
+- [x] 3.1 Criar endpoint POST /api/v1/auth/login
+- [x] 3.2 Implementar validação de credenciais (email + senha_hash via BCrypt)
+- [x] 3.3 Gerar JWT access token (15min) com claims (sub, email, company_id, papel)
+- [x] 3.4 Gerar refresh token (7 dias) e salvar em HTTP-only cookie
+- [x] 3.5 Criar endpoint POST /api/v1/auth/refresh
+- [x] 3.6 Criar endpoint POST /api/v1/auth/logout (invalida refresh token)
+- [x] 3.7 Implementar middleware de autenticação JWT
 
 ## 4. Backend - Multi-Tenant
 
@@ -34,30 +34,30 @@
 
 ## 5. Frontend - Tema
 
-- [ ] 5.1 Criar useThemeStore (Zustand) com persistência localStorage
-- [ ] 5.2 Implementar toggle de tema (light/dark/system) com micro-interações
-- [ ] 5.3 Configurar CSS custom properties para light/dark themes
-- [ ] 5.4 Implementar tema padrão "system" via prefers-color-scheme
+- [x] 5.1 Criar useThemeStore (Zustand) com persistência localStorage
+- [x] 5.2 Implementar toggle de tema (light/dark/system) com micro-interações
+- [x] 5.3 Configurar CSS custom properties para light/dark themes
+- [x] 5.4 Implementar tema padrão "system" via prefers-color-scheme
 - [ ] 5.5 Sincronizar preferência de tema com API (PUT /api/v1/users/preferences)
 
 ## 6. Frontend - Login
 
-- [ ] 6.1 Criar página /login conforme protótipo Stitch (login.html)
-- [ ] 6.2 Implementar formulário de email/senha com validação
-- [ ] 6.3 Implementar toggle de visibilidade da senha
-- [ ] 6.4 Implementar botão "Entrar" com loading spinner
-- [ ] 6.5 Implementar link "Cadastre-se" (futuro)
-- [ ] 6.6 Implementar chamada POST /api/v1/auth/login
-- [ ] 6.7 Armazenar JWT em memory/zustand após login
-- [ ] 6.8 Redirecionar para /dashboard após sucesso
+- [x] 6.1 Criar página /login conforme protótipo Stitch (login.html)
+- [x] 6.2 Implementar formulário de email/senha com validação
+- [x] 6.3 Implementar toggle de visibilidade da senha
+- [x] 6.4 Implementar botão "Entrar" com loading spinner
+- [x] 6.5 Implementar link "Cadastre-se" (futuro)
+- [x] 6.6 Implementar chamada POST /api/v1/auth/login
+- [x] 6.7 Armazenar JWT em memory/zustand após login
+- [x] 6.8 Redirecionar para /dashboard após sucesso
 
 ## 7. Frontend - Autenticação
 
-- [ ] 7.1 Criar hook useAuth para gerenciar estado de autenticação
-- [ ] 7.2 Implementar interceptador HTTP para injetar JWT nas requisições
-- [ ] 7.3 Implementar refresh automático de token quando expira
-- [ ] 7.4 Criar rota protegida (redirect para /login se não autenticado)
-- [ ] 7.5 Implementar logout e limpeza de estado
+- [x] 7.1 Criar hook useAuth para gerenciar estado de autenticação
+- [x] 7.2 Implementar interceptador HTTP para injetar JWT nas requisições
+- [x] 7.3 Implementar refresh automático de token quando expira
+- [x] 7.4 Criar rota protegida (redirect para /login se não autenticado)
+- [x] 7.5 Implementar logout e limpeza de estado
 
 ## 8. Testes
 

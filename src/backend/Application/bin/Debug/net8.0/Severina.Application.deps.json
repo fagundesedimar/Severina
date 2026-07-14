@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Severina.Application/1.0.0": {
+        "dependencies": {
+          "Severina.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Severina.Application.dll": {}
+        }
+      },
+      "Severina.Domain/1.0.0": {
+        "runtime": {
+          "Severina.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Severina.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Severina.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
