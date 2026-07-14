@@ -38,6 +38,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasForeignKey(u => u.CompanyId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasQueryFilter(u => u.DeletedAt == null);
     }
 }

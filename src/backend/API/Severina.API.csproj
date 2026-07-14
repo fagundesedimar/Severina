@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Severina.Tests.Integration" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Application\Severina.Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Severina.Infrastructure.csproj" />
   </ItemGroup>

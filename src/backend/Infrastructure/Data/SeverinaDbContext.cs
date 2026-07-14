@@ -1,20 +1,40 @@
 using Microsoft.EntityFrameworkCore;
+using Severina.Application.Interfaces;
 using Severina.Domain.Entities;
 
 namespace Severina.Infrastructure.Data;
 
 public class SeverinaDbContext : DbContext
 {
-    public SeverinaDbContext(DbContextOptions<SeverinaDbContext> options) : base(options) { }
+    private readonly ITenantProvider _tenantProvider;
+    private Guid? _tenantCompanyId;
+
+    public SeverinaDbContext(DbContextOptions<SeverinaDbContext> options, ITenantProvider tenantProvider)
+        : base(options)
+    {
+        _tenantProvider = tenantProvider;
+    }
 
     public DbSet<Company> Companies => Set<Company>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<UserPreference> UserPreferences => Set<UserPreference>();
+
+    public void SetTenantCompanyId(Guid? companyId)
+    {
+        _tenantCompanyId = companyId;
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SeverinaDbContext).Assembly);
+
+        modelBuilder.Entity<User>()
+            .HasQueryFilter(u => u.DeletedAt == null && u.CompanyId == _tenantCompanyId);
+
+        modelBuilder.Entity<Company>()
+            .HasQueryFilter(c => c.DeletedAt == null);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

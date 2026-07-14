@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Severina.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c480d3d9a0c56bd5e1e3550664acf05243ee2da7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f6ffe55ddcb11ffdd27af67d785b61b25159975")]
 [assembly: System.Reflection.AssemblyProductAttribute("Severina.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Severina.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

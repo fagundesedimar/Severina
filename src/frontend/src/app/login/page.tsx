@@ -35,8 +35,9 @@ export default function LoginPage() {
       }, accessToken);
 
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Erro ao fazer login');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      setError(axiosErr.response?.data?.message || 'Erro ao fazer login');
     } finally {
       setLoading(false);
     }

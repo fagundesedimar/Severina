@@ -27,10 +27,10 @@
 
 ## 4. Backend - Multi-Tenant
 
-- [ ] 4.1 Configurar Global Query Filter para company_id no EF Core
-- [ ] 4.2 Criar middleware para extrair company_id do JWT
-- [ ] 4.3 Implementar verificação de company_id em todos os endpoints
-- [ ] 4.4 Criar testes de integração para isolamento de tenants
+- [x] 4.1 Configurar Global Query Filter para company_id no EF Core
+- [x] 4.2 Criar middleware para extrair company_id do JWT
+- [x] 4.3 Implementar verificação de company_id em todos os endpoints
+- [x] 4.4 Criar testes de integração para isolamento de tenants
 
 ## 5. Frontend - Tema
 
@@ -38,7 +38,7 @@
 - [x] 5.2 Implementar toggle de tema (light/dark/system) com micro-interações
 - [x] 5.3 Configurar CSS custom properties para light/dark themes
 - [x] 5.4 Implementar tema padrão "system" via prefers-color-scheme
-- [ ] 5.5 Sincronizar preferência de tema com API (PUT /api/v1/users/preferences)
+- [x] 5.5 Sincronizar preferência de tema com API (PUT /api/v1/users/preferences)
 
 ## 6. Frontend - Login
 
@@ -61,18 +61,18 @@
 
 ## 8. Testes
 
-- [ ] 8.1 Testes unitários de validação de email/senha (backend)
-- [ ] 8.2 Testes unitários de geração/validação de JWT (backend)
-- [ ] 8.3 Testes de integração de login/refresh/logout (backend)
-- [ ] 8.4 Testes de integração de multi-tenant (backend)
-- [ ] 8.5 Testes unitários de useThemeStore (frontend)
-- [ ] 8.6 Testes unitários de useAuth (frontend)
-- [ ] 8.7 Testes E2E de fluxo login → dashboard (Playwright)
+- [x] 8.1 Testes unitários de validação de email/senha (backend)
+- [x] 8.2 Testes unitários de geração/validação de JWT (backend)
+- [x] 8.3 Testes de integração de login/refresh/logout (backend)
+- [x] 8.4 Testes de integração de multi-tenant (backend)
+- [x] 8.5 Testes unitários de useThemeStore (frontend)
+- [x] 8.6 Testes unitários de useAuth (frontend)
+- [x] 8.7 Testes E2E de fluxo login → dashboard (Playwright)
 
 ## 9. Lint e Qualidade
 
-- [ ] 9.1 Rodar ESLint no frontend (npm run lint)
-- [ ] 9.2 Rodar dotnet format no backend
-- [ ] 9.3 Verificar cobertura mínima 80% backend, 70% frontend
-- [ ] 9.4 Verificar acessibilidade (WCAG 2.1 AA) no componente de login
-- [ ] 9.5 Verificar responsividade (mobile/tablet/desktop)
+- [x] 9.1 Rodar ESLint no frontend (npm run lint)
+- [x] 9.2 Rodar dotnet format no backend
+- [x] 9.3 Verificar cobertura mínima 80% backend, 70% frontend
+- [x] 9.4 Verificar acessibilidade (WCAG 2.1 AA) no componente de login
+- [x] 9.5 Verificar responsividade (mobile/tablet/desktop)

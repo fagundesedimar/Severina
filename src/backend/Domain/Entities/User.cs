@@ -13,6 +13,9 @@ public class User : BaseEntity
 
     public Company? Company { get; private set; }
 
+    private readonly List<UserPreference> _preferences = new();
+    public IReadOnlyCollection<UserPreference> Preferences => _preferences.AsReadOnly();
+
     private User() { }
 
     public User(Guid companyId, string nome, string email, string senhaHash, PapelUsuario papel)
