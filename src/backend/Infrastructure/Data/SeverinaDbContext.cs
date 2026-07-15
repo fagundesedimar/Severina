@@ -19,6 +19,9 @@ public class SeverinaDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<UserPreference> UserPreferences => Set<UserPreference>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
+    public DbSet<Client> Clients => Set<Client>();
+    public DbSet<Interaction> Interactions => Set<Interaction>();
+    public DbSet<ImportJob> ImportJobs => Set<ImportJob>();
 
     public void SetTenantCompanyId(Guid? companyId)
     {
@@ -39,6 +42,12 @@ public class SeverinaDbContext : DbContext
 
         modelBuilder.Entity<Appointment>()
             .HasQueryFilter(a => a.DeletedAt == null && a.CompanyId == _tenantCompanyId);
+
+        modelBuilder.Entity<Client>()
+            .HasQueryFilter(c => c.DeletedAt == null && c.CompanyId == _tenantCompanyId);
+
+        modelBuilder.Entity<Interaction>()
+            .HasQueryFilter(i => i.DeletedAt == null && i.CompanyId == _tenantCompanyId);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

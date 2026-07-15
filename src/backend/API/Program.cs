@@ -62,6 +62,7 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAppointmentCacheService, AppointmentCacheService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IDashboardCacheService, DashboardCacheService>();
+builder.Services.AddScoped<IImportService, CsvImportService>();
 builder.Services.AddSingleton<INotificationService, WebSocketNotificationService>();
 
 builder.Services.AddMediatR(cfg =>
@@ -126,6 +127,13 @@ builder.Services.AddRateLimiter(options =>
     options.AddFixedWindowLimiter("dashboard", limiterOptions =>
     {
         limiterOptions.PermitLimit = 60;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("import", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 5;
         limiterOptions.Window = TimeSpan.FromMinutes(1);
         limiterOptions.QueueLimit = 0;
     });

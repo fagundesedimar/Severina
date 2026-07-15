@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Qr+M9zwwYFjO1OwylmXNXED4ZExzFW5stL1xBPIorhdzta3lEqg0ye/Zgqmv9WSOFDlPp++cfteTwQCzrBoTig==",
+  "dgSpecHash": "yKxE+Ui/HfZ7uUHe9SjV7hcPz9BzZTzu0Do6oPHjk1Q06QWsXTyNm3fDmGdO+X+K0bHE0TFK3xJSOHgWFq3HaQ==",
   "success": true,
   "projectFilePath": "C:\\Projetos\\Severina\\src\\backend\\API\\Severina.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Edimar\\.nuget\\packages\\csvhelper\\33.0.1\\csvhelper.33.0.1.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.0\\fluentvalidation.dependencyinjectionextensions.11.9.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
