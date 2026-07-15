@@ -57,6 +57,9 @@ builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IInviteCacheService, InMemoryInviteCacheService>();
 builder.Services.AddScoped<IEmailService, MockEmailService>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentCacheService, AppointmentCacheService>();
+builder.Services.AddSingleton<INotificationService, WebSocketNotificationService>();
 
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Severina.Application.DTOs.CompanyResponse).Assembly));
@@ -109,6 +112,13 @@ builder.Services.AddRateLimiter(options =>
         limiterOptions.Window = TimeSpan.FromMinutes(1);
         limiterOptions.QueueLimit = 0;
     });
+
+    options.AddFixedWindowLimiter("appointment", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 30;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueLimit = 0;
+    });
 });
 
 var app = builder.Build();
@@ -125,6 +135,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();
 app.UseMiddleware<TenantMiddleware>();
+app.UseWebSockets();
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())

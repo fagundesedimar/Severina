@@ -8,6 +8,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly SeverinaDbContext _context;
     private ICompanyRepository? _companies;
     private IUserRepository? _users;
+    private IAppointmentRepository? _appointments;
 
     public UnitOfWork(SeverinaDbContext context)
     {
@@ -19,6 +20,9 @@ public class UnitOfWork : IUnitOfWork
 
     public IUserRepository Users =>
         _users ??= new UserRepository(_context);
+
+    public IAppointmentRepository Appointments =>
+        _appointments ??= new AppointmentRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

@@ -1,0 +1,138 @@
+Summary
+  Generated on: 7/14/2026 - 10:29:31 PM
+  Coverage date: 7/14/2026 - 10:29:23 PM
+  Parser: Cobertura
+  Assemblies: 3
+  Classes: 112
+  Files: 60
+  Line coverage: 17.5%
+  Covered lines: 407
+  Uncovered lines: 1907
+  Coverable lines: 2314
+  Total lines: 3646
+  Branch coverage: 32.6% (107 of 328)
+  Covered branches: 107
+  Total branches: 328
+  Method coverage: 23.3% (109 of 467)
+  Full method coverage: 20.7% (97 of 467)
+  Covered methods: 109
+  Fully covered methods: 97
+  Total methods: 467
+
+Severina.Application                                                                         0%
+  Severina.Application.Behaviors.ValidationBehavior<T1, T2>                                  0%
+  Severina.Application.Commands.Appointments.CancelAppointmentCommand                        0%
+  Severina.Application.Commands.Appointments.CancelAppointmentCommandHandler                 0%
+  Severina.Application.Commands.Appointments.CancelSeriesCommand                             0%
+  Severina.Application.Commands.Appointments.CancelSeriesCommandHandler                      0%
+  Severina.Application.Commands.Appointments.CancelSingleInstanceCommand                     0%
+  Severina.Application.Commands.Appointments.CancelSingleInstanceCommandHandler              0%
+  Severina.Application.Commands.Appointments.CompleteAppointmentCommand                      0%
+  Severina.Application.Commands.Appointments.CompleteAppointmentCommandHandler               0%
+  Severina.Application.Commands.Appointments.CreateAppointmentCommand                        0%
+  Severina.Application.Commands.Appointments.CreateAppointmentCommandHandler                 0%
+  Severina.Application.Commands.Appointments.CreateAppointmentCommandValidator               0%
+  Severina.Application.Commands.Appointments.CreateRecurringAppointmentCommand               0%
+  Severina.Application.Commands.Appointments.CreateRecurringAppointmentCommandHandler        0%
+  Severina.Application.Commands.Appointments.CreateRecurringAppointmentCommandValidator      0%
+  Severina.Application.Commands.Appointments.DeleteAppointmentCommand                        0%
+  Severina.Application.Commands.Appointments.DeleteAppointmentCommandHandler                 0%
+  Severina.Application.Commands.Appointments.EditSeriesCommand                               0%
+  Severina.Application.Commands.Appointments.EditSeriesCommandHandler                        0%
+  Severina.Application.Commands.Appointments.EditSeriesCommandValidator                      0%
+  Severina.Application.Commands.Appointments.EditSingleInstanceCommand                       0%
+  Severina.Application.Commands.Appointments.EditSingleInstanceCommandHandler                0%
+  Severina.Application.Commands.Appointments.EditSingleInstanceCommandValidator              0%
+  Severina.Application.Commands.Appointments.UpdateAppointmentCommand                        0%
+  Severina.Application.Commands.Appointments.UpdateAppointmentCommandHandler                 0%
+  Severina.Application.Commands.Appointments.UpdateAppointmentCommandValidator               0%
+  Severina.Application.Commands.Companies.CreateCompanyCommand                               0%
+  Severina.Application.Commands.Companies.CreateCompanyCommandHandler                        0%
+  Severina.Application.Commands.Companies.CreateCompanyCommandValidator                      0%
+  Severina.Application.Commands.Companies.DeactivateCompanyCommand                           0%
+  Severina.Application.Commands.Companies.DeactivateCompanyCommandHandler                    0%
+  Severina.Application.Commands.Companies.UpdateCompanyCommand                               0%
+  Severina.Application.Commands.Companies.UpdateCompanyCommandHandler                        0%
+  Severina.Application.Commands.Companies.UpdateCompanyCommandValidator                      0%
+  Severina.Application.Commands.Users.AcceptInviteCommand                                    0%
+  Severina.Application.Commands.Users.AcceptInviteCommandHandler                             0%
+  Severina.Application.Commands.Users.AcceptInviteCommandValidator                           0%
+  Severina.Application.Commands.Users.DeactivateUserCommand                                  0%
+  Severina.Application.Commands.Users.DeactivateUserCommandHandler                           0%
+  Severina.Application.Commands.Users.InviteData                                             0%
+  Severina.Application.Commands.Users.InviteUserCommand                                      0%
+  Severina.Application.Commands.Users.InviteUserCommandHandler                               0%
+  Severina.Application.Commands.Users.InviteUserCommandValidator                             0%
+  Severina.Application.Commands.Users.UpdateUserProfileCommand                               0%
+  Severina.Application.Commands.Users.UpdateUserProfileCommandHandler                        0%
+  Severina.Application.Commands.Users.UpdateUserRoleCommand                                  0%
+  Severina.Application.Commands.Users.UpdateUserRoleCommandHandler                           0%
+  Severina.Application.DTOs.AppointmentResponse                                              0%
+  Severina.Application.DTOs.CompanyResponse                                                  0%
+  Severina.Application.DTOs.CreateAppointmentRequest                                         0%
+  Severina.Application.DTOs.CreateCompanyRequest                                             0%
+  Severina.Application.DTOs.InviteUserRequest                                                0%
+  Severina.Application.DTOs.LoginRequest                                                     0%
+  Severina.Application.DTOs.LoginResponse                                                    0%
+  Severina.Application.DTOs.PagedAppointmentResponse                                         0%
+  Severina.Application.DTOs.RefreshTokenResponse                                             0%
+  Severina.Application.DTOs.UpdateAppointmentRequest                                         0%
+  Severina.Application.DTOs.UpdateCompanyRequest                                             0%
+  Severina.Application.DTOs.UpdateUserProfileRequest                                         0%
+  Severina.Application.DTOs.UpdateUserRoleRequest                                            0%
+  Severina.Application.DTOs.UserResponse                                                     0%
+  Severina.Application.NotificationHandlers.AppointmentCancelledNotificationHandler          0%
+  Severina.Application.NotificationHandlers.AppointmentReminderHandler                       0%
+  Severina.Application.NotificationHandlers.AppointmentStatusChangedHandler                  0%
+  Severina.Application.Queries.Appointments.GetAppointmentByIdQuery                          0%
+  Severina.Application.Queries.Appointments.GetAppointmentByIdQueryHandler                   0%
+  Severina.Application.Queries.Appointments.GetRecurrenceInstancesQuery                      0%
+  Severina.Application.Queries.Appointments.GetRecurrenceInstancesQueryHandler               0%
+  Severina.Application.Queries.Appointments.ListAppointmentsQuery                            0%
+  Severina.Application.Queries.Appointments.ListAppointmentsQueryHandler                     0%
+  Severina.Application.Queries.Companies.GetCompanyQuery                                     0%
+  Severina.Application.Queries.Companies.GetCompanyQueryHandler                              0%
+  Severina.Application.Queries.Users.ListCompanyUsersQuery                                   0%
+  Severina.Application.Queries.Users.ListCompanyUsersQueryHandler                            0%
+
+Severina.Domain                                                                             73%
+  Severina.Domain.Entities.Appointment                                                    67.7%
+  Severina.Domain.Entities.BaseEntity                                                      100%
+  Severina.Domain.Entities.Company                                                        96.2%
+  Severina.Domain.Entities.User                                                           91.8%
+  Severina.Domain.Entities.UserPreference                                                    0%
+  Severina.Domain.Events.AppointmentCancelledEvent                                         100%
+  Severina.Domain.Events.AppointmentCreatedEvent                                           100%
+  Severina.Domain.Events.AppointmentStatusChangedEvent                                     100%
+  Severina.Domain.Events.CompanyCreatedEvent                                                 0%
+  Severina.Domain.Events.CompanyDeactivatedEvent                                             0%
+  Severina.Domain.Events.DomainEventBase                                                  66.6%
+  Severina.Domain.Events.UserActivatedEvent                                                  0%
+  Severina.Domain.Events.UserInvitedEvent                                                    0%
+  Severina.Domain.Events.UserRoleChangedEvent                                                0%
+  Severina.Domain.ValueObjects.CnpjCpf                                                    97.1%
+  Severina.Domain.ValueObjects.Email                                                        40%
+  Severina.Domain.ValueObjects.RecurrenceGenerator                                        72.4%
+  Severina.Domain.ValueObjects.RecurrenceRule                                             80.3%
+  Severina.Domain.ValueObjects.Telefone                                                   36.8%
+
+Severina.Infrastructure                                                                    5.2%
+  Severina.Infrastructure.Data.Configurations.AppointmentConfiguration                       0%
+  Severina.Infrastructure.Data.Configurations.CompanyConfiguration                           0%
+  Severina.Infrastructure.Data.Configurations.UserConfiguration                              0%
+  Severina.Infrastructure.Data.Configurations.UserPreferenceConfiguration                    0%
+  Severina.Infrastructure.Data.SeverinaDbContext                                             0%
+  Severina.Infrastructure.Migrations.InitialCompaniesAndUsers                                0%
+  Severina.Infrastructure.Migrations.SeverinaDbContextModelSnapshot                          0%
+  Severina.Infrastructure.Repositories.AppointmentRepository                                 0%
+  Severina.Infrastructure.Repositories.CompanyRepository                                     0%
+  Severina.Infrastructure.Repositories.Repository<T>                                         0%
+  Severina.Infrastructure.Repositories.UnitOfWork                                            0%
+  Severina.Infrastructure.Repositories.UserRepository                                        0%
+  Severina.Infrastructure.Services.AppointmentCacheService                                   0%
+  Severina.Infrastructure.Services.InMemoryInviteCacheService                                0%
+  Severina.Infrastructure.Services.MockEmailService                                          0%
+  Severina.Infrastructure.Services.PasswordService                                         100%
+  Severina.Infrastructure.Services.TenantProvider                                            0%
+  Severina.Infrastructure.Services.TokenService                                            100%
+  Severina.Infrastructure.Services.WebSocketNotificationService                              0%

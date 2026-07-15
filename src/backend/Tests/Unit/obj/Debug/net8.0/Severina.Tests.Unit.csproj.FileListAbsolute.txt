@@ -145,3 +145,13 @@ C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\FluentValidation.dl
 C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\MediatR.dll
 C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\MediatR.Contracts.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\StackExchange.Redis.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\CoverletSourceRootsMapping_Severina.Tests.Unit
