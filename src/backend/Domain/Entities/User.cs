@@ -1,4 +1,6 @@
 using Severina.Domain.Enums;
+using Severina.Domain.Events;
+using Severina.Domain.ValueObjects;
 
 namespace Severina.Domain.Entities;
 
@@ -6,7 +8,7 @@ public class User : BaseEntity
 {
     public Guid CompanyId { get; private set; }
     public string Nome { get; private set; } = string.Empty;
-    public string Email { get; private set; } = string.Empty;
+    public Email Email { get; private set; } = null!;
     public string SenhaHash { get; private set; } = string.Empty;
     public PapelUsuario Papel { get; private set; }
     public StatusUsuario Status { get; private set; }
@@ -18,7 +20,7 @@ public class User : BaseEntity
 
     private User() { }
 
-    public User(Guid companyId, string nome, string email, string senhaHash, PapelUsuario papel)
+    public User(Guid companyId, string nome, Email email, string senhaHash, PapelUsuario papel)
     {
         CompanyId = companyId;
         Nome = nome;

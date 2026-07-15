@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "po9/Xf0eD9GpJq62CMaU7AIl1PAtqSfJHlPPN4e4a6IuFZJcrJpTTgAn/CpjxsCHo5SUAD3SRrtxQsC/aHGa1Q==",
+  "dgSpecHash": "rDJsKPI05YbfNZkErgLviNmzvGM7Bn6wBEu9Rn7v4X3sNsn3tBSeJXrbyJSjqFxME9VXJ99xJy0mokHTyqqiOg==",
   "success": true,
   "projectFilePath": "C:\\Projetos\\Severina\\src\\backend\\Infrastructure\\Severina.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.0\\fluentvalidation.dependencyinjectionextensions.11.9.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",

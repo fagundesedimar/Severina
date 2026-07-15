@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "XVXo4RXCQYoQhen8IhwkpGljkwcLyJL4d9XcMn79DyqjYT3vt77qCvfXBTzuwwl9RwQhvXyYaZ9SC2e8id0wMw==",
+  "dgSpecHash": "DK7S3K5W8S1/T52DZ8suAV7zOggHJbztEgSZvyCyskZh9BzKDD8K3qQeFDaKYXihEovb7PyTOmH8IoFYbdcPcw==",
   "success": true,
   "projectFilePath": "C:\\Projetos\\Severina\\src\\backend\\Application\\Severina.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.0\\fluentvalidation.dependencyinjectionextensions.11.9.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

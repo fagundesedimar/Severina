@@ -458,3 +458,7 @@ C:\Projetos\Severina\src\backend\Tests\Integration\obj\Debug\net8.0\refint\Sever
 C:\Projetos\Severina\src\backend\Tests\Integration\obj\Debug\net8.0\Severina.Tests.Integration.pdb
 C:\Projetos\Severina\src\backend\Tests\Integration\obj\Debug\net8.0\Severina.Tests.Integration.genruntimeconfig.cache
 C:\Projetos\Severina\src\backend\Tests\Integration\obj\Debug\net8.0\ref\Severina.Tests.Integration.dll
+C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\FluentValidation.dll
+C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\MediatR.dll
+C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\MediatR.Contracts.dll

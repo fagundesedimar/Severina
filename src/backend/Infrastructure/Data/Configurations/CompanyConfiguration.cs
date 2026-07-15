@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Severina.Domain.Entities;
+using Severina.Domain.ValueObjects;
 
 namespace Severina.Infrastructure.Data.Configurations;
 
@@ -17,15 +18,24 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             .HasMaxLength(200);
 
         builder.Property(c => c.CnpjCpf)
+            .HasConversion(
+                v => v.Value,
+                v => CnpjCpf.Create(v))
             .IsRequired()
-            .HasMaxLength(18);
+            .HasMaxLength(14);
 
         builder.Property(c => c.Email)
+            .HasConversion(
+                v => v.Value,
+                v => Email.Create(v))
             .IsRequired()
             .HasMaxLength(200);
 
         builder.Property(c => c.Telefone)
-            .HasMaxLength(20);
+            .HasConversion(
+                v => v != null ? v.Value : null,
+                v => v != null ? Telefone.Create(v) : null)
+            .HasMaxLength(11);
 
         builder.Property(c => c.TipoPessoa)
             .HasConversion<int>();
@@ -35,6 +45,11 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 
         builder.Property(c => c.Plano)
             .HasMaxLength(50);
+
+        builder.Property(c => c.Configuracoes)
+            .IsRequired()
+            .HasColumnType("text")
+            .HasDefaultValue("{}");
 
         builder.HasIndex(c => c.CnpjCpf)
             .IsUnique();

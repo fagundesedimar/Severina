@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Severina.Domain.Entities;
+using Severina.Domain.ValueObjects;
 
 namespace Severina.Infrastructure.Data.Configurations;
 
@@ -17,6 +18,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(200);
 
         builder.Property(u => u.Email)
+            .HasConversion(
+                v => v.Value,
+                v => Email.Create(v))
             .IsRequired()
             .HasMaxLength(200);
 
@@ -30,13 +34,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Status)
             .HasConversion<int>();
 
+        builder.Ignore(u => u.Preferences);
+        builder.Ignore(u => u.Company);
+
         builder.HasIndex(u => new { u.CompanyId, u.Email })
             .IsUnique();
 
         builder.HasOne(u => u.Company)
-            .WithMany(c => c.Users)
+            .WithMany()
             .HasForeignKey(u => u.CompanyId)
             .OnDelete(DeleteBehavior.Cascade);
-
     }
 }

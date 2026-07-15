@@ -1,9 +1,14 @@
 using System.Text;
+using System.Threading.RateLimiting;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Severina.API.Middlewares;
+using Severina.Application.Behaviors;
 using Severina.Application.Interfaces;
 using Severina.Domain.Interfaces;
 using Severina.Infrastructure.Data;
@@ -50,6 +55,14 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IInviteCacheService, InMemoryInviteCacheService>();
+builder.Services.AddScoped<IEmailService, MockEmailService>();
+
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(Severina.Application.DTOs.CompanyResponse).Assembly));
+
+builder.Services.AddValidatorsFromAssembly(typeof(Severina.Application.DTOs.CompanyResponse).Assembly);
+builder.Services.AddTransient(typeof(MediatR.IPipelineBehavior<,>), typeof(Severina.Application.Behaviors.ValidationBehavior<,>));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -67,7 +80,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole("Administrador"));
+    options.AddPolicy("AllAuthenticated", policy =>
+        policy.RequireAuthenticatedUser());
+});
 
 builder.Services.AddCors(options =>
 {
@@ -77,6 +96,18 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
+    });
+});
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddFixedWindowLimiter("invite", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 5;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueLimit = 0;
     });
 });
 
@@ -92,6 +123,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 app.UseMiddleware<TenantMiddleware>();
 app.MapControllers();
 

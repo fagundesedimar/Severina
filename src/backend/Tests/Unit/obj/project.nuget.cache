@@ -1,9 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "INGY3cWumgdea3+tciScWCz8OT4Bsh3dGF163Tl+v4xKLBRLDVUlxYIpWSAKJRmU0ZDTVD6C9G5ObN0QBGO1RQ==",
+  "dgSpecHash": "PedkUhc7HxPnxcZ+zao3eD4rEO42fnwODo/gALSAzKjidH0OVgqX3X78cjLLMWxSzcDzNZRikSwYFGjolVxTVg==",
   "success": true,
   "projectFilePath": "C:\\Projetos\\Severina\\src\\backend\\Tests\\Unit\\Severina.Tests.Unit.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.0\\fluentvalidation.dependencyinjectionextensions.11.9.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.0\\microsoft.data.sqlite.core.8.0.0.nupkg.sha512",

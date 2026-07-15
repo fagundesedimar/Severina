@@ -1,9 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "If4BiWcoLoNTjGF4QhvZ2nR+RZ1/o79iQYddKRLH3KDJKnjYjm3CXulXiUoDNlyp7L1o4v9ZH2srnDwTK/b71w==",
+  "dgSpecHash": "XiDt921Eq46ZBOkSXMEsIbynzyTrUfFmGnOe1t0H+8Qca3IeJj2sT7UYFD+miyJMEKC8fNeZclajsToPoHSKMg==",
   "success": true,
   "projectFilePath": "C:\\Projetos\\Severina\\src\\backend\\Tests\\Integration\\Severina.Tests.Integration.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.0\\fluentvalidation.dependencyinjectionextensions.11.9.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\8.0.0\\microsoft.aspnetcore.mvc.testing.8.0.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\microsoft.aspnetcore.testhost\\8.0.0\\microsoft.aspnetcore.testhost.8.0.0.nupkg.sha512",
@@ -75,6 +79,7 @@
     "C:\\Users\\Edimar\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
+    "C:\\Users\\Edimar\\.nuget\\packages\\system.threading.ratelimiting\\8.0.0\\system.threading.ratelimiting.8.0.0.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\xunit\\2.6.6\\xunit.2.6.6.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\xunit.abstractions\\2.0.3\\xunit.abstractions.2.0.3.nupkg.sha512",
     "C:\\Users\\Edimar\\.nuget\\packages\\xunit.analyzers\\1.10.0\\xunit.analyzers.1.10.0.nupkg.sha512",
