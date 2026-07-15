@@ -19,6 +19,7 @@
 body {
   background-color: var(--color-surface);
   color: var(--color-on-surface);
+  font-family: var(--font-inter), 'Inter', sans-serif;
 }
 
 :root {
@@ -27,4 +28,8 @@ body {
 
 [data-theme="dark"] {
   --color-primary-rgb: 96, 165, 250;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains), 'JetBrains Mono', monospace;
 }

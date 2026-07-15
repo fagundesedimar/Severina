@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Severina.API.Middlewares;
 using Severina.Application.Behaviors;
 using Severina.Application.Interfaces;
+using Severina.Application.Services;
 using Severina.Domain.Interfaces;
 using Severina.Infrastructure.Data;
 using Severina.Infrastructure.Repositories;
@@ -59,6 +60,8 @@ builder.Services.AddScoped<IInviteCacheService, InMemoryInviteCacheService>();
 builder.Services.AddScoped<IEmailService, MockEmailService>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAppointmentCacheService, AppointmentCacheService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IDashboardCacheService, DashboardCacheService>();
 builder.Services.AddSingleton<INotificationService, WebSocketNotificationService>();
 
 builder.Services.AddMediatR(cfg =>
@@ -116,6 +119,13 @@ builder.Services.AddRateLimiter(options =>
     options.AddFixedWindowLimiter("appointment", limiterOptions =>
     {
         limiterOptions.PermitLimit = 30;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("dashboard", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 60;
         limiterOptions.Window = TimeSpan.FromMinutes(1);
         limiterOptions.QueueLimit = 0;
     });
