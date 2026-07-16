@@ -11,7 +11,7 @@ interface WebSocketMessage {
 export function useWebSocket(onMessage: (message: WebSocketMessage) => void) {
   const { token } = useAuthStore();
   const wsRef = useRef<WebSocket | null>(null);
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const reconnectAttempts = useRef(0);
   const onMessageRef = useRef(onMessage);
 

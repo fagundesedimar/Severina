@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { financialApi } from '@/services/financialApi';
 import { ExportModal } from '@/components/financial/ExportModal';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

@@ -6,7 +6,7 @@ import { KpiCards } from '@/components/financial/KpiCards';
 import { MonthlyChart } from '@/components/financial/MonthlyChart';
 import { CategoryChart } from '@/components/financial/CategoryChart';
 import { RecentTransactions } from '@/components/financial/RecentTransactions';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
