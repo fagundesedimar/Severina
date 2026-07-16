@@ -92,7 +92,7 @@ export function ClientList({ search, statusFilter }: ClientListProps) {
 
         <div className="divide-y divide-outline-variant dark:divide-outline">
           {clients.map((client) => (
-            <ClientCard key={client.id} client={client} />
+            <ClientCard key={client.id} client={client} search={search} />
           ))}
         </div>
       </div>

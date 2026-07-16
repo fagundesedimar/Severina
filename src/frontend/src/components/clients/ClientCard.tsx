@@ -4,12 +4,14 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { Client } from '@/types/client';
 import { clientApi } from '@/services/clientApi';
+import { highlightText } from '@/utils/highlight';
 
 interface ClientCardProps {
   client: Client;
+  search?: string;
 }
 
-export function ClientCard({ client }: ClientCardProps) {
+export function ClientCard({ client, search }: ClientCardProps) {
   const [showTimeline, setShowTimeline] = useState(false);
   const [interactions, setInteractions] = useState<{ content: string; type: string; createdAt: string }[]>([]);
   const [loadingTimeline, setLoadingTimeline] = useState(false);
@@ -59,10 +61,10 @@ export function ClientCard({ client }: ClientCardProps) {
             className="font-semibold text-on-surface hover:text-primary transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            {client.nome}
+            {highlightText(client.nome, search)}
           </Link>
           {client.empresa && (
-            <p className="text-xs text-on-surface/50">{client.empresa}</p>
+            <p className="text-xs text-on-surface/50">{highlightText(client.empresa, search)}</p>
           )}
         </div>
       </div>

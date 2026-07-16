@@ -29,6 +29,9 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             emailBuilder.Property(e => e.Value)
                 .HasColumnName("Email")
                 .HasMaxLength(256);
+
+            emailBuilder.HasIndex(e => e.Value)
+                .HasDatabaseName("IX_Clients_Email_Search");
         });
 
         builder.Ignore(c => c.Tags);
@@ -43,6 +46,12 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
 
         builder.HasIndex(c => new { c.CompanyId, c.Telefone })
             .HasDatabaseName("IX_Clients_CompanyId_Telefone");
+
+        builder.HasIndex(c => new { c.CompanyId, c.Nome })
+            .HasDatabaseName("IX_Clients_CompanyId_Nome_Search");
+
+        builder.HasIndex(c => new { c.CompanyId, c.Empresa })
+            .HasDatabaseName("IX_Clients_CompanyId_Empresa_Search");
 
         builder.HasQueryFilter(c => c.DeletedAt == null);
 

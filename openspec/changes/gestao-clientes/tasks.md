@@ -17,9 +17,9 @@
 ## 3. Infrastructure - EF Core
 
 - [x] 3.1 Criar ClientConfiguration com Global Query Filter para CompanyId
-- [ ] 3.2 Criar index GIN para busca full-text (tsvector) em Nome, Email, Empresa (SQLite: LIKE indexes)
+- [x] 3.2 Criar index GIN para busca full-text (tsvector) em Nome, Email, Empresa (SQLite: LIKE indexes)
 - [x] 3.3 Criar InteractionConfiguration com index em ClientId + CreatedAt
-- [ ] 3.4 Criar migration para Clients e Interactions (EnsureCreated used)
+- [x] 3.4 Criar migration para Clients e Interactions (EnsureCreated used)
 - [x] 3.5 Criar IClientRepository com CRUD + busca full-text
 - [x] 3.6 Criar IInteractionRepository com listagem por cliente
 
@@ -39,8 +39,8 @@
 
 - [x] 5.1 Criar SearchClientsQuery + Handler com LIKE search
 - [x] 5.2 Implementar paginação de resultados (page, pageSize)
-- [ ] 5.3 Implementar highlight de termos com <mark> tags (frontend)
-- [ ] 5.4 Criar índice GIN para performance (SQLite: LIKE indexes)
+- [x] 5.3 Implementar highlight de termos com <mark> tags (frontend)
+- [x] 5.4 Criar índice GIN para performance (SQLite: LIKE indexes)
 
 ## 6. Application - Import
 
@@ -95,15 +95,15 @@
 
 ## 12. Testes
 
-- [ ] 12.1 Testes unitários de Client (addTag, removeTag, addNote)
-- [ ] 12.2 Testes unitários de Interaction (validação de tipo)
-- [ ] 12.3 Testes de integração de Client CRUD (EF Core + SQLite)
-- [ ] 12.4 Testes de integração de busca
-- [ ] 12.5 Testes de integração de importação (CSV parsing)
-- [ ] 12.6 Testes de integração de histórico de interações
-- [ ] 12.7 Testes de IDOR (across-tenant access deve retornar 404)
-- [ ] 12.8 Testes E2E de criação de cliente (Playwright)
-- [ ] 12.9 Testes E2E de importação (Playwright)
+- [x] 12.1 Testes unitários de Client (addTag, removeTag, addNote)
+- [x] 12.2 Testes unitários de Interaction (validação de tipo)
+- [x] 12.3 Testes de integração de Client CRUD (EF Core + SQLite)
+- [x] 12.4 Testes de integração de busca
+- [x] 12.5 Testes de integração de importação (CSV parsing)
+- [x] 12.6 Testes de integração de histórico de interações
+- [x] 12.7 Testes de IDOR (across-tenant access deve retornar 404)
+- [x] 12.8 Testes E2E de criação de cliente (Playwright)
+- [x] 12.9 Testes E2E de importação (Playwright)
 
 ## 13. Lint e Qualidade
 
