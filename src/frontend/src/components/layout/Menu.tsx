@@ -25,6 +25,7 @@ const systemItems: MenuItem[] = [
 
 interface MenuProps {
   className?: string
+  collapsed?: boolean
   userName?: string
   userRole?: string
   userAvatar?: string
@@ -32,6 +33,7 @@ interface MenuProps {
 
 export function Menu({
   className,
+  collapsed = false,
   userName = "Maria Severina",
   userRole = "Administradora",
   userAvatar,
@@ -51,24 +53,29 @@ export function Menu({
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-lg text-sm font-medium transition-colors",
+                collapsed ? "justify-center px-2 py-2.5" : "px-3 py-2.5",
                 isActive
                   ? "bg-primary/10 text-primary font-semibold"
                   : "text-muted-foreground hover:bg-muted"
               )}
+              title={collapsed ? item.label : undefined}
             >
-              <span className="material-symbols-outlined text-xl">
+              <span className="material-symbols-outlined text-xl shrink-0">
                 {item.icon}
               </span>
-              <span>{item.label}</span>
+              {!collapsed && <span>{item.label}</span>}
             </Link>
           )
         })}
 
-        <div className="pt-6 opacity-50 px-3">
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-            Sistema
-          </span>
+        <div className={cn("pt-6", collapsed ? "px-0" : "px-3")}>
+          {!collapsed && (
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+              Sistema
+            </span>
+          )}
+          {collapsed && <div className="border-t border-border mx-2" />}
         </div>
 
         {systemItems.map((item) => {
@@ -79,37 +86,49 @@ export function Menu({
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-lg text-sm font-medium transition-colors",
+                collapsed ? "justify-center px-2 py-2.5" : "px-3 py-2.5",
                 isActive
                   ? "bg-primary/10 text-primary font-semibold"
                   : "text-muted-foreground hover:bg-muted"
               )}
+              title={collapsed ? item.label : undefined}
             >
-              <span className="material-symbols-outlined text-xl">
+              <span className="material-symbols-outlined text-xl shrink-0">
                 {item.icon}
               </span>
-              <span>{item.label}</span>
+              {!collapsed && <span>{item.label}</span>}
             </Link>
           )
         })}
       </div>
 
-      <div className="p-3 mt-auto">
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-muted border border-border">
-          <Avatar
-            src={userAvatar}
-            fallback={userName.charAt(0)}
-            className="h-10 w-10"
-          />
-          <div className="flex flex-col min-w-0">
-            <span className="text-sm font-semibold text-foreground truncate">
-              {userName}
-            </span>
-            <span className="text-xs text-muted-foreground truncate">
-              {userRole}
-            </span>
+      <div className={cn("p-3 mt-auto", collapsed && "p-2")}>
+        {collapsed ? (
+          <div className="flex justify-center">
+            <Avatar
+              src={userAvatar}
+              fallback={userName.charAt(0)}
+              className="h-10 w-10"
+            />
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-muted border border-border">
+            <Avatar
+              src={userAvatar}
+              fallback={userName.charAt(0)}
+              className="h-10 w-10"
+            />
+            <div className="flex flex-col min-w-0">
+              <span className="text-sm font-semibold text-foreground truncate">
+                {userName}
+              </span>
+              <span className="text-xs text-muted-foreground truncate">
+                {userRole}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   )

@@ -17,6 +17,12 @@ interface AppShellProps {
 
 export function AppShell({ children, title, actions }: AppShellProps) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("severina-sidebar-collapsed") === "true"
+    }
+    return false
+  })
   const { isAuthenticated, user } = useAuthStore()
   const router = useRouter()
 
@@ -26,7 +32,13 @@ export function AppShell({ children, title, actions }: AppShellProps) {
     }
   }, [isAuthenticated, router])
 
+  React.useEffect(() => {
+    localStorage.setItem("severina-sidebar-collapsed", String(sidebarCollapsed))
+  }, [sidebarCollapsed])
+
   if (!isAuthenticated) return null
+
+  const sidebarWidth = sidebarCollapsed ? "w-[68px]" : "w-64"
 
   return (
     <div className="min-h-screen bg-background">
@@ -39,25 +51,57 @@ export function AppShell({ children, title, actions }: AppShellProps) {
       )}
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-background border-r border-border flex-col z-50">
+      <aside
+        className={`hidden lg:flex fixed left-0 top-0 h-full ${sidebarWidth} bg-background border-r border-border flex-col z-50 transition-all duration-300`}
+      >
         <div className="p-4 border-b border-border flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+          {!sidebarCollapsed && (
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shrink-0">
+                <span className="material-symbols-outlined text-primary-foreground text-lg">
+                  smart_toy
+                </span>
+              </div>
+              <span className="text-base font-bold text-foreground whitespace-nowrap">
+                Severina AI
+              </span>
+            </div>
+          )}
+          {sidebarCollapsed && (
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary mx-auto">
               <span className="material-symbols-outlined text-primary-foreground text-lg">
                 smart_toy
               </span>
             </div>
-            <span className="text-base font-bold text-foreground">
-              Severina AI
+          )}
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className={`p-2 rounded-lg hover:bg-muted transition-colors ${sidebarCollapsed ? "hidden" : ""}`}
+            title={sidebarCollapsed ? "Expandir menu" : "Recolher menu"}
+          >
+            <span className="material-symbols-outlined text-xl">
+              {sidebarCollapsed ? "chevron_right" : "chevron_left"}
             </span>
-          </div>
-          <ThemeToggle />
+          </button>
         </div>
 
         <Menu
+          collapsed={sidebarCollapsed}
           userName={user?.nome || "Usuário"}
           userRole={user?.papel || ""}
         />
+
+        {sidebarCollapsed && (
+          <div className="p-3 border-t border-border">
+            <button
+              onClick={() => setSidebarCollapsed(false)}
+              className="w-full flex items-center justify-center p-2 rounded-lg hover:bg-muted transition-colors"
+              title="Expandir menu"
+            >
+              <span className="material-symbols-outlined text-xl">chevron_right</span>
+            </button>
+          </div>
+        )}
       </aside>
 
       {/* Mobile Sidebar (Drawer) */}
@@ -89,6 +133,7 @@ export function AppShell({ children, title, actions }: AppShellProps) {
         </div>
 
         <Menu
+          collapsed={false}
           userName={user?.nome || "Usuário"}
           userRole={user?.papel || ""}
         />
@@ -111,9 +156,18 @@ export function AppShell({ children, title, actions }: AppShellProps) {
       </div>
 
       {/* Main Content */}
-      <div className="lg:pl-64">
+      <div className={`transition-all duration-300 ${sidebarCollapsed ? "lg:pl-[68px]" : "lg:pl-64"}`}>
         {/* Desktop Header */}
         <header className="sticky top-0 z-30 hidden lg:flex h-16 items-center gap-4 border-b border-border bg-background/80 backdrop-blur-sm px-6">
+          <button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            className="p-2 rounded-lg hover:bg-muted transition-colors"
+            title={sidebarCollapsed ? "Expandir menu" : "Recolher menu"}
+          >
+            <span className="material-symbols-outlined text-xl">
+              {sidebarCollapsed ? "menu_open" : "menu"}
+            </span>
+          </button>
           <div className="flex-1">
             {title && (
               <h1 className="text-lg font-bold text-foreground">{title}</h1>

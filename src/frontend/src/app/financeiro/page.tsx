@@ -9,6 +9,7 @@ import { RecentTransactions } from '@/components/financial/RecentTransactions';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { AppShell } from '@/components/layout/AppShell';
 
 export default function FinanceiroPage() {
   const { user } = useAuthStore();
@@ -28,20 +29,21 @@ export default function FinanceiroPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-surface dark:bg-dark-surface px-6 py-8">
-      <h1 className="text-2xl font-bold text-on-surface mb-6">Financeiro</h1>
-      {isLoading && <p className="text-on-surface/50">Carregando...</p>}
-      {error && <p className="text-red-500">Erro ao carregar dados</p>}
-      {dashboard && (
-        <div className="space-y-6">
-          <KpiCards kpis={dashboard.kpis} />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <MonthlyChart data={dashboard.charts.monthlyData} />
-            <CategoryChart data={dashboard.charts.categoryData} />
+    <AppShell title="Financeiro">
+      <div className="max-w-[1440px] mx-auto">
+        {isLoading && <p className="text-muted-foreground">Carregando...</p>}
+        {error && <p className="text-destructive">Erro ao carregar dados</p>}
+        {dashboard && (
+          <div className="space-y-6">
+            <KpiCards kpis={dashboard.kpis} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <MonthlyChart data={dashboard.charts.monthlyData} />
+              <CategoryChart data={dashboard.charts.categoryData} />
+            </div>
+            <RecentTransactions transactions={dashboard.recentTransactions} />
           </div>
-          <RecentTransactions transactions={dashboard.recentTransactions} />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </AppShell>
   );
 }

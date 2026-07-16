@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
 import api from '@/services/api';
+import { AppShell } from '@/components/layout/AppShell';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface User {
   id: string;
@@ -97,53 +100,52 @@ export default function UsuariosPage() {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-surface">
-        <p className="text-on-surface">Acesso restrito a administradores.</p>
-      </div>
+      <AppShell title="Configurações">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <p className="text-foreground">Acesso restrito a administradores.</p>
+        </div>
+      </AppShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-surface p-6">
+    <AppShell
+      title="Gerenciar Usuários"
+      actions={
+        <Button size="sm" onClick={() => setShowInviteModal(true)}>
+          Convidar Usuário
+        </Button>
+      }
+    >
       <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-on-surface">Gerenciar Usuários</h1>
-          <button
-            onClick={() => setShowInviteModal(true)}
-            className="py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 transition-colors"
-          >
-            Convidar Usuário
-          </button>
-        </div>
-
         {error && (
-          <p className="text-red-500 text-sm mb-4" role="alert" aria-live="polite">{error}</p>
+          <p className="text-destructive text-sm mb-4" role="alert" aria-live="polite">{error}</p>
         )}
 
         {loading ? (
-          <p className="text-on-surface">Carregando...</p>
+          <p className="text-muted-foreground">Carregando...</p>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+          <div className="bg-card border border-border rounded-lg overflow-hidden">
             <table className="w-full" role="grid">
-              <thead className="bg-gray-50 dark:bg-gray-700">
+              <thead className="bg-muted">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-on-surface/60 uppercase tracking-wider">Nome</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-on-surface/60 uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-on-surface/60 uppercase tracking-wider">Papel</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-on-surface/60 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-on-surface/60 uppercase tracking-wider">Ações</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Nome</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Papel</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Ações</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+              <tbody className="divide-y divide-border">
                 {users.map((u) => (
                   <tr key={u.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-on-surface">{u.nome}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-on-surface">{u.email}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{u.nome}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{u.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <select
                         value={u.papel}
                         onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                        className="border rounded px-2 py-1 text-sm"
+                        className="border border-border rounded px-2 py-1 text-sm bg-background text-foreground"
                         disabled={u.id === user?.id}
                         aria-label={`Papel de ${u.nome}`}
                       >
@@ -153,7 +155,7 @@ export default function UsuariosPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        u.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        u.status === 'Ativo' ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'
                       }`}>
                         {u.status}
                       </span>
@@ -162,7 +164,7 @@ export default function UsuariosPage() {
                       {u.id !== user?.id && (
                         <button
                           onClick={() => handleDeactivate(u.id)}
-                          className="text-red-500 hover:text-red-700"
+                          className="text-destructive hover:text-destructive-hover"
                           aria-label={`Desativar ${u.nome}`}
                         >
                           Desativar
@@ -178,33 +180,32 @@ export default function UsuariosPage() {
 
         {showInviteModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" role="dialog" aria-modal="true">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
-              <h2 className="text-xl font-bold mb-4 text-on-surface">Convidar Usuário</h2>
+            <div className="bg-card border border-border rounded-lg p-6 w-full max-w-md">
+              <h2 className="text-xl font-bold mb-4 text-foreground">Convidar Usuário</h2>
 
               <form onSubmit={handleInvite} className="space-y-4">
                 <div>
-                  <label htmlFor="invite-email" className="block text-sm font-medium mb-1 text-on-surface">
+                  <label htmlFor="invite-email" className="block text-sm font-medium mb-1 text-foreground">
                     Email do convite
                   </label>
-                  <input
+                  <Input
                     type="email"
                     id="invite-email"
                     value={inviteEmail}
                     onChange={(e) => setInviteEmail(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="invite-role" className="block text-sm font-medium mb-1 text-on-surface">
+                  <label htmlFor="invite-role" className="block text-sm font-medium mb-1 text-foreground">
                     Papel
                   </label>
                   <select
                     id="invite-role"
                     value={inviteRole}
                     onChange={(e) => setInviteRole(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:border-primary bg-background text-foreground"
                   >
                     <option value="Operacional">Operacional</option>
                     <option value="Administrador">Administrador</option>
@@ -212,26 +213,18 @@ export default function UsuariosPage() {
                 </div>
 
                 <div className="flex gap-2 justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setShowInviteModal(false)}
-                    className="py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
-                  >
+                  <Button type="button" variant="outline" onClick={() => setShowInviteModal(false)}>
                     Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={inviteLoading}
-                    className="py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
-                  >
+                  </Button>
+                  <Button type="submit" disabled={inviteLoading}>
                     {inviteLoading ? 'Enviando...' : 'Enviar Convite'}
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>
           </div>
         )}
       </div>
-    </div>
+    </AppShell>
   );
 }

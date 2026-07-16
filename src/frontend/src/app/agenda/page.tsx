@@ -1,24 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { appointmentApi } from '@/services/appointmentApi';
 import WeekView from '@/components/schedule/WeekView';
 import MonthView from '@/components/schedule/MonthView';
+import { AppShell } from '@/components/layout/AppShell';
+import { Button } from '@/components/ui/button';
 
 export default function AgendaPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, router]);
 
   const { data: appointments, isLoading } = useQuery({
     queryKey: ['appointments', currentDate, viewMode],
@@ -51,40 +47,36 @@ export default function AgendaPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface">
-      <header className="bg-white dark:bg-gray-800 shadow sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-on-surface">Agenda</h1>
-          <div className="flex items-center gap-4">
-            <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('week')}
-                aria-pressed={viewMode === 'week'}
-                className={`px-4 py-2 text-sm rounded-md transition-colors ${
-                  viewMode === 'week'
-                    ? 'bg-white dark:bg-gray-600 text-primary shadow-sm'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-800'
-                }`}
-              >
-                Semana
-              </button>
-              <button
-                onClick={() => setViewMode('month')}
-                aria-pressed={viewMode === 'month'}
-                className={`px-4 py-2 text-sm rounded-md transition-colors ${
-                  viewMode === 'month'
-                    ? 'bg-white dark:bg-gray-600 text-primary shadow-sm'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-gray-800'
-                }`}
-              >
-                Mês
-              </button>
-            </div>
+    <AppShell
+      title="Agenda"
+      actions={
+        <div className="flex items-center gap-2">
+          <div className="flex bg-muted rounded-lg p-1">
+            <button
+              onClick={() => setViewMode('week')}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                viewMode === 'week'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Semana
+            </button>
+            <button
+              onClick={() => setViewMode('month')}
+              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                viewMode === 'month'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Mês
+            </button>
           </div>
         </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      }
+    >
+      <div className="max-w-[1440px] mx-auto">
         {viewMode === 'week' ? (
           <WeekView
             currentDate={currentDate}
@@ -110,15 +102,15 @@ export default function AgendaPage() {
             }}
           />
         )}
-      </main>
+      </div>
 
       <button
         onClick={() => router.push('/agenda/novo')}
         aria-label="Novo compromisso"
-        className="fixed bottom-20 right-4 bg-primary text-on-primary shadow-xl w-14 h-14 rounded-full flex items-center justify-center hover:opacity-90 transition-opacity z-40"
+        className="fixed bottom-24 right-4 lg:bottom-8 lg:right-8 bg-primary text-primary-foreground shadow-xl w-14 h-14 rounded-full flex items-center justify-center hover:opacity-90 transition-opacity z-40"
       >
-        <span className="text-2xl">+</span>
+        <span className="material-symbols-outlined text-2xl">add</span>
       </button>
-    </div>
+    </AppShell>
   );
 }

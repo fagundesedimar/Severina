@@ -7,6 +7,9 @@ import { ExportModal } from '@/components/financial/ExportModal';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { AppShell } from '@/components/layout/AppShell';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function CobrancasPage() {
   const { user } = useAuthStore();
@@ -82,124 +85,126 @@ export default function CobrancasPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-surface dark:bg-dark-surface px-6 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-on-surface">Cobranças / Faturas</h1>
+    <AppShell
+      title="Cobranças / Faturas"
+      actions={
         <div className="flex gap-2">
-          <button onClick={() => setShowExport(true)} className="border border-outline-variant dark:border-outline text-on-surface px-4 py-2 rounded-lg text-sm font-semibold hover:bg-surface-container-lowest dark:hover:bg-surface-container transition-colors">
+          <Button variant="outline" size="sm" onClick={() => setShowExport(true)}>
             Exportar
-          </button>
-          <button onClick={() => setShowCreate(!showCreate)} className="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
+          </Button>
+          <Button size="sm" onClick={() => setShowCreate(!showCreate)}>
             {showCreate ? 'Cancelar' : '+ Nova Fatura'}
-          </button>
+          </Button>
         </div>
-      </div>
+      }
+    >
+      <div className="max-w-[1440px] mx-auto">
+        {showCreate && (
+          <form
+            onSubmit={(e) => { e.preventDefault(); createMutation.mutate(form); }}
+            className="bg-card border border-border rounded-lg p-6 mb-6 space-y-4"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input type="number" step="0.01" placeholder="Valor" required value={form.valor} onChange={(e) => setForm({ ...form, valor: e.target.value })} />
+              <Input type="date" required value={form.dataVencimento} onChange={(e) => setForm({ ...form, dataVencimento: e.target.value })} />
+            </div>
+            <Input type="text" placeholder="Descrição (opcional)" value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} />
+            <div className="flex justify-end gap-2">
+              <Button type="button" variant="ghost" onClick={() => setShowCreate(false)}>Cancelar</Button>
+              <Button type="submit" disabled={createMutation.isPending}>
+                {createMutation.isPending ? 'Salvando...' : 'Salvar'}
+              </Button>
+            </div>
+          </form>
+        )}
 
-      {showCreate && (
-        <form
-          onSubmit={(e) => { e.preventDefault(); createMutation.mutate(form); }}
-          className="bg-surface-container-lowest dark:bg-surface-container border border-outline-variant dark:border-outline rounded-xl p-6 mb-6 space-y-4"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="number" step="0.01" placeholder="Valor" required value={form.valor} onChange={(e) => setForm({ ...form, valor: e.target.value })} className="border border-outline-variant dark:border-outline rounded-lg px-3 py-2 text-sm bg-surface dark:bg-dark-surface text-on-surface" />
-            <input type="date" required value={form.dataVencimento} onChange={(e) => setForm({ ...form, dataVencimento: e.target.value })} className="border border-outline-variant dark:border-outline rounded-lg px-3 py-2 text-sm bg-surface dark:bg-dark-surface text-on-surface" />
-          </div>
-          <input type="text" placeholder="Descrição (opcional)" value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} className="w-full border border-outline-variant dark:border-outline rounded-lg px-3 py-2 text-sm bg-surface dark:bg-dark-surface text-on-surface" />
-          <div className="flex justify-end gap-2">
-            <button type="button" onClick={() => setShowCreate(false)} className="px-4 py-2 text-sm text-on-surface/60 hover:text-on-surface">Cancelar</button>
-            <button type="submit" disabled={createMutation.isPending} className="bg-primary text-on-primary px-6 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50">
-              {createMutation.isPending ? 'Salvando...' : 'Salvar'}
-            </button>
-          </div>
-        </form>
-      )}
+        <div className="flex gap-3 mb-4">
+          <select value={status} onChange={(e) => { setStatus(e.target.value); setPage(1); }} className="border border-border rounded-lg px-3 py-2 text-sm bg-background text-foreground">
+            <option value="">Todos os status</option>
+            <option value="Pending">Pendente</option>
+            <option value="Partial">Parcial</option>
+            <option value="Paid">Paga</option>
+            <option value="Overdue">Atrasada</option>
+            <option value="Cancelled">Cancelada</option>
+          </select>
+        </div>
 
-      <div className="flex gap-3 mb-4">
-        <select value={status} onChange={(e) => { setStatus(e.target.value); setPage(1); }} className="border border-outline-variant dark:border-outline rounded-lg px-3 py-2 text-sm bg-surface dark:bg-dark-surface text-on-surface">
-          <option value="">Todos os status</option>
-          <option value="Pending">Pendente</option>
-          <option value="Partial">Parcial</option>
-          <option value="Paid">Paga</option>
-          <option value="Overdue">Atrasada</option>
-          <option value="Cancelled">Cancelada</option>
-        </select>
-      </div>
-
-      {isLoading ? (
-        <p className="text-on-surface/50">Carregando...</p>
-      ) : (
-        <>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-outline-variant dark:border-outline">
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-on-surface/50 uppercase">Nº</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-on-surface/50 uppercase">Vencimento</th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-on-surface/50 uppercase">Descrição</th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-on-surface/50 uppercase">Valor</th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-on-surface/50 uppercase">Pago</th>
-                  <th className="text-center py-3 px-4 text-xs font-semibold text-on-surface/50 uppercase">Status</th>
-                  <th className="text-center py-3 px-4 text-xs font-semibold text-on-surface/50 uppercase">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.items.map((inv) => (
-                  <tr key={inv.id} className="border-b border-outline-variant dark:border-outline hover:bg-surface-container-lowest dark:hover:bg-surface-container transition-colors">
-                    <td className="py-3 px-4 text-sm font-mono text-on-surface">{inv.numero}</td>
-                    <td className="py-3 px-4 text-sm text-on-surface">{new Date(inv.dataVencimento).toLocaleDateString('pt-BR')}</td>
-                    <td className="py-3 px-4 text-sm text-on-surface/70">{inv.descricao || '-'}</td>
-                    <td className="py-3 px-4 text-right text-sm font-mono text-on-surface">{formatCurrency(inv.valor)}</td>
-                    <td className="py-3 px-4 text-right text-sm font-mono text-on-surface">{formatCurrency(inv.valorPago)}</td>
-                    <td className="py-3 px-4 text-center">
-                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${statusColors[inv.status]}`}>
-                        {statusLabels[inv.status]}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      {inv.status !== 'Paid' && inv.status !== 'Cancelled' && (
-                        <div className="flex justify-center gap-1">
-                          <button onClick={() => setShowPay(inv.id)} className="text-xs text-emerald-600 hover:underline">Pagar</button>
-                          <button onClick={() => cancelMutation.mutate(inv.id)} className="text-xs text-red-600 hover:underline">Cancelar</button>
-                        </div>
-                      )}
-                    </td>
+        {isLoading ? (
+          <p className="text-muted-foreground">Carregando...</p>
+        ) : (
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Nº</th>
+                    <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Vencimento</th>
+                    <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Descrição</th>
+                    <th className="text-right py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Valor</th>
+                    <th className="text-right py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Pago</th>
+                    <th className="text-center py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Status</th>
+                    <th className="text-center py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Ações</th>
                   </tr>
-                ))}
-                {(!data?.items || data.items.length === 0) && (
-                  <tr><td colSpan={7} className="py-8 text-center text-on-surface/50 text-sm">Nenhuma fatura encontrada</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {data?.items.map((inv) => (
+                    <tr key={inv.id} className="border-b border-border hover:bg-muted transition-colors">
+                      <td className="py-3 px-4 text-sm font-mono text-foreground">{inv.numero}</td>
+                      <td className="py-3 px-4 text-sm text-foreground">{new Date(inv.dataVencimento).toLocaleDateString('pt-BR')}</td>
+                      <td className="py-3 px-4 text-sm text-muted-foreground">{inv.descricao || '-'}</td>
+                      <td className="py-3 px-4 text-right text-sm font-mono text-foreground">{formatCurrency(inv.valor)}</td>
+                      <td className="py-3 px-4 text-right text-sm font-mono text-foreground">{formatCurrency(inv.valorPago)}</td>
+                      <td className="py-3 px-4 text-center">
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${statusColors[inv.status]}`}>
+                          {statusLabels[inv.status]}
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        {inv.status !== 'Paid' && inv.status !== 'Cancelled' && (
+                          <div className="flex justify-center gap-1">
+                            <button onClick={() => setShowPay(inv.id)} className="text-xs text-primary hover:underline">Pagar</button>
+                            <button onClick={() => cancelMutation.mutate(inv.id)} className="text-xs text-destructive hover:underline">Cancelar</button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                  {(!data?.items || data.items.length === 0) && (
+                    <tr><td colSpan={7} className="py-8 text-center text-muted-foreground text-sm">Nenhuma fatura encontrada</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-          {showPay && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="bg-surface-container-lowest dark:bg-surface-container border border-outline-variant dark:border-outline rounded-xl p-6 w-96">
-                <h3 className="text-lg font-bold text-on-surface mb-4">Registrar Pagamento</h3>
-                <div className="space-y-4">
-                  <input type="number" step="0.01" placeholder="Valor pago" required value={payForm.valorPago} onChange={(e) => setPayForm({ ...payForm, valorPago: e.target.value })} className="w-full border border-outline-variant dark:border-outline rounded-lg px-3 py-2 text-sm bg-surface dark:bg-dark-surface text-on-surface" />
-                  <input type="date" required value={payForm.dataPagamento} onChange={(e) => setPayForm({ ...payForm, dataPagamento: e.target.value })} className="w-full border border-outline-variant dark:border-outline rounded-lg px-3 py-2 text-sm bg-surface dark:bg-dark-surface text-on-surface" />
-                  <div className="flex justify-end gap-2">
-                    <button onClick={() => { setShowPay(null); setPayForm({ valorPago: '', dataPagamento: '' }); }} className="px-4 py-2 text-sm text-on-surface/60 hover:text-on-surface">Cancelar</button>
-                    <button onClick={() => showPay && payMutation.mutate({ id: showPay, f: payForm })} disabled={payMutation.isPending} className="bg-emerald-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-50">
-                      Confirmar
-                    </button>
+            {showPay && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-card border border-border rounded-lg p-6 w-96">
+                  <h3 className="text-lg font-bold text-foreground mb-4">Registrar Pagamento</h3>
+                  <div className="space-y-4">
+                    <Input type="number" step="0.01" placeholder="Valor pago" required value={payForm.valorPago} onChange={(e) => setPayForm({ ...payForm, valorPago: e.target.value })} />
+                    <Input type="date" required value={payForm.dataPagamento} onChange={(e) => setPayForm({ ...payForm, dataPagamento: e.target.value })} />
+                    <div className="flex justify-end gap-2">
+                      <Button variant="ghost" onClick={() => { setShowPay(null); setPayForm({ valorPago: '', dataPagamento: '' }); }}>Cancelar</Button>
+                      <Button onClick={() => showPay && payMutation.mutate({ id: showPay, f: payForm })} disabled={payMutation.isPending}>
+                        Confirmar
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {data && data.totalCount > 15 && (
-            <div className="flex justify-center gap-2 mt-4">
-              <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1} className="px-3 py-1 text-sm border border-outline-variant dark:border-outline rounded-lg disabled:opacity-50 text-on-surface hover:bg-surface-container-lowest dark:hover:bg-surface-container">Anterior</button>
-              <span className="px-3 py-1 text-sm text-on-surface/50">Página {page} de {Math.ceil(data.totalCount / 15)}</span>
-              <button onClick={() => setPage(page + 1)} disabled={page >= Math.ceil(data.totalCount / 15)} className="px-3 py-1 text-sm border border-outline-variant dark:border-outline rounded-lg disabled:opacity-50 text-on-surface hover:bg-surface-container-lowest dark:hover:bg-surface-container">Próxima</button>
-            </div>
-          )}
-        </>
-      )}
+            {data && data.totalCount > 15 && (
+              <div className="flex justify-center gap-2 mt-4">
+                <Button variant="outline" size="sm" onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>Anterior</Button>
+                <span className="px-3 py-1 text-sm text-muted-foreground">Página {page} de {Math.ceil(data.totalCount / 15)}</span>
+                <Button variant="outline" size="sm" onClick={() => setPage(page + 1)} disabled={page >= Math.ceil(data.totalCount / 15)}>Próxima</Button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
       {showExport && <ExportModal type="invoices" onClose={() => setShowExport(false)} />}
-    </div>
+    </AppShell>
   );
 }
