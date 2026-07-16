@@ -3,55 +3,58 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-sans: var(--font-manrope), 'Manrope', system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
 
-  --color-primary: #1f8a5a;
+  --color-primary: #004d40;
   --color-primary-foreground: #ffffff;
-  --color-primary-hover: #1a7a4e;
-  --color-primary-active: #156a42;
-  --color-primary-light: rgba(31, 138, 90, 0.08);
-  --color-primary-lighter: rgba(31, 138, 90, 0.04);
+  --color-primary-hover: #003d33;
+  --color-primary-active: #002d26;
+  --color-primary-light: rgba(0, 77, 64, 0.08);
+  --color-primary-lighter: rgba(0, 77, 64, 0.04);
 
-  --color-accent: #16548a;
+  --color-primary-container: #006b5b;
+  --color-primary-container-foreground: #ffffff;
+
+  --color-accent: #006b5b;
   --color-accent-foreground: #ffffff;
-  --color-accent-hover: #134a78;
-  --color-accent-light: rgba(22, 84, 138, 0.08);
+  --color-accent-hover: #005a4d;
+  --color-accent-light: rgba(0, 107, 91, 0.08);
 
-  --color-background: #f6f8fa;
-  --color-foreground: #333d4b;
+  --color-background: #faf8ff;
+  --color-foreground: #1a1c1e;
 
   --color-card: #ffffff;
-  --color-card-foreground: #333d4b;
+  --color-card-foreground: #1a1c1e;
 
   --color-popover: #ffffff;
-  --color-popover-foreground: #333d4b;
+  --color-popover-foreground: #1a1c1e;
 
-  --color-muted: #f0f3f6;
-  --color-muted-foreground: #7c8a97;
+  --color-muted: #f4f3fa;
+  --color-muted-foreground: #74777f;
 
-  --color-border: #e1e6eb;
-  --color-border-light: #e9edf1;
-  --color-input: #e1e6eb;
-  --color-ring: #1f8a5a;
+  --color-border: #dad9e0;
+  --color-border-light: #e8e7ed;
+  --color-input: #74777f;
+  --color-ring: #004d40;
 
   --color-destructive: #dc3545;
   --color-destructive-foreground: #ffffff;
   --color-destructive-hover: #c82333;
 
-  --color-success: #1f8a5a;
-  --color-success-light: rgba(31, 138, 90, 0.1);
-  --color-success-foreground: #156a42;
+  --color-success: #004d40;
+  --color-success-light: rgba(0, 77, 64, 0.1);
+  --color-success-foreground: #003d33;
 
   --color-warning: #f5a623;
   --color-warning-light: rgba(245, 166, 35, 0.1);
   --color-warning-foreground: #b07a15;
 
-  --color-info: #16548a;
-  --color-info-light: rgba(22, 84, 138, 0.1);
-  --color-info-foreground: #134a78;
+  --color-info: #006b5b;
+  --color-info-light: rgba(0, 107, 91, 0.1);
+  --color-info-foreground: #005a4d;
 
-  --color-sidebar: #16548a;
+  --color-sidebar: #004d40;
   --color-sidebar-foreground: rgba(255, 255, 255, 0.85);
   --color-sidebar-accent: rgba(255, 255, 255, 0.1);
   --color-sidebar-accent-foreground: #ffffff;
@@ -63,35 +66,40 @@
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
 
-  --shadow-sm: 0 1px 2px rgba(20, 30, 60, 0.04);
-  --shadow-md: 0 4px 12px rgba(20, 30, 60, 0.06);
-  --shadow-lg: 0 12px 24px rgba(20, 30, 60, 0.08);
-  --shadow-xl: 0 20px 40px rgba(20, 30, 60, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
 :root {
-  --color-surface: #f6f8fa;
+  --color-surface: #faf8ff;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f0f3f6;
-  --color-surface-container: #e9edf1;
-  --color-surface-container-high: #e1e6eb;
-  --color-surface-container-highest: #d8dee5;
-  --color-outline: #7c8a97;
-  --color-outline-variant: #c5cdd6;
+  --color-surface-container-low: #f4f3fa;
+  --color-surface-container: #f4f3fa;
+  --color-surface-container-high: #dad9e0;
+  --color-surface-container-highest: #dad9e0;
+  --color-surface-dim: #dad9e0;
+  --color-surface-bright: #faf8ff;
+  --color-outline: #74777f;
+  --color-outline-variant: #c4c6d0;
 }
 
 [data-theme="dark"] {
-  --color-primary: #4ade80;
-  --color-primary-foreground: #0a3d26;
-  --color-primary-hover: #22c55e;
-  --color-primary-active: #16a34a;
-  --color-primary-light: rgba(74, 222, 128, 0.12);
-  --color-primary-lighter: rgba(74, 222, 128, 0.06);
+  --color-primary: #6dd5c4;
+  --color-primary-foreground: #003d33;
+  --color-primary-hover: #4ec9b5;
+  --color-primary-active: #2ebda6;
+  --color-primary-light: rgba(109, 213, 196, 0.12);
+  --color-primary-lighter: rgba(109, 213, 196, 0.06);
 
-  --color-accent: #60a5fa;
-  --color-accent-foreground: #1e3a5f;
-  --color-accent-hover: #3b82f6;
-  --color-accent-light: rgba(96, 165, 250, 0.12);
+  --color-primary-container: #006b5b;
+  --color-primary-container-foreground: #ffffff;
+
+  --color-accent: #6dd5c4;
+  --color-accent-foreground: #003d33;
+  --color-accent-hover: #4ec9b5;
+  --color-accent-light: rgba(109, 213, 196, 0.12);
 
   --color-background: #0f1219;
   --color-foreground: #e2e8f0;
@@ -103,28 +111,28 @@
   --color-popover-foreground: #e2e8f0;
 
   --color-muted: #1c2230;
-  --color-muted-foreground: #64748b;
+  --color-muted-foreground: #8b92a0;
 
   --color-border: #2e3748;
   --color-border-light: #242c3a;
-  --color-input: #2e3748;
-  --color-ring: #4ade80;
+  --color-input: #8b92a0;
+  --color-ring: #6dd5c4;
 
   --color-destructive: #f87171;
   --color-destructive-foreground: #1c0a0a;
   --color-destructive-hover: #ef4444;
 
-  --color-success: #4ade80;
-  --color-success-light: rgba(74, 222, 128, 0.12);
-  --color-success-foreground: #166534;
+  --color-success: #6dd5c4;
+  --color-success-light: rgba(109, 213, 196, 0.12);
+  --color-success-foreground: #003d33;
 
   --color-warning: #fbbf24;
   --color-warning-light: rgba(251, 191, 36, 0.12);
   --color-warning-foreground: #92400e;
 
-  --color-info: #60a5fa;
-  --color-info-light: rgba(96, 165, 250, 0.12);
-  --color-info-foreground: #1e3a5f;
+  --color-info: #6dd5c4;
+  --color-info-light: rgba(109, 213, 196, 0.12);
+  --color-info-foreground: #003d33;
 
   --color-sidebar: #0f1219;
   --color-sidebar-foreground: rgba(226, 232, 240, 0.85);
@@ -139,7 +147,9 @@
   --color-surface-container: #1c2230;
   --color-surface-container-high: #242c3a;
   --color-surface-container-highest: #2e3748;
-  --color-outline: #64748b;
+  --color-surface-dim: #0f1219;
+  --color-surface-bright: #1c2230;
+  --color-outline: #8b92a0;
   --color-outline-variant: #334155;
 }
 
