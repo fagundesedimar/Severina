@@ -31,7 +31,7 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public async Task<User?> GetByEmailAsync(string email)
     {
-        return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
+        return await _dbSet.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<IReadOnlyList<User>> GetByCompanyIdAsync(Guid companyId)
