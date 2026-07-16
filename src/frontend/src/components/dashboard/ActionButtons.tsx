@@ -11,7 +11,7 @@ interface ActionButton {
 const actions: ActionButton[] = [
   { label: 'Novo Atendimento', icon: 'chat', href: '/atendimento/novo' },
   { label: 'Novo Cliente', icon: 'person_add', href: '/clientes/novo' },
-  { label: 'Nova Cobrança', icon: 'receipt', href: '/financeiro/cobrancas/nova' },
+  { label: 'Nova Cobrança', icon: 'receipt', href: '/financeiro/cobrancas' },
 ];
 
 export function ActionButtons() {
