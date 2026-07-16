@@ -19,7 +19,6 @@ public class FinancialIdorTests : IDisposable
         var tenantProvider = new TestTenantProvider();
         _context = new SeverinaDbContext(options, tenantProvider);
         _context.Database.EnsureCreated();
-        _context.SetTenantCompanyId(Guid.NewGuid());
     }
 
     public void Dispose()

@@ -7,7 +7,8 @@ namespace Severina.Infrastructure.Data;
 public class SeverinaDbContext : DbContext
 {
     private readonly ITenantProvider _tenantProvider;
-    private Guid? _tenantCompanyId;
+
+    private Guid? _tenantCompanyId => _tenantProvider.CompanyId;
 
     public SeverinaDbContext(DbContextOptions<SeverinaDbContext> options, ITenantProvider tenantProvider)
         : base(options)
@@ -25,11 +26,6 @@ public class SeverinaDbContext : DbContext
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<Invoice> Invoices => Set<Invoice>();
     public DbSet<ExportJob> ExportJobs => Set<ExportJob>();
-
-    public void SetTenantCompanyId(Guid? companyId)
-    {
-        _tenantCompanyId = companyId;
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

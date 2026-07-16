@@ -25,7 +25,6 @@ public class ClientSearchTests : IDisposable
         _repository = new ClientRepository(_context);
         _companyId = Guid.NewGuid();
         tenantProvider.SetCompanyId(_companyId);
-        _context.SetTenantCompanyId(_companyId);
     }
 
     public void Dispose()

@@ -36,8 +36,6 @@ public class TenantIsolationTests
             tenantProvider.SetCompanyId(tenantCompanyId.Value);
 
         var context = new SeverinaDbContext(options, tenantProvider);
-        if (tenantCompanyId.HasValue)
-            context.SetTenantCompanyId(tenantCompanyId.Value);
         return context;
     }
 

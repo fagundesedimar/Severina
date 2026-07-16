@@ -27,7 +27,6 @@ public class ClientInteractionTests : IDisposable
         _repository = new InteractionRepository(_context);
         _companyId = Guid.NewGuid();
         tenantProvider.SetCompanyId(_companyId);
-        _context.SetTenantCompanyId(_companyId);
 
         _client = new Client(_companyId, "João Silva", "joao@teste.com", null, null);
         _context.Clients.Add(_client);

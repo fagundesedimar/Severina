@@ -29,7 +29,6 @@ public class ClientImportTests : IDisposable
         _importService = new CsvImportService(_unitOfWork);
         _companyId = Guid.NewGuid();
         tenantProvider.SetCompanyId(_companyId);
-        _context.SetTenantCompanyId(_companyId);
     }
 
     public void Dispose()
