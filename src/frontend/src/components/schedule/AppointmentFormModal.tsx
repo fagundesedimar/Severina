@@ -231,7 +231,7 @@ export default function AppointmentFormModal({
                       onClick={() => toggleDayOfWeek(index)}
                       className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
                         formData.recurrenceDiasDaSemana.includes(index)
-                          ? 'bg-primary text-white'
+                          ? 'bg-primary text-on-primary'
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                     >
@@ -292,7 +292,7 @@ export default function AppointmentFormModal({
               <button
                 type="submit"
                 disabled={createMutation.isPending || updateMutation.isPending}
-                className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 {createMutation.isPending || updateMutation.isPending
                   ? 'Salvando...'

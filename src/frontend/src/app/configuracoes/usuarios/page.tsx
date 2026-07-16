@@ -110,7 +110,7 @@ export default function UsuariosPage() {
           <h1 className="text-2xl font-bold text-on-surface">Gerenciar Usuários</h1>
           <button
             onClick={() => setShowInviteModal(true)}
-            className="py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+            className="py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 transition-colors"
           >
             Convidar Usuário
           </button>
@@ -222,7 +222,7 @@ export default function UsuariosPage() {
                   <button
                     type="submit"
                     disabled={inviteLoading}
-                    className="py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
+                    className="py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
                   >
                     {inviteLoading ? 'Enviando...' : 'Enviar Convite'}
                   </button>

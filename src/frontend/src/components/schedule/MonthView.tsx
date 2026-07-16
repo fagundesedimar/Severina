@@ -97,7 +97,7 @@ export default function MonthView({
         </div>
         <button
           onClick={() => setCurrentDate(new Date())}
-          className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          className="px-4 py-2 text-sm bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors"
         >
           Hoje
         </button>
@@ -133,7 +133,7 @@ export default function MonthView({
                   <span
                     className={`text-sm ${
                       isToday
-                        ? 'bg-primary text-white w-6 h-6 rounded-full flex items-center justify-center'
+                        ? 'bg-primary text-on-primary w-6 h-6 rounded-full flex items-center justify-center'
                         : isCurrentMonth
                         ? 'text-gray-700'
                         : 'text-gray-400'

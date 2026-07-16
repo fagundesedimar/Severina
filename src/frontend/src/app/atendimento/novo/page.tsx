@@ -214,7 +214,7 @@ export default function NovoAtendimentoPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
+              className="flex-1 py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
               {loading ? 'Salvando...' : 'Salvar'}
             </button>

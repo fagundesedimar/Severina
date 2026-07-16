@@ -105,7 +105,7 @@ export default function ConvitePage() {
           <p className="text-on-surface/70 mb-6">{error}</p>
           <a
             href="/login"
-            className="inline-block py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+            className="inline-block py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 transition-colors"
           >
             Ir para o Login
           </a>
@@ -183,7 +183,7 @@ export default function ConvitePage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
+            className="w-full py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
           >
             {submitting ? 'Criando conta...' : 'Aceitar Convite'}
           </button>

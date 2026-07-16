@@ -92,7 +92,7 @@ export default function CadastroPage() {
             onClick={() => setTipoPessoa('Fisica')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
               tipoPessoa === 'Fisica'
-                ? 'bg-primary text-white'
+                ? 'bg-primary text-on-primary'
                 : 'text-on-surface hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
             role="switch"
@@ -105,7 +105,7 @@ export default function CadastroPage() {
             onClick={() => setTipoPessoa('Juridica')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
               tipoPessoa === 'Juridica'
-                ? 'bg-primary text-white'
+                ? 'bg-primary text-on-primary'
                 : 'text-on-surface hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
             role="switch"
@@ -192,7 +192,7 @@ export default function CadastroPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
+            className="w-full py-2 px-4 bg-primary text-on-primary rounded-md hover:bg-primary/90 disabled:opacity-50 transition-colors"
           >
             {loading ? 'Cadastrando...' : 'Cadastrar Empresa'}
           </button>
