@@ -138,7 +138,7 @@ public class DashboardService : IDashboardService
                 Type: "appointment",
                 Description: $"Compromisso: {appointment.Titulo}",
                 Timestamp: appointment.CreatedAt,
-                SourceUrl: $"/agenda/{appointment.Id}"));
+                SourceUrl: "/agenda"));
         }
 
         return activities.OrderByDescending(a => a.Timestamp).Take(10).ToList();
@@ -169,7 +169,7 @@ public class DashboardService : IDashboardService
                 Title: $"Compromisso: {appointment.Titulo}",
                 Priority: priority,
                 DueDate: appointment.DataHoraInicio,
-                SourceUrl: $"/agenda/{appointment.Id}"));
+                SourceUrl: "/agenda"));
         }
 
         return tasks.OrderBy(t => t.Priority).ThenBy(t => t.DueDate).ToList();

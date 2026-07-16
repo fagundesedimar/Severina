@@ -92,7 +92,10 @@ export default function AgendaPage() {
             appointments={appointments?.items || []}
             isLoading={isLoading}
             onDateClick={(date) => {
-              setCurrentDate(date);
+              const yyyy = date.getFullYear();
+              const mm = String(date.getMonth() + 1).padStart(2, '0');
+              const dd = String(date.getDate()).padStart(2, '0');
+              router.push(`/agenda/novo?data=${yyyy}-${mm}-${dd}`);
             }}
           />
         ) : (

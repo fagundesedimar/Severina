@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import type { Appointment } from '@/types/appointment';
 import AppointmentCard from './AppointmentCard';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
@@ -24,6 +25,7 @@ export default function WeekView({
   onDateClick,
 }: WeekViewProps) {
   void isLoading;
+  const router = useRouter();
   const weekDays = useMemo(() => {
     const start = new Date(currentDate);
     start.setDate(start.getDate() - start.getDay() + 1);
@@ -169,7 +171,7 @@ export default function WeekView({
                     className="border-r border-b border-gray-100 p-1 min-h-[60px] hover:bg-gray-50 transition-colors"
                   >
                     {hourAppointments.map((apt) => (
-                      <AppointmentCard key={apt.id} appointment={apt} />
+                      <AppointmentCard key={apt.id} appointment={apt} onClick={() => router.push(`/agenda/${apt.id}`)} />
                     ))}
                   </div>
                 );
