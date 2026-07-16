@@ -11,7 +11,10 @@ using Severina.API.Middlewares;
 using Severina.Application.Behaviors;
 using Severina.Application.Interfaces;
 using Severina.Application.Services;
+using Severina.Domain.Entities;
+using Severina.Domain.Enums;
 using Severina.Domain.Interfaces;
+using Severina.Domain.ValueObjects;
 using Severina.Infrastructure.Data;
 using Severina.Infrastructure.Repositories;
 using Severina.Infrastructure.Services;
@@ -175,6 +178,42 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<SeverinaDbContext>();
     context.Database.EnsureCreated();
+
+    if (!context.Companies.Any())
+    {
+        var passwordService = scope.ServiceProvider.GetRequiredService<IPasswordService>();
+        var defaultPassword = "Test@123";
+        var hash = passwordService.HashPassword(defaultPassword);
+
+        var now = DateTime.UtcNow;
+
+        // Empresa 1: CNPJ
+        var company1 = new Company("Severina Demo Ltda", CnpjCpf.Create("11222333000181"), Email.Create("contato@severina-demo.com.br"), TipoPessoa.Juridica, Telefone.Create("11999998888"));
+        context.Companies.Add(company1);
+        context.SaveChanges();
+
+        var admin1 = new User(company1.Id, "Admin Severina", Email.Create("admin@severina.com"), hash, PapelUsuario.Administrador);
+        var user1 = new User(company1.Id, "Operador Severina", Email.Create("user@severina.com"), hash, PapelUsuario.Operacional);
+        company1.AddUser(admin1);
+        company1.AddUser(user1);
+        context.Users.AddRange(admin1, user1);
+
+        // Empresa 2: CPF
+        var company2 = new Company("João Silva MEI", CnpjCpf.Create("52998224725"), Email.Create("joao@silva-mei.com.br"), TipoPessoa.Fisica, Telefone.Create("21988887777"));
+        context.Companies.Add(company2);
+        context.SaveChanges();
+
+        var admin2 = new User(company2.Id, "João Silva", Email.Create("joao@teste.com"), hash, PapelUsuario.Administrador);
+        company2.AddUser(admin2);
+        context.Users.Add(admin2);
+
+        context.SaveChanges();
+
+        Console.WriteLine("Seed concluído. Usuários criados:");
+        Console.WriteLine($"  Empresa 1 - admin@severina.com / Test@123 (Admin)");
+        Console.WriteLine($"  Empresa 1 - user@severina.com / Test@123 (Operacional)");
+        Console.WriteLine($"  Empresa 2 - joao@teste.com / Test@123 (Admin)");
+    }
 }
 
 app.Run();
