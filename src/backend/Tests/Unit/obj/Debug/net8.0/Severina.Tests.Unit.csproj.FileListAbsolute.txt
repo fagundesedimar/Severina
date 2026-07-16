@@ -155,3 +155,11 @@ C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Pipelines.Sockets.U
 C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\StackExchange.Redis.dll
 C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
 C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\CoverletSourceRootsMapping_Severina.Tests.Unit
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\ClosedXML.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\CsvHelper.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\Irony.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Projetos\Severina\src\backend\Tests\Unit\bin\Debug\net8.0\XLParser.dll

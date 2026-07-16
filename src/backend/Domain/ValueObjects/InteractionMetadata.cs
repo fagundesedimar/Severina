@@ -8,6 +8,8 @@ public sealed class InteractionMetadata
     public string? ContentPreview { get; }
     public bool? ReadStatus { get; }
 
+    private InteractionMetadata() { }
+
     private InteractionMetadata(
         string? direction,
         int? durationSeconds,

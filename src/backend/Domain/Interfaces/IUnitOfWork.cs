@@ -8,5 +8,8 @@ public interface IUnitOfWork : IDisposable
     IClientRepository Clients { get; }
     IInteractionRepository Interactions { get; }
     IImportJobRepository ImportJobs { get; }
+    ITransactionRepository Transactions { get; }
+    IInvoiceRepository Invoices { get; }
+    IExportJobRepository ExportJobs { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

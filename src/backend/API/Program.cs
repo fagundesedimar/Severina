@@ -50,6 +50,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<SeverinaDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddScoped<ITenantProvider, TenantProvider>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -63,6 +65,12 @@ builder.Services.AddScoped<IAppointmentCacheService, AppointmentCacheService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IDashboardCacheService, DashboardCacheService>();
 builder.Services.AddScoped<IImportService, CsvImportService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<IExportJobRepository, ExportJobRepository>();
+builder.Services.AddScoped<IFinancialCacheService, FinancialCacheService>();
+builder.Services.AddScoped<IExportService, CsvExportService>();
+builder.Services.AddHostedService<OverdueInvoiceDetectionService>();
 builder.Services.AddSingleton<INotificationService, WebSocketNotificationService>();
 
 builder.Services.AddMediatR(cfg =>
@@ -134,6 +142,13 @@ builder.Services.AddRateLimiter(options =>
     options.AddFixedWindowLimiter("import", limiterOptions =>
     {
         limiterOptions.PermitLimit = 5;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueLimit = 0;
+    });
+
+    options.AddFixedWindowLimiter("export", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 10;
         limiterOptions.Window = TimeSpan.FromMinutes(1);
         limiterOptions.QueueLimit = 0;
     });

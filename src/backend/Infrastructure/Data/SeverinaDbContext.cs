@@ -22,6 +22,9 @@ public class SeverinaDbContext : DbContext
     public DbSet<Client> Clients => Set<Client>();
     public DbSet<Interaction> Interactions => Set<Interaction>();
     public DbSet<ImportJob> ImportJobs => Set<ImportJob>();
+    public DbSet<Transaction> Transactions => Set<Transaction>();
+    public DbSet<Invoice> Invoices => Set<Invoice>();
+    public DbSet<ExportJob> ExportJobs => Set<ExportJob>();
 
     public void SetTenantCompanyId(Guid? companyId)
     {
@@ -47,6 +50,12 @@ public class SeverinaDbContext : DbContext
             .HasQueryFilter(c => c.DeletedAt == null && c.CompanyId == _tenantCompanyId);
 
         modelBuilder.Entity<Interaction>()
+            .HasQueryFilter(i => i.DeletedAt == null && i.CompanyId == _tenantCompanyId);
+
+        modelBuilder.Entity<Transaction>()
+            .HasQueryFilter(t => t.DeletedAt == null && t.CompanyId == _tenantCompanyId);
+
+        modelBuilder.Entity<Invoice>()
             .HasQueryFilter(i => i.DeletedAt == null && i.CompanyId == _tenantCompanyId);
     }
 

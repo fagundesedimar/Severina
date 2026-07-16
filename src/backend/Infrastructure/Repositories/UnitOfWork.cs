@@ -12,6 +12,9 @@ public class UnitOfWork : IUnitOfWork
     private IClientRepository? _clients;
     private IInteractionRepository? _interactions;
     private IImportJobRepository? _importJobs;
+    private ITransactionRepository? _transactions;
+    private IInvoiceRepository? _invoices;
+    private IExportJobRepository? _exportJobs;
 
     public UnitOfWork(SeverinaDbContext context)
     {
@@ -35,6 +38,15 @@ public class UnitOfWork : IUnitOfWork
 
     public IImportJobRepository ImportJobs =>
         _importJobs ??= new ImportJobRepository(_context);
+
+    public ITransactionRepository Transactions =>
+        _transactions ??= new TransactionRepository(_context);
+
+    public IInvoiceRepository Invoices =>
+        _invoices ??= new InvoiceRepository(_context);
+
+    public IExportJobRepository ExportJobs =>
+        _exportJobs ??= new ExportJobRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
