@@ -25,7 +25,8 @@ public class CreateCompanyCommandValidator : AbstractValidator<CreateCompanyComm
             .MaximumLength(200).WithMessage("Nome deve ter no máximo 200 caracteres");
 
         RuleFor(x => x.CnpjCpf)
-            .NotEmpty().WithMessage("CPF/CNPJ é obrigatório");
+            .NotEmpty().WithMessage("CPF/CNPJ é obrigatório")
+            .Must(v => CnpjCpf.TryCreate(v, out _)).WithMessage("CPF/CNPJ inválido");
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email é obrigatório")

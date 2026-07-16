@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import api from '@/services/api';
 
 type TipoPessoa = 'Fisica' | 'Juridica';
+type FieldErrors = Record<string, string[]>;
 
 export default function CadastroPage() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function CadastroPage() {
   const [telefone, setTelefone] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   const formatCpf = (value: string) => {
     const digits = value.replace(/\D/g, '').slice(0, 11);
@@ -45,23 +47,30 @@ export default function CadastroPage() {
       .replace(/(\d{5})(\d)/, '$1-$2');
   };
 
+  const clearFieldError = (field: string) => {
+    setFieldErrors(prev => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
+
   const handleDocumentoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = tipoPessoa === 'Fisica' ? formatCpf(e.target.value) : formatCnpj(e.target.value);
     setDocumento(formatted);
-  };
-
-  const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTelefone(formatTelefone(e.target.value));
+    clearFieldError('cnpjCpf');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setFieldErrors({});
 
     try {
       const documentoDigits = documento.replace(/\D/g, '');
-      
+
       await api.post('/api/v1/companies', {
         nome,
         cnpjCpf: documentoDigits,
@@ -72,12 +81,27 @@ export default function CadastroPage() {
 
       router.push('/dashboard');
     } catch (err: unknown) {
-      const axiosErr = err as { response?: { data?: { message?: string } } };
-      setError(axiosErr.response?.data?.message || 'Erro ao cadastrar empresa');
+      const axiosErr = err as {
+        response?: {
+          data?: { message?: string; errors?: FieldErrors };
+        };
+      };
+      const data = axiosErr.response?.data;
+      if (data?.errors && Object.keys(data.errors).length > 0) {
+        setFieldErrors(data.errors);
+      }
+      setError(data?.message || 'Erro ao cadastrar empresa');
     } finally {
       setLoading(false);
     }
   };
+
+  const inputClass = (field: string) =>
+    `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+      fieldErrors[field]
+        ? 'border-red-500 focus:ring-red-500'
+        : 'border-gray-300 focus:ring-primary'
+    }`;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-surface transition-colors duration-200 p-4">
@@ -124,12 +148,14 @@ export default function CadastroPage() {
               type="text"
               id="nome"
               value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              onChange={(e) => { setNome(e.target.value); clearFieldError('nome'); }}
+              className={inputClass('nome')}
               required
-              aria-describedby="nome-help"
             />
-            <p id="nome-help" className="text-xs text-on-surface/60 mt-1">
+            {fieldErrors['nome'] && (
+              <p className="text-red-500 text-xs mt-1">{fieldErrors['nome'][0]}</p>
+            )}
+            <p className="text-xs text-on-surface/60 mt-1">
               {tipoPessoa === 'Fisica' ? 'Nome como consta no CPF' : 'Nome oficial da empresa'}
             </p>
           </div>
@@ -144,11 +170,13 @@ export default function CadastroPage() {
               value={documento}
               onChange={handleDocumentoChange}
               placeholder={tipoPessoa === 'Fisica' ? '000.000.000-00' : '00.000.000/0000-00'}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass('cnpjCpf')}
               required
-              aria-describedby="documento-help"
             />
-            <p id="documento-help" className="text-xs text-on-surface/60 mt-1">
+            {fieldErrors['cnpjCpf'] && (
+              <p className="text-red-500 text-xs mt-1">{fieldErrors['cnpjCpf'][0]}</p>
+            )}
+            <p className="text-xs text-on-surface/60 mt-1">
               {tipoPessoa === 'Fisica' ? 'Digite apenas os números do CPF' : 'Digite apenas os números do CNPJ'}
             </p>
           </div>
@@ -161,10 +189,13 @@ export default function CadastroPage() {
               type="email"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              onChange={(e) => { setEmail(e.target.value); clearFieldError('email'); }}
+              className={inputClass('email')}
               required
             />
+            {fieldErrors['email'] && (
+              <p className="text-red-500 text-xs mt-1">{fieldErrors['email'][0]}</p>
+            )}
           </div>
 
           <div>
@@ -175,12 +206,14 @@ export default function CadastroPage() {
               type="tel"
               id="telefone"
               value={telefone}
-              onChange={handleTelefoneChange}
+              onChange={(e) => { setTelefone(formatTelefone(e.target.value)); clearFieldError('telefone'); }}
               placeholder="(00) 00000-0000"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-              aria-describedby="telefone-help"
+              className={inputClass('telefone')}
             />
-            <p id="telefone-help" className="text-xs text-on-surface/60 mt-1">
+            {fieldErrors['telefone'] && (
+              <p className="text-red-500 text-xs mt-1">{fieldErrors['telefone'][0]}</p>
+            )}
+            <p className="text-xs text-on-surface/60 mt-1">
               Opcional - WhatsApp ou telefone fixo
             </p>
           </div>

@@ -26,22 +26,15 @@ public class CompaniesController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<CompanyResponse>> Create([FromBody] CreateCompanyRequest request)
     {
-        try
-        {
-            var command = new CreateCompanyCommand(
-                request.Nome,
-                request.CnpjCpf,
-                request.Email,
-                request.TipoPessoa,
-                request.Telefone);
+        var command = new CreateCompanyCommand(
+            request.Nome,
+            request.CnpjCpf,
+            request.Email,
+            request.TipoPessoa,
+            request.Telefone);
 
-            var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { message = ex.Message });
-        }
+        var result = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpGet("{id:guid}")]
