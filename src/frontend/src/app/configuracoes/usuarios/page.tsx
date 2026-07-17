@@ -94,10 +94,20 @@ export default function UsuariosPage() {
 
     try {
       await api.delete(`/api/v1/users/company/${user?.companyId}/users/${userId}`);
-      setUsers(users.filter((u) => u.id !== userId));
+      setUsers(users.map((u) => u.id === userId ? { ...u, status: 'Inativo' } : u));
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } };
       setError(axiosErr.response?.data?.message || 'Erro ao desativar usuário');
+    }
+  };
+
+  const handleActivate = async (userId: string) => {
+    try {
+      await api.put(`/api/v1/users/company/${user?.companyId}/users/${userId}/activate`);
+      setUsers(users.map((u) => u.id === userId ? { ...u, status: 'Ativo' } : u));
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      setError(axiosErr.response?.data?.message || 'Erro ao ativar usuário');
     }
   };
 
@@ -189,13 +199,23 @@ export default function UsuariosPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       {u.id !== user?.id && (
-                        <button
-                          onClick={() => handleDeactivate(u.id)}
-                          className="text-destructive hover:text-destructive-hover"
-                          aria-label={`Desativar ${u.nome}`}
-                        >
-                          Desativar
-                        </button>
+                        u.status === 'Ativo' ? (
+                          <button
+                            onClick={() => handleDeactivate(u.id)}
+                            className="text-destructive hover:text-destructive-hover"
+                            aria-label={`Desativar ${u.nome}`}
+                          >
+                            Desativar
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleActivate(u.id)}
+                            className="text-success hover:opacity-80"
+                            aria-label={`Ativar ${u.nome}`}
+                          >
+                            Ativar
+                          </button>
+                        )
                       )}
                     </td>
                   </tr>

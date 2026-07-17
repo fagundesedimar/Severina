@@ -91,6 +91,18 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("company/{companyId:guid}/users/{userId:guid}/activate")]
+    [Authorize(Policy = "AdminOnly")]
+    public async Task<IActionResult> ActivateUser(Guid companyId, Guid userId)
+    {
+        var userCompanyId = GetCompanyId();
+        if (userCompanyId != companyId)
+            return NotFound();
+
+        await _mediator.Send(new ActivateUserCommand(companyId, userId));
+        return NoContent();
+    }
+
     [HttpPut("preferences")]
     public async Task<IActionResult> UpdatePreferences([FromBody] UpdatePreferencesRequest request)
     {
