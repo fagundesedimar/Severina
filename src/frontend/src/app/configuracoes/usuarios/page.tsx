@@ -16,31 +16,45 @@ interface User {
   createdAt: string;
 }
 
+interface Invite {
+  code: string;
+  email: string;
+  papel: string;
+  expiresAt: string;
+  createdAt: string;
+}
+
 function useCompanyUsers(companyId: string | undefined, shouldLoad: boolean) {
   const [users, setUsers] = useState<User[]>([]);
+  const [invites, setInvites] = useState<Invite[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+  const fetchData = async () => {
     if (!shouldLoad || !companyId) return;
+    setLoading(true);
+    setError('');
+    try {
+      const [usersRes, invitesRes] = await Promise.all([
+        api.get(`/api/v1/users/company/${companyId}`),
+        api.get('/api/v1/invites').catch(() => ({ data: [] })),
+      ]);
+      setUsers(usersRes.data);
+      setInvites(invitesRes.data);
+    } catch {
+      setError('Erro ao carregar usuários');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     let cancelled = false;
-
-    api.get(`/api/v1/users/company/${companyId}`)
-      .then((response) => {
-        if (!cancelled) setUsers(response.data);
-      })
-      .catch(() => {
-        if (!cancelled) setError('Erro ao carregar usuários');
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
+    fetchData().then(() => {});
     return () => { cancelled = true; };
   }, [companyId, shouldLoad]);
 
-  return { users, loading, error, setUsers, setError };
+  return { users, invites, loading, error, setUsers, setInvites, setError, refresh: fetchData };
 }
 
 export default function UsuariosPage() {
@@ -51,7 +65,7 @@ export default function UsuariosPage() {
   const [inviteLoading, setInviteLoading] = useState(false);
 
   const isAdmin = user?.papel === 'Administrador';
-  const { users, loading, error, setUsers, setError } = useCompanyUsers(user?.companyId, isAdmin);
+  const { users, invites, loading, error, setUsers, setInvites, setError, refresh } = useCompanyUsers(user?.companyId, isAdmin);
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,6 +80,7 @@ export default function UsuariosPage() {
       setShowInviteModal(false);
       setInviteEmail('');
       setInviteRole('Operacional');
+      refresh();
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } };
       setError(axiosErr.response?.data?.message || 'Erro ao enviar convite');
@@ -95,6 +110,18 @@ export default function UsuariosPage() {
     } catch (err: unknown) {
       const axiosErr = err as { response?: { data?: { message?: string } } };
       setError(axiosErr.response?.data?.message || 'Erro ao alterar papel');
+    }
+  };
+
+  const handleRevokeInvite = async (code: string) => {
+    if (!confirm('Tem certeza que deseja revogar este convite?')) return;
+
+    try {
+      await api.delete(`/api/v1/invites/${code}`);
+      setInvites(invites.filter((i) => i.code !== code));
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      setError(axiosErr.response?.data?.message || 'Erro ao revogar convite');
     }
   };
 
@@ -175,6 +202,43 @@ export default function UsuariosPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {invites.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-sm font-semibold text-foreground mb-3">Convites Pendentes</h3>
+            <div className="bg-card border border-border rounded-lg overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-muted">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Papel</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Expira em</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {invites.map((invite) => (
+                    <tr key={invite.code}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{invite.email}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{invite.papel}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
+                        {new Date(invite.expiresAt).toLocaleDateString('pt-BR')}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        <button
+                          onClick={() => handleRevokeInvite(invite.code)}
+                          className="text-destructive hover:text-destructive-hover"
+                        >
+                          Revogar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
