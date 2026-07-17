@@ -26,12 +26,18 @@ export default function LoginPage() {
       const response = await api.post('/api/v1/auth/login', { email, senha });
       const { accessToken } = response.data;
 
+      const payload = JSON.parse(atob(accessToken.split('.')[1]));
+      const papel = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || 'Operacional';
+      const userId = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || '';
+      const userEmail = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || email;
+      const companyId = payload['company_id'] || '';
+
       setAuth({
-        id: '1',
-        email,
-        nome: 'Usuário',
-        papel: 'Administrador',
-        companyId: '1',
+        id: userId,
+        email: userEmail,
+        nome: userEmail.split('@')[0],
+        papel,
+        companyId,
       }, accessToken);
 
       router.push('/dashboard');
