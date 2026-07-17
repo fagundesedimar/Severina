@@ -54,12 +54,12 @@ export default function DashboardPage() {
       {isLoading && <DashboardSkeleton />}
       {error && <DashboardError />}
       {data && (
-        <div className="max-w-[1440px] mx-auto space-y-6">
-          <div className="mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+        <div className="max-w-[1440px] mx-auto space-y-3">
+          <div className="mb-2">
+            <h1 className="text-lg md:text-xl font-bold text-foreground">
               Visão Geral do Negócio
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-[11px] text-muted-foreground mt-0.5">
               Métricas consolidadas de todos os módulos
             </p>
           </div>
@@ -68,11 +68,11 @@ export default function DashboardPage() {
 
           {data?.kpis && <KpiGrid kpis={data.kpis} />}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 items-stretch">
+            <div className="h-full">
               {data?.charts && <DashboardCharts charts={data.charts} />}
             </div>
-            <div className="space-y-6">
+            <div className="grid grid-rows-[1fr_1fr] gap-3">
               {data?.activities && <ActivityFeed activities={data.activities} />}
               {data?.pendingTasks && (
                 <PendingTasks

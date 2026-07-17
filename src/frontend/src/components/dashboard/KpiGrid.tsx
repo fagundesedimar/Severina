@@ -54,15 +54,15 @@ function formatTime(minutes: number): string {
 
 export function KpiCard({ icon, label, value, trend, subtitle }: KpiCardProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 rounded-xl relative overflow-hidden group hover:shadow-md transition-shadow">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-3 rounded-xl relative overflow-hidden group hover:shadow-md transition-shadow">
       <div className="absolute -right-4 -bottom-4 opacity-5 dark:opacity-10 transform group-hover:scale-110 transition-transform">
-        <span className="material-symbols-outlined text-[100px] text-primary">{icon}</span>
+        <span className="material-symbols-outlined text-[80px] text-primary">{icon}</span>
       </div>
-      <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest block mb-2">
+      <span className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest block mb-1">
         {label}
       </span>
-      <div className="flex items-baseline gap-2 mb-3">
-        <span className="text-2xl font-bold text-on-surface font-mono">{value}</span>
+      <div className="flex items-baseline gap-2 mb-2">
+        <span className="text-xl font-bold text-on-surface font-mono">{value}</span>
         <TrendIndicator trend={trend} />
       </div>
       {subtitle && (
@@ -128,7 +128,7 @@ export function KpiGrid({ kpis }: { kpis: KpisDto }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
       {cards.map((card) => (
         <KpiCard key={card.label} {...card} />
       ))}

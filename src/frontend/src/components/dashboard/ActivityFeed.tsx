@@ -41,41 +41,43 @@ export function ActivityFeed({ activities }: { activities: ActivityDto[] }) {
   const router = useRouter();
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-      <h3 className="text-sm font-semibold text-on-surface mb-4 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary text-lg">history</span>
-        Atividades Recentes
-      </h3>
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-1">
+        <h3 className="text-xs font-semibold text-on-surface flex items-center gap-2">
+          <span className="material-symbols-outlined text-primary text-sm">history</span>
+          Atividades Recentes
+        </h3>
+        {activities.length > 0 && (
+          <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-blue-500 rounded-full">
+            {activities.length > 99 ? '99+' : activities.length}
+          </span>
+        )}
+      </div>
       {activities.length === 0 ? (
-        <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
+        <p className="text-xs text-gray-500 dark:text-gray-400 text-center py-4">
           Nenhuma atividade recente
         </p>
       ) : (
-        <div className="space-y-3">
-          {activities.map((activity) => (
+        <div className="space-y-1 flex-1">
+          {activities.slice(0, 8).map((activity) => (
             <div
               key={activity.id}
               onClick={() => activity.sourceUrl && router.push(activity.sourceUrl)}
-              className={`flex items-start gap-3 p-3 rounded-lg transition-colors ${
+              className={`flex items-center gap-2 p-1.5 rounded-lg transition-colors ${
                 activity.sourceUrl
                   ? 'hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer'
                   : ''
               }`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${getActivityColor(activity.type)}`}>
-                <span className="material-symbols-outlined text-sm">{getActivityIcon(activity.type)}</span>
+              <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${getActivityColor(activity.type)}`}>
+                <span className="material-symbols-outlined text-[9px]">{getActivityIcon(activity.type)}</span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-on-surface truncate">{activity.description}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                <p className="text-[11px] text-on-surface truncate">{activity.description}</p>
+                <p className="text-[9px] text-gray-500 dark:text-gray-400">
                   {formatTimeAgo(activity.timestamp)}
                 </p>
               </div>
-              {activity.sourceUrl && (
-                <span className="material-symbols-outlined text-gray-400 text-sm opacity-0 group-hover:opacity-100">
-                  chevron_right
-                </span>
-              )}
             </div>
           ))}
         </div>

@@ -51,46 +51,46 @@ export function PendingTasks({ tasks, totalCount }: { tasks: PendingTaskDto[]; t
   const router = useRouter();
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-on-surface flex items-center gap-2">
-          <span className="material-symbols-outlined text-primary text-lg">task_alt</span>
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-1">
+        <h3 className="text-xs font-semibold text-on-surface flex items-center gap-2">
+          <span className="material-symbols-outlined text-primary text-sm">task_alt</span>
           Tarefas Pendentes
         </h3>
         {totalCount > 0 && (
-          <span className="inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full">
+          <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 rounded-full">
             {totalCount > 99 ? '99+' : totalCount}
           </span>
         )}
       </div>
       {tasks.length === 0 ? (
-        <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
+        <p className="text-xs text-gray-500 dark:text-gray-400 text-center py-4">
           Nenhuma tarefa pendente
         </p>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-1 flex-1">
           {tasks.slice(0, 8).map((task) => (
             <div
               key={task.id}
               onClick={() => task.sourceUrl && router.push(task.sourceUrl)}
-              className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${
+              className={`flex items-center gap-2 p-1.5 rounded-lg border transition-colors ${
                 task.sourceUrl
                   ? 'hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer'
                   : ''
               } ${getPriorityStyle(task.priority)}`}
             >
-              <span className="material-symbols-outlined text-sm flex-shrink-0">
+              <span className="material-symbols-outlined text-[10px] flex-shrink-0">
                 {task.type === 'appointment' ? 'event' :
                  task.type === 'invoice' ? 'receipt' :
                  task.type === 'message' ? 'chat' : 'task'}
               </span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{task.title}</p>
+                <p className="text-[11px] font-medium truncate">{task.title}</p>
                 {task.dueDate && (
-                  <p className="text-xs opacity-75 mt-0.5">{formatDueDate(task.dueDate)}</p>
+                  <p className="text-[9px] opacity-75">{formatDueDate(task.dueDate)}</p>
                 )}
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-tighter opacity-75">
+              <span className="text-[8px] font-bold uppercase tracking-tighter opacity-75">
                 {getPriorityLabel(task.priority)}
               </span>
             </div>

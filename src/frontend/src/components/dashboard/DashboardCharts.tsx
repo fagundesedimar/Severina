@@ -6,12 +6,12 @@ function BarChart({ data }: { data: ChartsDto['barData'] }) {
   const maxValue = Math.max(...data.map((d) => d.value), 1);
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-      <h3 className="text-sm font-semibold text-on-surface mb-4 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary text-lg">bar_chart</span>
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 h-full flex flex-col">
+      <h3 className="text-xs font-semibold text-on-surface mb-1 flex items-center gap-2">
+        <span className="material-symbols-outlined text-primary text-sm">bar_chart</span>
         Atendimentos por Dia
       </h3>
-      <div className="flex items-end gap-1 h-40 overflow-x-auto">
+      <div className="flex items-end gap-1 flex-1 overflow-x-auto">
         {data.map((item, i) => (
           <div key={i} className="flex flex-col items-center min-w-[12px] group">
             <div className="relative w-full flex justify-center">
@@ -44,13 +44,13 @@ function PieChart({ data }: { data: ChartsDto['pieData'] }) {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-      <h3 className="text-sm font-semibold text-on-surface mb-4 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary text-lg">pie_chart</span>
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 h-full flex flex-col">
+      <h3 className="text-xs font-semibold text-on-surface mb-1 flex items-center gap-2">
+        <span className="material-symbols-outlined text-primary text-sm">pie_chart</span>
         Atendimentos por Origem
       </h3>
-      <div className="flex items-center gap-6">
-        <div className="relative w-32 h-32 flex-shrink-0">
+      <div className="flex items-center gap-3 flex-1">
+        <div className="relative w-24 h-24 flex-shrink-0">
           <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
             {data.map((item, i) => {
               const { percent, dashOffset } = segments[i];
@@ -72,14 +72,14 @@ function PieChart({ data }: { data: ChartsDto['pieData'] }) {
             })}
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-lg font-bold text-on-surface">{total}</span>
+            <span className="text-sm font-bold text-on-surface">{total}</span>
           </div>
         </div>
-        <div className="space-y-2 flex-1">
+        <div className="space-y-1 flex-1 justify-center">
           {data.map((item, i) => (
-            <div key={i} className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
+            <div key={i} className="flex items-center justify-between text-xs">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
                 <span className="text-gray-700 dark:text-gray-300">{item.label}</span>
               </div>
               <span className="font-medium text-on-surface">{item.value}</span>
@@ -106,13 +106,13 @@ function LineChart({ data }: { data: ChartsDto['lineData'] }) {
   const pathD = `M ${points.join(' L ')}`;
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-      <h3 className="text-sm font-semibold text-on-surface mb-4 flex items-center gap-2">
-        <span className="material-symbols-outlined text-primary text-lg">show_chart</span>
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 h-full flex flex-col">
+      <h3 className="text-xs font-semibold text-on-surface mb-1 flex items-center gap-2">
+        <span className="material-symbols-outlined text-primary text-sm">show_chart</span>
         Tendência de Atendimentos
       </h3>
-      <div className="overflow-x-auto">
-        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-32" preserveAspectRatio="none">
+      <div className="overflow-x-auto flex-1 flex flex-col">
+        <svg viewBox={`0 0 ${width} ${height}`} className="w-full flex-1" preserveAspectRatio="none">
           <defs>
             <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="rgb(var(--color-primary-rgb))" stopOpacity="0.3" />
@@ -140,9 +140,9 @@ function LineChart({ data }: { data: ChartsDto['lineData'] }) {
 
 export function DashboardCharts({ charts }: { charts: ChartsDto }) {
   return (
-    <div className="space-y-6">
+    <div className="grid grid-rows-[1.3fr_1fr] gap-3 h-full">
       <BarChart data={charts.barData} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <PieChart data={charts.pieData} />
         <LineChart data={charts.lineData} />
       </div>
