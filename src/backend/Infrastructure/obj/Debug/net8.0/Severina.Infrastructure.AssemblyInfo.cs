@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Severina.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec5db57de7d84858a142d47fade1498e426347d7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ecb6a1c0bff25d271544ee089ceec504d3e61ac5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Severina.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Severina.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

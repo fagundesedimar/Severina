@@ -27,18 +27,10 @@ export function ClientList({ search, statusFilter }: ClientListProps) {
       setIsLoading(true);
       setError(null);
       try {
-        if (search) {
-          const result = await clientApi.search(search, effectivePage, pageSize);
-          if (!cancelled) {
-            setClients(result.items);
-            setTotalCount(result.totalCount);
-          }
-        } else {
-          const result = await clientApi.list({ page: effectivePage, pageSize, status: statusFilter });
-          if (!cancelled) {
-            setClients(result.items);
-            setTotalCount(result.totalCount);
-          }
+        const result = await clientApi.list({ page: effectivePage, pageSize, search: search || undefined, status: statusFilter || undefined });
+        if (!cancelled) {
+          setClients(result.items);
+          setTotalCount(result.totalCount);
         }
       } catch {
         if (!cancelled) setError('Erro ao carregar clientes');

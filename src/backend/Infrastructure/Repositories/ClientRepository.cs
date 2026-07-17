@@ -17,7 +17,8 @@ public class ClientRepository : Repository<Client>, IClientRepository
             .Where(c => c.CompanyId == companyId &&
                 (c.Nome.ToLower().Contains(normalizedSearch) ||
                  c.Empresa != null && c.Empresa.ToLower().Contains(normalizedSearch) ||
-                 c.Email!.Value.ToLower().Contains(normalizedSearch)))
+                 c.Email!.Value.ToLower().Contains(normalizedSearch) ||
+                 c.Telefone != null && c.Telefone.ToLower().Contains(normalizedSearch)))
             .OrderByDescending(c => c.CreatedAt)
             .Skip(skip)
             .Take(take)
@@ -32,7 +33,8 @@ public class ClientRepository : Repository<Client>, IClientRepository
             .Where(c => c.CompanyId == companyId &&
                 (c.Nome.ToLower().Contains(normalizedSearch) ||
                  c.Empresa != null && c.Empresa.ToLower().Contains(normalizedSearch) ||
-                 c.Email!.Value.ToLower().Contains(normalizedSearch)))
+                 c.Email!.Value.ToLower().Contains(normalizedSearch) ||
+                 c.Telefone != null && c.Telefone.ToLower().Contains(normalizedSearch)))
             .CountAsync();
     }
 

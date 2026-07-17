@@ -7,7 +7,8 @@ namespace Severina.Application.Queries.Clients;
 public record ListClientsQuery(
     Guid CompanyId,
     int Page = 1,
-    int PageSize = 20) : IRequest<PagedClientResponse>;
+    int PageSize = 20,
+    string? Status = null) : IRequest<PagedClientResponse>;
 
 public class ListClientsQueryHandler : IRequestHandler<ListClientsQuery, PagedClientResponse>
 {
@@ -22,6 +23,11 @@ public class ListClientsQueryHandler : IRequestHandler<ListClientsQuery, PagedCl
     {
         var allClients = await _unitOfWork.Clients.GetAllAsync();
         var companyClients = allClients.Where(c => c.CompanyId == request.CompanyId).ToList();
+
+        if (!string.IsNullOrWhiteSpace(request.Status) && Enum.TryParse<Domain.Enums.StatusCliente>(request.Status, true, out var statusEnum))
+        {
+            companyClients = companyClients.Where(c => c.Status == statusEnum).ToList();
+        }
 
         var totalCount = companyClients.Count;
         var items = companyClients

@@ -27,6 +27,7 @@ public class ClientsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<PagedClientResponse>> List(
         [FromQuery] string? search,
+        [FromQuery] string? status,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
     {
@@ -38,7 +39,7 @@ public class ClientsController : ControllerBase
             return Ok(searchResult);
         }
 
-        var result = await _mediator.Send(new ListClientsQuery(companyId, page, pageSize));
+        var result = await _mediator.Send(new ListClientsQuery(companyId, page, pageSize, status));
         return Ok(result);
     }
 

@@ -42,8 +42,12 @@ export default function LoginPage() {
 
       router.push('/dashboard');
     } catch (err: unknown) {
-      const axiosErr = err as { response?: { data?: { message?: string } } };
-      setError(axiosErr.response?.data?.message || 'Erro ao fazer login');
+      const axiosErr = err as { response?: { data?: { message?: string } }; code?: string };
+      if (!axiosErr.response) {
+        setError('Tente novamente mais tarde');
+      } else {
+        setError(axiosErr.response?.data?.message || 'Erro ao fazer login');
+      }
     } finally {
       setLoading(false);
     }
