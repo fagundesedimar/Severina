@@ -114,11 +114,13 @@ export function Menu({
       <div className={cn("p-3 mt-auto", collapsed && "p-2")}>
         {collapsed ? (
           <div className="flex flex-col items-center gap-2">
-            <Avatar
-              src={userAvatar}
-              fallback={userName.charAt(0)}
-              className="h-10 w-10"
-            />
+            <div title={`${userName} - ${userRole}`}>
+              <Avatar
+                src={userAvatar}
+                fallback={userName.charAt(0)}
+                className="h-10 w-10"
+              />
+            </div>
             <button
               onClick={handleLogout}
               className="p-1.5 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
@@ -130,11 +132,13 @@ export function Menu({
         ) : (
           <div className="p-3 rounded-xl bg-muted border border-border">
             <div className="flex items-center gap-3">
-              <Avatar
-                src={userAvatar}
-                fallback={userName.charAt(0)}
-                className="h-10 w-10"
-              />
+              <div title={`${userName} - ${userRole}`}>
+                <Avatar
+                  src={userAvatar}
+                  fallback={userName.charAt(0)}
+                  className="h-10 w-10"
+                />
+              </div>
               <div className="flex flex-col min-w-0 flex-1">
                 <span className="text-sm font-semibold text-foreground truncate">
                   {userName}
