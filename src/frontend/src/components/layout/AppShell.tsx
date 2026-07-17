@@ -54,7 +54,7 @@ export function AppShell({ children, title, actions }: AppShellProps) {
       <aside
         className={`hidden lg:flex fixed left-0 top-0 h-full ${sidebarWidth} bg-background border-r border-border flex-col z-50 transition-all duration-300`}
       >
-        <div className="p-4 border-b border-border flex items-center justify-between">
+        <div className="p-4 border-b border-border flex items-center justify-center">
           {!sidebarCollapsed && (
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shrink-0">
@@ -68,21 +68,12 @@ export function AppShell({ children, title, actions }: AppShellProps) {
             </div>
           )}
           {sidebarCollapsed && (
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary mx-auto">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <span className="material-symbols-outlined text-primary-foreground text-lg">
                 smart_toy
               </span>
             </div>
           )}
-          <button
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className={`p-2 rounded-lg hover:bg-muted transition-colors ${sidebarCollapsed ? "hidden" : ""}`}
-            title={sidebarCollapsed ? "Expandir menu" : "Recolher menu"}
-          >
-            <span className="material-symbols-outlined text-xl">
-              {sidebarCollapsed ? "chevron_right" : "chevron_left"}
-            </span>
-          </button>
         </div>
 
         <Menu
@@ -91,17 +82,7 @@ export function AppShell({ children, title, actions }: AppShellProps) {
           userRole={user?.papel || ""}
         />
 
-        {sidebarCollapsed && (
-          <div className="p-3 border-t border-border">
-            <button
-              onClick={() => setSidebarCollapsed(false)}
-              className="w-full flex items-center justify-center p-2 rounded-lg hover:bg-muted transition-colors"
-              title="Expandir menu"
-            >
-              <span className="material-symbols-outlined text-xl">chevron_right</span>
-            </button>
-          </div>
-        )}
+
       </aside>
 
       {/* Mobile Sidebar (Drawer) */}

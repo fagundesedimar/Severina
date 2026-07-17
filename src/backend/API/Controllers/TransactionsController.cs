@@ -22,7 +22,7 @@ public class TransactionsController : ControllerBase
         _mediator = mediator;
     }
 
-    private Guid GetCompanyId() => Guid.Parse(User.FindFirstValue("CompanyId")!);
+    private Guid GetCompanyId() => Guid.Parse(User.FindFirstValue("company_id")!);
 
     [HttpGet]
     public async Task<ActionResult<PagedTransactionResponse>> List(

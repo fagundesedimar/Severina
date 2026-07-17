@@ -32,7 +32,7 @@ export function StatusFilter({ value, onChange }: StatusFilterProps) {
         onClick={() => onChange('Inativo')}
         className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
           value === 'Inativo'
-            ? 'bg-red-600 text-white'
+            ? 'bg-destructive text-destructive-foreground'
             : 'border border-outline-variant text-on-surface/60 hover:bg-surface-container-low'
         }`}
       >

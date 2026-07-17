@@ -21,7 +21,7 @@ public class FinancialDashboardController : ControllerBase
         _mediator = mediator;
     }
 
-    private Guid GetCompanyId() => Guid.Parse(User.FindFirstValue("CompanyId")!);
+    private Guid GetCompanyId() => Guid.Parse(User.FindFirstValue("company_id")!);
 
     [HttpGet]
     [ResponseCache(Duration = 300)]

@@ -317,7 +317,7 @@ function EditarCompromissoForm() {
           )}
           <button
             onClick={handleDelete}
-            className="py-2 px-4 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm font-medium"
+            className="py-2 px-4 bg-destructive text-destructive-foreground rounded-md hover:bg-destructive-hover transition-colors text-sm font-medium"
           >
             Excluir
           </button>
