@@ -36,7 +36,8 @@ public class InvitesController : ControllerBase
         try
         {
             var companyId = GetCompanyId();
-            var command = new InviteUserCommand(companyId, request.Email, request.Papel);
+            var appUrl = HttpContext.RequestServices.GetRequiredService<IConfiguration>()["AppUrl"] ?? "http://localhost:3000";
+            var command = new InviteUserCommand(companyId, request.Email, request.Papel, appUrl);
             var result = await _mediator.Send(command);
             return Ok(result);
         }

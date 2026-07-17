@@ -68,6 +68,7 @@ graph TD
 *   **Frontend:** React, Next.js, TypeScript
 *   **Backend:** ASP.NET Core 8, C#
 *   **Persistência:** PostgreSQL, Redis, pgvector
+*   **Envio de Email:** Resend (API transacional)
 *   **Infraestrutura / Deploy:** Docker, Kubernetes, Terraform, nuvem pública (Azure/AWS/GCP)
 
 ---
@@ -125,7 +126,17 @@ graph TD
     -   [ ] Oportunidades podem ser criadas e acompanhadas por status.
     -   [ ] Busca por clientes suporta filtros por nome, telefone e status.
 
-### [RF-008] Preferências de Tema (Dark Mode)
+### [RF-008] Convite de Usuários por Email
+*   **Descrição:** Permitir que administradores convidem novos usuários para a empresa por email, com link de aceitação que expira em 7 dias.
+*   **Atores:** Administrador da Empresa
+*   **Critérios de Aceitação:**
+    -   [ ] Administrador pode enviar convite informando email e perfil (Administrador/Operacional).
+    -   [ ] Email de convite é enviado via Resend com template HTML contendo link `/convite/{code}`.
+    -   [ ] Convite expira automaticamente após 7 dias.
+    -   [ ] Administrador pode listar convites pendentes e revogá-los.
+    -   [ ] Usuário convidado acessa o link, define nome e senha, e é redirecionado para o login.
+
+### [RF-009] Preferências de Tema (Dark Mode)
 *   **Descrição:** Permitir que o usuário alterne entre modo claro, escuro e sistema, com preferência persistida por conta.
 *   **Atores:** Todos os usuários autenticados
 *   **Critérios de Aceitação:**
@@ -410,6 +421,48 @@ erDiagram
 *   **Respostas Esperadas:**
     -   `200 OK`: Evento processado com sucesso.
     -   `400 Bad Request`: Payload inválido.
+
+### Endpoint: `POST /api/v1/invites`
+*   **Descrição:** Envia convite por email para novo usuário entrar na empresa.
+*   **Payload de Exemplo (JSON):**
+    ```json
+    {
+      "email": "novo@usuario.com",
+      "role": "Operacional"
+    }
+    ```
+*   **Respostas Esperadas:**
+    -   `201 Created`: Convite criado e email enviado.
+    -   `400 Bad Request`: Dados inválidos.
+    -   `403 Forbidden`: Usuário sem permissão.
+    -   `409 Conflict`: Email já pertence à empresa.
+
+### Endpoint: `GET /api/v1/invites`
+*   **Descrição:** Lista convites pendentes da empresa autenticada.
+*   **Respostas Esperadas:**
+    -   `200 OK`: Retorna lista de convites pendentes (email, role, createdAt, expiresAt).
+    -   `401 Unauthorized`: Token inválido ou ausente.
+
+### Endpoint: `DELETE /api/v1/invites/{code}`
+*   **Descrição:** Revoga um convite pendente.
+*   **Respostas Esperadas:**
+    -   `200 OK`: Convite revogado com sucesso.
+    -   `404 Not Found`: Convite não encontrado ou já utilizado.
+
+### Endpoint: `POST /api/v1/invites/{code}/accept`
+*   **Descrição:** Aceita convite e cria conta de usuário.
+*   **Payload de Exemplo (JSON):**
+    ```json
+    {
+      "nome": "Novo Usuario",
+      "senha": "SenhaForte123"
+    }
+    ```
+*   **Respostas Esperadas:**
+    -   `201 Created`: Usuário criado com sucesso.
+    -   `400 Bad Request`: Dados inválidos.
+    -   `404 Not Found`: Convite não encontrado.
+    -   `410 Gone`: Convite expirado.
 
 ---
 

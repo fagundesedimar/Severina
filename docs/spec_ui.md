@@ -222,6 +222,26 @@ O fluxo de navegação do Severina AI é organizado de forma a garantir jornadas
 
 ---
 
+### INT-16 - Tela de Aceite de Convite
+
+- **Tipo de Contêiner**: Página inteira com formulário centralizado sobre fundo neutro.
+- **Campos**:
+  - Seu Nome (Campo de texto livre, obrigatório).
+  - Crie sua Senha (Campo de texto com máscara de ocultação, mínimo 8 caracteres).
+  - Confirme sua Senha (Campo de texto com máscara de ocultação).
+- **Botões**:
+  - "Aceitar Convite" (Ação principal verde `{colors.primary}` para submeter o formulário).
+  - "Voltar para o Login" (Link secundário que navega para `/login`).
+- **Comportamento**:
+  - Ao acessar `/convite/{code}`, o sistema valida o código automaticamente.
+  - Se o código for inválido ou expirado, exibe mensagem de erro com link para o login.
+  - Se o código for válido, exibe o formulário de aceite.
+  - Após envio bem-sucedido, redireciona para `/login` com mensagem de sucesso.
+  - Valida que as senhas coincidem antes de enviar.
+- **Considerações**: A página deve ser acessível diretamente via link no email, sem necessidade de autenticação. O formulário deve exibir "Mínimo de 8 caracteres" como ajuda abaixo do campo de senha.
+
+---
+
 ### Mapeamento Visual do Fluxo
 
 ```mermaid

@@ -116,6 +116,14 @@
 * O padrão deve ser `system` (respeita a configuração do SO do usuário).
 * A acessibilidade deve ser garantida: `aria-label`, `role="switch"`, `aria-checked`.
 
+#### RF-007 Convite de Usuários por Email
+
+* Objetivo: permitir que administradores convidem novos usuários para a empresa por email, com link de aceitação que expira em 7 dias.
+* O administrador informa o email e o perfil (Administrador/Operacional) do convite.
+* O email de convite é enviado via Resend com template HTML contendo link `/convite/{code}`.
+* O convite expira automaticamente após 7 dias e pode ser revogado pelo administrador.
+* O usuário convidado acessa o link, define nome e senha, e é redirecionado para o login.
+
 ---
 
 ## Requisitos Não Funcionais

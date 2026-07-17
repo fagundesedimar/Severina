@@ -473,3 +473,4 @@ C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\StackExchang
 C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
 C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\System.IO.Packaging.dll
 C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\XLParser.dll
+C:\Projetos\Severina\src\backend\Tests\Integration\bin\Debug\net8.0\Resend.dll

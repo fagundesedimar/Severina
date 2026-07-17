@@ -255,6 +255,7 @@ Estratégia de versionamento:
 | :--- | :--- | :--- |
 | `notifications.whatsapp` | Worker de Notificações | Envio de mensagens WhatsApp (lembretes, follow-up, cobrança) |
 | `notifications.push` | Worker de Notificações | Notificações push para o frontend |
+| `notifications.email` | Worker de Notificações | Envio de emails transacionais (convites, lembretes) |
 | `billing.process` | Worker Financeiro | Processamento assíncrono de cobranças e reconciliação |
 | `analytics.events` | Worker de Analytics | Coleta e agregação de eventos para dashboards |
 | `ai.process` | Worker de IA | Processamento de consultas RAG e geração de respostas |
@@ -264,6 +265,17 @@ Estratégia de versionamento:
 * **Retry:** tentativa automática com backoff exponencial (3 tentativas, intervalo inicial de 5s)
 * **DLQ:** mensagens que falharam após todas as tentativas são encaminhadas para fila morta para inspeção manual
 * **TTL:** mensagens com tempo de vida superior a 24h são descartadas automaticamente
+
+### Serviço de Email (Resend)
+
+* **Provedor:** Resend (API transacional HTTP)
+* **Pacote NuGet:** `Resend` v0.6.0
+* **Uso atual:** Envio de emails de convite para novos usuários
+* **Template:** HTML com botão "Aceitar Convite" que direciona para `/convite/{code}`
+* **Configuração:** Chave API, email remetente e nome remetente em `appsettings.json` sob a seção `"Resend"`
+* **Fallback:** Se o envio falhar, o convite é criado mas retorna aviso "Convite criado, mas falha no envio de email"
+* **Interface:** `IEmailService.SendInviteEmailAsync(string email, string code, string baseUrl)`
+* **Implementação:** `ResendEmailService` no projeto Infrastructure
 
 ---
 

@@ -164,3 +164,6 @@ C:\Projetos\Severina\src\backend\API\bin\Debug\net8.0\Irony.dll
 C:\Projetos\Severina\src\backend\API\bin\Debug\net8.0\SixLabors.Fonts.dll
 C:\Projetos\Severina\src\backend\API\bin\Debug\net8.0\System.IO.Packaging.dll
 C:\Projetos\Severina\src\backend\API\bin\Debug\net8.0\XLParser.dll
+C:\Projetos\Severina\src\backend\API\bin\Debug\net8.0\Microsoft.AspNetCore.WebUtilities.dll
+C:\Projetos\Severina\src\backend\API\bin\Debug\net8.0\Microsoft.Net.Http.Headers.dll
+C:\Projetos\Severina\src\backend\API\bin\Debug\net8.0\Resend.dll

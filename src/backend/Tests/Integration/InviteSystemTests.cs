@@ -82,4 +82,39 @@ public class InviteSystemTests : IDisposable
         var result = await _cacheService.GetPendingInvitesAsync(companyId);
         Assert.Equal(2, result.Count);
     }
+
+    [Fact]
+    public async Task SaveInvite_StoresCorrectRole()
+    {
+        var invite = new InviteData(
+            Guid.NewGuid(),
+            "admin@email.com",
+            Severina.Domain.Enums.PapelUsuario.Administrador,
+            DateTime.UtcNow,
+            DateTime.UtcNow.AddDays(7));
+
+        await _cacheService.SaveInviteAsync("admin-code", invite);
+
+        var result = await _cacheService.GetInviteAsync("admin-code");
+        Assert.NotNull(result);
+        Assert.Equal(Severina.Domain.Enums.PapelUsuario.Administrador, result.Papel);
+    }
+
+    [Fact]
+    public async Task SaveInvite_StoresCompanyId()
+    {
+        var companyId = Guid.NewGuid();
+        var invite = new InviteData(
+            companyId,
+            "company@email.com",
+            Severina.Domain.Enums.PapelUsuario.Operacional,
+            DateTime.UtcNow,
+            DateTime.UtcNow.AddDays(7));
+
+        await _cacheService.SaveInviteAsync("company-code", invite);
+
+        var result = await _cacheService.GetInviteAsync("company-code");
+        Assert.NotNull(result);
+        Assert.Equal(companyId, result.CompanyId);
+    }
 }

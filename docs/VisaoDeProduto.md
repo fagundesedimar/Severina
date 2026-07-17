@@ -195,6 +195,7 @@ A Severina AI será uma plataforma web responsiva com assistente virtual baseada
 - RBAC com papéis: Administrador da Empresa, Usuário Operacional, Usuário Financeiro
 - Multi-tenant lógico com isolamento por `company_id`
 - Preferências de tema (claro, escuro, sistema) com persistência por usuário
+- Convite de usuários por email via Resend: administrador envia convite, usuário acessa link, define nome e senha, e é redirecionado para o login. Convites expiram em 7 dias e podem ser revogados.
 
 **Integrações e APIs:**
 - Webhooks para WhatsApp (mensagens e status de entrega)
@@ -328,6 +329,7 @@ O projeto será considerado bem-sucedido quando:
 - **Serviço de mensageria** (RabbitMQ) para orquestração de eventos assíncronos
 - **Serviço de autenticação** (Identity Service customizado com JWT/OIDC)
 - **Serviço de notificações** (e-mail, push) para lembretes e alertas
+- **Resend** (API transacional) para envio de emails de convite e notificações
 - **Provedor de nuvem** (Azure, AWS ou GCP) para infraestrutura e hosting
 
 ---

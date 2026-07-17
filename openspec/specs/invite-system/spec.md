@@ -2,24 +2,28 @@
 
 ## Purpose
 
-Sistema de convites por email com códigos únicos armazenados em Redis, expiração de 7 dias, e uso único.
+Sistema de convites por email com códigos únicos armazenados em Redis, expiração de 7 dias, e uso único. Envio de emails via Resend (API transacional).
 
 ## Requirements
 
 ### Requirement: Invite system sends email with code
-The system SHALL generate unique invite codes and send them via email.
+The system SHALL generate unique invite codes and send them via email using Resend.
 
 #### Scenario: Code generation
 - **WHEN** Admin creates invite
 - **THEN** system generates 32-char alphanumeric code and stores in Redis with key "invite:{code}" and TTL 7 days
 
-#### Scenario: Email sent
+#### Scenario: Email sent via Resend
 - **WHEN** invite is created
-- **THEN** system sends email to invited address with link "https://app.severina.ai/convite/{code}"
+- **THEN** system sends email to invited address via Resend API with HTML template containing link "http://localhost:3000/convite/{code}" and button "Aceitar Convite"
 
 #### Scenario: Email service failure
-- **WHEN** email service fails to send
+- **WHEN** Resend API fails to send email
 - **THEN** invite is still created in Redis but system returns warning "Convite criado, mas falha no envio de email"
+
+#### Scenario: Resend configuration
+- **WHEN** application starts
+- **THEN** ResendEmailService is registered in DI with ResendClient, reading API key from configuration "Resend:ApiKey", sender email from "Resend:FromEmail", and sender name from "Resend:FromName"
 
 ### Requirement: Invite has expiration
 The system SHALL enforce invite expiration after 7 days.

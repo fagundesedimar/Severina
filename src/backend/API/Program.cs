@@ -20,6 +20,7 @@ using Severina.Domain.ValueObjects;
 using Severina.Infrastructure.Data;
 using Severina.Infrastructure.Repositories;
 using Severina.Infrastructure.Services;
+using Resend;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,7 +69,14 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IInviteCacheService, InMemoryInviteCacheService>();
-builder.Services.AddScoped<IEmailService, MockEmailService>();
+builder.Services.AddScoped<IEmailService, ResendEmailService>();
+builder.Services.Configure<ResendEmailOptions>(builder.Configuration.GetSection("Resend"));
+builder.Services.AddHttpClient<ResendClient>(client =>
+{
+    var apiKey = builder.Configuration["Resend:ApiKey"];
+    client.BaseAddress = new Uri("https://api.resend.com/");
+    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+});
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAppointmentCacheService, AppointmentCacheService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();

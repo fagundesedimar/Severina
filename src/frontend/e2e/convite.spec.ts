@@ -59,4 +59,36 @@ test.describe('Invite Flow', () => {
     await page.locator('#senha').waitFor({ timeout: 10000 });
     await expect(page.locator('button[type="submit"]')).toContainText('Aceitar Convite');
   });
+
+  test('shows expired invite message for expired code', async ({ page }) => {
+    await page.goto('/convite/expired-code');
+
+    await expect(page.locator('text=Convite expirado')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('a', { hasText: 'Ir para o Login' })).toBeVisible();
+  });
+
+  test('has back to login link', async ({ page }) => {
+    await page.goto('/convite/valid-test-code');
+
+    await page.locator('#senha').waitFor({ timeout: 10000 });
+    await expect(page.locator('a', { hasText: 'Voltar para o Login' })).toBeVisible();
+    await expect(page.locator('a', { hasText: 'Voltar para o Login' })).toHaveAttribute('href', '/login');
+  });
+
+  test('does not submit with empty fields', async ({ page }) => {
+    await page.goto('/convite/valid-test-code');
+
+    await page.locator('#senha').waitFor({ timeout: 10000 });
+    await page.locator('button[type="submit"]').click();
+
+    await expect(page.locator('#nome')).toHaveAttribute('required');
+    await expect(page.locator('#senha')).toHaveAttribute('required');
+  });
+
+  test('shows password help text', async ({ page }) => {
+    await page.goto('/convite/valid-test-code');
+
+    await page.locator('#senha').waitFor({ timeout: 10000 });
+    await expect(page.locator('#senha-help')).toContainText('Mínimo de 8 caracteres');
+  });
 });

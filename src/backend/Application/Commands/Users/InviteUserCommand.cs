@@ -10,7 +10,8 @@ namespace Severina.Application.Commands.Users;
 public record InviteUserCommand(
     Guid CompanyId,
     string Email,
-    PapelUsuario Papel) : IRequest<UserResponse>;
+    PapelUsuario Papel,
+    string AppUrl = "http://localhost:3000") : IRequest<UserResponse>;
 
 public class InviteUserCommandValidator : AbstractValidator<InviteUserCommand>
 {
@@ -62,7 +63,7 @@ public class InviteUserCommandHandler : IRequestHandler<InviteUserCommand, UserR
             await _emailService.SendInviteEmailAsync(
                 request.Email,
                 code,
-                "https://app.severina.ai");
+                request.AppUrl);
         }
         catch
         {

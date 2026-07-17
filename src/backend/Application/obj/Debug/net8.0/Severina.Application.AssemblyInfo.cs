@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Severina.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ecb6a1c0bff25d271544ee089ceec504d3e61ac5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04bcdd6e1822958d3891e37ee535a0db2665ec7e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Severina.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Severina.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
