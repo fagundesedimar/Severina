@@ -75,29 +75,29 @@ export default function MonthView({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigateMonth(-1)}
             aria-label="Mês anterior"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
           >
             ←
           </button>
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-sm font-semibold">
             {MONTH_NAMES[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h2>
           <button
             onClick={() => navigateMonth(1)}
             aria-label="Próximo mês"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
           >
             →
           </button>
         </div>
         <button
           onClick={() => setCurrentDate(new Date())}
-          className="px-4 py-2 text-sm bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors"
+          className="px-3 py-1 text-xs bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors"
         >
           Hoje
         </button>
@@ -106,7 +106,7 @@ export default function MonthView({
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="grid grid-cols-7 border-b border-gray-200">
           {DAY_NAMES.map((day) => (
-            <div key={day} className="p-3 text-center text-sm font-medium text-gray-600">
+            <div key={day} className="p-2 text-center text-xs font-medium text-gray-600">
               {day}
             </div>
           ))}
@@ -125,15 +125,15 @@ export default function MonthView({
                 onClick={() => onDayClick(date)}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDayClick(date); } }}
                 aria-label={`${MONTH_NAMES[date.getMonth()]} ${date.getDate()}`}
-                className={`min-h-[100px] p-2 border-r border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors outline-none focus:ring-2 focus:ring-primary ${
+                className={`min-h-[112px] p-2 border-r border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors outline-none focus:ring-2 focus:ring-primary ${
                   !isCurrentMonth ? 'bg-gray-50/50' : ''
                 }`}
               >
-                <div className="flex justify-between items-start mb-1">
+                <div className="flex justify-between items-start mb-0.5">
                   <span
-                    className={`text-sm ${
+                    className={`text-xs ${
                       isToday
-                        ? 'bg-primary text-on-primary w-6 h-6 rounded-full flex items-center justify-center'
+                        ? 'bg-primary text-on-primary w-5 h-5 rounded-full flex items-center justify-center'
                         : isCurrentMonth
                         ? 'text-gray-700'
                         : 'text-gray-400'

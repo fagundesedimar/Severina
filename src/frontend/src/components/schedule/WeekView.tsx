@@ -84,33 +84,33 @@ export default function WeekView({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigateWeek(-1)}
             aria-label="Semana anterior"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
           >
             ←
           </button>
-          <h2 className="text-lg font-semibold">{formatDateRange()}</h2>
+          <h2 className="text-sm font-semibold">{formatDateRange()}</h2>
           <button
             onClick={() => navigateWeek(1)}
             aria-label="Próxima semana"
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
           >
             →
           </button>
         </div>
         <button
           onClick={goToToday}
-          className="px-4 py-2 text-sm bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors"
+          className="px-3 py-1 text-xs bg-primary text-on-primary rounded-lg hover:bg-primary/90 transition-colors"
         >
           Hoje
         </button>
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-4 mb-6">
+      <div className="flex gap-1.5 overflow-x-auto pb-2 mb-3">
         {weekDays.map((date, index) => {
           const isToday = date.toDateString() === new Date().toDateString();
           const hasAppointments = getAppointmentsForDay(date).length > 0;
@@ -121,14 +121,14 @@ export default function WeekView({
               onClick={() => onDateClick(date)}
               aria-label={`${DAY_NAMES[date.getDay()]} ${date.getDate()}`}
               aria-current={isToday ? 'date' : undefined}
-              className={`flex flex-col items-center justify-center min-w-[56px] h-20 rounded-xl border transition-all ${
+              className={`flex flex-col items-center justify-center min-w-[48px] h-14 rounded-lg border transition-all ${
                 isToday
                   ? 'border-primary bg-primary/5 text-primary'
                   : 'border-gray-200 bg-white hover:border-gray-300'
               }`}
             >
-              <span className="text-xs text-gray-500">{DAY_NAMES[date.getDay()]}</span>
-              <span className={`text-lg font-semibold ${isToday ? 'text-primary' : ''}`}>
+              <span className="text-[10px] text-gray-500">{DAY_NAMES[date.getDay()]}</span>
+              <span className={`text-sm font-semibold ${isToday ? 'text-primary' : ''}`}>
                 {date.getDate()}
               </span>
               {hasAppointments && (
@@ -168,7 +168,7 @@ export default function WeekView({
                 return (
                   <div
                     key={dayIndex}
-                    className="border-r border-b border-gray-100 p-1 min-h-[60px] hover:bg-gray-50 transition-colors"
+                    className="border-r border-b border-gray-100 p-1 min-h-[48px] hover:bg-gray-50 transition-colors"
                   >
                     {hourAppointments.map((apt) => (
                       <AppointmentCard key={apt.id} appointment={apt} onClick={() => router.push(`/agenda/${apt.id}`)} />
