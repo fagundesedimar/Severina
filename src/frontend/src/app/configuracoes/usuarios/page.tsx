@@ -192,14 +192,14 @@ export default function UsuariosPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        u.status === 'Ativo' ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'
+                        u.status === 'Ativo' || u.status === 'ativo' ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'
                       }`}>
-                        {u.status}
+                        {u.status === 'Ativo' || u.status === 'ativo' ? 'Ativo' : 'Inativo'}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       {u.id !== user?.id && (
-                        u.status === 'Ativo' ? (
+                        u.status === 'Ativo' || u.status === 'ativo' ? (
                           <button
                             onClick={() => handleDeactivate(u.id)}
                             className="text-destructive hover:text-destructive-hover"
@@ -239,8 +239,8 @@ export default function UsuariosPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {invites.map((invite) => (
-                    <tr key={invite.code}>
+                  {invites.map((invite, idx) => (
+                    <tr key={invite.code || `${invite.email}-${idx}`}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{invite.email}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{invite.papel}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
