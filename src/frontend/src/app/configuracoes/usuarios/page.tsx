@@ -75,7 +75,7 @@ export default function UsuariosPage() {
     try {
       await api.post('/api/v1/invites', {
         email: inviteEmail,
-        papel: inviteRole === 'Administrador' ? 0 : 1,
+        papel: inviteRole,
       });
       setShowInviteModal(false);
       setInviteEmail('');
@@ -114,7 +114,7 @@ export default function UsuariosPage() {
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
       await api.put(`/api/v1/users/company/${user?.companyId}/users/${userId}/role`, {
-        papel: newRole === 'Administrador' ? 0 : 1,
+        papel: newRole,
       });
       setUsers(users.map((u) => u.id === userId ? { ...u, papel: newRole } : u));
     } catch (err: unknown) {
@@ -186,8 +186,8 @@ export default function UsuariosPage() {
                         disabled={u.id === user?.id}
                         aria-label={`Papel de ${u.nome}`}
                       >
-                        <option value="Administrador">Administrador</option>
-                        <option value="Operacional">Operacional</option>
+                        <option value="administrador">Administrador</option>
+                        <option value="operacional">Operacional</option>
                       </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -242,7 +242,7 @@ export default function UsuariosPage() {
                   {invites.map((invite, idx) => (
                     <tr key={invite.code || `${invite.email}-${idx}`}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{invite.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{invite.papel}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{invite.papel === 'administrador' ? 'Administrador' : 'Operacional'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                         {new Date(invite.expiresAt).toLocaleDateString('pt-BR')}
                       </td>
@@ -291,8 +291,8 @@ export default function UsuariosPage() {
                     onChange={(e) => setInviteRole(e.target.value)}
                     className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:border-primary bg-background text-foreground"
                   >
-                    <option value="Operacional">Operacional</option>
-                    <option value="Administrador">Administrador</option>
+                    <option value="operacional">Operacional</option>
+                    <option value="administrador">Administrador</option>
                   </select>
                 </div>
 
