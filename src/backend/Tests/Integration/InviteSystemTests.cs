@@ -21,6 +21,7 @@ public class InviteSystemTests : IDisposable
     public async Task SaveInvite_StoresInvite()
     {
         var invite = new InviteData(
+            "test-code",
             Guid.NewGuid(),
             "test@email.com",
             Severina.Domain.Enums.PapelUsuario.Operacional,
@@ -32,12 +33,14 @@ public class InviteSystemTests : IDisposable
         var result = await _cacheService.GetInviteAsync("test-code");
         Assert.NotNull(result);
         Assert.Equal("test@email.com", result.Email);
+        Assert.Equal("test-code", result.Code);
     }
 
     [Fact]
     public async Task GetInvite_ExpiredInvite_ReturnsNull()
     {
         var invite = new InviteData(
+            "expired-code",
             Guid.NewGuid(),
             "test@email.com",
             Severina.Domain.Enums.PapelUsuario.Operacional,
@@ -54,6 +57,7 @@ public class InviteSystemTests : IDisposable
     public async Task DeleteInvite_RemovesInvite()
     {
         var invite = new InviteData(
+            "delete-code",
             Guid.NewGuid(),
             "test@email.com",
             Severina.Domain.Enums.PapelUsuario.Operacional,
@@ -71,9 +75,9 @@ public class InviteSystemTests : IDisposable
     public async Task GetPendingInvites_ReturnsCompanyInvites()
     {
         var companyId = Guid.NewGuid();
-        var invite1 = new InviteData(companyId, "user1@email.com", Severina.Domain.Enums.PapelUsuario.Operacional, DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
-        var invite2 = new InviteData(companyId, "user2@email.com", Severina.Domain.Enums.PapelUsuario.Administrador, DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
-        var invite3 = new InviteData(Guid.NewGuid(), "user3@email.com", Severina.Domain.Enums.PapelUsuario.Operacional, DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
+        var invite1 = new InviteData("code1", companyId, "user1@email.com", Severina.Domain.Enums.PapelUsuario.Operacional, DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
+        var invite2 = new InviteData("code2", companyId, "user2@email.com", Severina.Domain.Enums.PapelUsuario.Administrador, DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
+        var invite3 = new InviteData("code3", Guid.NewGuid(), "user3@email.com", Severina.Domain.Enums.PapelUsuario.Operacional, DateTime.UtcNow, DateTime.UtcNow.AddDays(7));
 
         await _cacheService.SaveInviteAsync("code1", invite1);
         await _cacheService.SaveInviteAsync("code2", invite2);
@@ -87,6 +91,7 @@ public class InviteSystemTests : IDisposable
     public async Task SaveInvite_StoresCorrectRole()
     {
         var invite = new InviteData(
+            "admin-code",
             Guid.NewGuid(),
             "admin@email.com",
             Severina.Domain.Enums.PapelUsuario.Administrador,
@@ -105,6 +110,7 @@ public class InviteSystemTests : IDisposable
     {
         var companyId = Guid.NewGuid();
         var invite = new InviteData(
+            "company-code",
             companyId,
             "company@email.com",
             Severina.Domain.Enums.PapelUsuario.Operacional,

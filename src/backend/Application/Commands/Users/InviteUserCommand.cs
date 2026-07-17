@@ -50,6 +50,7 @@ public class InviteUserCommandHandler : IRequestHandler<InviteUserCommand, UserR
 
         var code = Guid.NewGuid().ToString("N")[..32];
         var inviteData = new InviteData(
+            code,
             request.CompanyId,
             request.Email,
             request.Papel,
@@ -81,6 +82,7 @@ public class InviteUserCommandHandler : IRequestHandler<InviteUserCommand, UserR
 }
 
 public record InviteData(
+    string Code,
     Guid CompanyId,
     string Email,
     PapelUsuario Papel,
